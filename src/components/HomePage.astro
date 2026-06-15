@@ -154,7 +154,6 @@ const learnMore = locale === "zh" ? "了解更多" : locale === "fr" ? "En savoi
     <p class="section-kicker">{t.sections.support.kicker}</p>
     <h2 set:html={t.sections.support.title} />
     <ul>{t.sections.support.items.map((item) => <li>{item}</li>)}</ul>
-    <a class="text-link section-more" href={`/${locale}/support/`}>{learnMore}</a>
     <a class="button primary" href={siteSettings.helloAssoUrl} target="_blank" rel="noopener">{t.sections.support.cta}</a>
   </section>
 </main>
