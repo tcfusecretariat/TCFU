@@ -4,17 +4,18 @@ import NewsArticlePage from "@components/NewsArticlePage.astro";
 import { content } from "@data/content";
 import { getAllNews, getNewsBySlug } from "@lib/news";
 
-const locale = "fr";
-
 export async function getStaticPaths() {
-  const news = await getAllNews(locale);
-  return news.map((article) => ({ params: { slug: article.slug }, props: { article } }));
+  const news = await getAllNews("fr");
+  return news.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
 }
 
-const article = await getNewsBySlug(locale, Astro.params.slug || "");
-const t = content[locale];
+const article = await getNewsBySlug("fr", Astro.params.slug || "");
+const t = content.fr;
 ---
 
-<BaseLayout locale={locale} title={`${article?.seoTitle || article?.title || "Actualités"} | ${t.metaTitle}`} description={article?.seoDescription || article?.summary || t.metaDescription} path={`news/${Astro.params.slug}`}>
+<BaseLayout locale="fr" title={`${article?.seoTitle || article?.title || "Actualités"} | ${t.metaTitle}`} description={article?.seoDescription || article?.summary || t.metaDescription} path={`news/${Astro.params.slug}`}>
   <NewsArticlePage article={article} />
 </BaseLayout>
