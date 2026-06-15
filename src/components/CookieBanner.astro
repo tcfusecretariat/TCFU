@@ -1,0 +1,42 @@
+---
+const { locale } = Astro.props;
+const copy = {
+  zh: { text: "我們使用必要 Cookie 維持網站運作，並在您同意後使用分析 Cookie 改善服務。", accept: "Accept", reject: "Reject", settings: "Settings", analytics: "允許分析 Cookie", save: "Save settings" },
+  en: { text: "We use necessary cookies for the website and optional analytics cookies only with your consent.", accept: "Accept", reject: "Reject", settings: "Settings", analytics: "Allow analytics cookies", save: "Save settings" },
+  fr: { text: "Nous utilisons des cookies nécessaires au site et des cookies analytiques uniquement avec votre accord.", accept: "Accept", reject: "Reject", settings: "Settings", analytics: "Autoriser les cookies analytiques", save: "Save settings" }
+}[locale as "zh" | "en" | "fr"];
+---
+
+<section class="cookie-banner" aria-label="Cookie notice" data-cookie-banner>
+  <p>{copy.text}</p>
+  <div class="cookie-settings" data-cookie-settings hidden>
+    <label><input type="checkbox" data-analytics-cookie /> {copy.analytics}</label>
+    <button type="button" data-cookie-choice="settings-save">{copy.save}</button>
+  </div>
+  <div>
+    <button type="button" data-cookie-choice="accept">{copy.accept}</button>
+    <button type="button" data-cookie-choice="reject">{copy.reject}</button>
+    <button type="button" data-cookie-choice="settings">{copy.settings}</button>
+  </div>
+</section>
+<script>
+  const banner = document.querySelector("[data-cookie-banner]");
+  const storedChoice = localStorage.getItem("tcf-cookie-choice");
+  if (banner && storedChoice) banner.setAttribute("hidden", "");
+  document.querySelectorAll("[data-cookie-choice]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const choice = button.getAttribute("data-cookie-choice") || "settings";
+      if (choice === "settings") {
+        document.querySelector("[data-cookie-settings]")?.toggleAttribute("hidden");
+        return;
+      }
+      if (choice === "settings-save") {
+        const analytics = document.querySelector<HTMLInputElement>("[data-analytics-cookie]")?.checked ? "analytics" : "necessary";
+        localStorage.setItem("tcf-cookie-choice", analytics);
+      } else {
+        localStorage.setItem("tcf-cookie-choice", choice);
+      }
+      banner?.setAttribute("hidden", "");
+    });
+  });
+</script>

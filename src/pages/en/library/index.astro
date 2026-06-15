@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ResourceLibraryPage from "@components/ResourceLibraryPage.astro";
+import { content } from "@data/content";
+
+const locale = "en";
+const t = content[locale];
+---
+
+<BaseLayout locale={locale} title={`Resource Center | ${t.metaTitle}`} description={t.metaDescription} path="library">
+  <ResourceLibraryPage locale={locale} />
+</BaseLayout>

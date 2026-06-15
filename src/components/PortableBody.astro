@@ -1,0 +1,38 @@
+---
+import { imageSrc } from "@lib/cms";
+
+type SpanChild = {
+  _type?: string;
+  text?: string;
+};
+
+type Block = {
+  _type?: string;
+  style?: string;
+  children?: SpanChild[];
+  alt?: string;
+};
+
+const { value = [] } = Astro.props as { value?: Block[] };
+
+function textOf(block: Block) {
+  return (block.children || []).map((child) => child.text || "").join("");
+}
+---
+
+<div class="portable-body">
+  {value.map((block) => {
+    if (block._type === "image") {
+      const src = imageSrc(block, 1200);
+      return src ? <img src={src} alt={block.alt || ""} loading="lazy" decoding="async" /> : null;
+    }
+
+    const text = textOf(block);
+    if (!text) return null;
+
+    if (block.style === "h2") return <h2>{text}</h2>;
+    if (block.style === "h3") return <h3>{text}</h3>;
+    if (block.style === "blockquote") return <blockquote>{text}</blockquote>;
+    return <p>{text}</p>;
+  })}
+</div>

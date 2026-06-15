@@ -1,0 +1,116 @@
+---
+import "@styles/global.css";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import CookieBanner from "@components/CookieBanner.astro";
+import ContactDialog from "@components/ContactDialog.astro";
+import { languages, siteSettings, type Locale } from "@data/site";
+import { hreflangLinks } from "@lib/seo";
+
+type Props = {
+  locale: Locale;
+  title: string;
+  description: string;
+  path?: string;
+  image?: string;
+};
+
+const { locale, title, description, path = "", image = siteSettings.defaultOgImage } = Astro.props;
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "https://www.tcfunesco.org";
+const canonical = new URL(`/${locale}/${path}`.replace(/\/{2,}/g, "/"), `${siteUrl}/`).toString();
+const ogImage = new URL(image, `${siteUrl}/`).toString();
+const alternateLinks = hreflangLinks(path).map((link) => ({
+  lang: link.lang,
+  href: new URL(link.href, `${siteUrl}/`).toString()
+}));
+const xDefaultHref = new URL(`/zh/${path}`.replace(/\/{2,}/g, "/"), `${siteUrl}/`).toString();
+const cloudflareAnalyticsToken = import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
+const cloudflareBeacon = JSON.stringify({ token: cloudflareAnalyticsToken });
+const analyticsScript = cloudflareAnalyticsToken
+  ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='${cloudflareBeacon}'></script>`
+  : "";
+---
+
+<!doctype html>
+<html lang={languages[locale].lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternateLinks.map((link) => <link rel="alternate" hreflang={link.lang} href={link.href} />)}
+    <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <Fragment set:html={analyticsScript} />
+  </head>
+  <body>
+    <Header locale={locale} />
+    <slot />
+    <Footer locale={locale} />
+    <ContactDialog locale={locale} />
+    <CookieBanner locale={locale} />
+    <script is:inline>
+      document.querySelectorAll(".contact-trigger").forEach((trigger) => {
+        trigger.addEventListener("click", () => document.querySelector("dialog.contact-dialog")?.showModal());
+      });
+
+      document.querySelectorAll(".dialog-close").forEach((button) => {
+        button.addEventListener("click", () => button.closest("dialog")?.close());
+      });
+
+      document.querySelectorAll("form.contact-form").forEach((form) => {
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const status = form.querySelector("[data-form-status]");
+          const submit = form.querySelector("button[type='submit']");
+          status.textContent = "";
+          submit?.setAttribute("disabled", "true");
+          try {
+            const response = await fetch(form.action, { method: "POST", body: new FormData(form) });
+            const data = await response.json();
+            status.textContent = data.message || (response.ok ? "Message received." : "Unable to send message.");
+            if (response.ok) form.reset();
+          } catch {
+            status.textContent = "Unable to send message. Please try again later.";
+          } finally {
+            submit?.removeAttribute("disabled");
+          }
+        });
+      });
+
+      document.querySelectorAll(".nav-toggle").forEach((button) => {
+        button.addEventListener("click", () => {
+          const menu = document.getElementById(button.getAttribute("aria-controls") || "");
+          const expanded = button.getAttribute("aria-expanded") === "true";
+          button.setAttribute("aria-expanded", String(!expanded));
+          menu?.toggleAttribute("data-open", !expanded);
+        });
+      });
+
+      const lightbox = document.createElement("dialog");
+      lightbox.className = "lightbox-dialog";
+      lightbox.innerHTML = '<button type="button" class="dialog-close" aria-label="Close">×</button><img alt="" /><p></p>';
+      document.body.append(lightbox);
+      lightbox.querySelector("button")?.addEventListener("click", () => lightbox.close());
+      document.querySelectorAll("[data-lightbox] img, img[data-lightbox]").forEach((image) => {
+        image.addEventListener("click", () => {
+          const img = lightbox.querySelector("img");
+          const caption = lightbox.querySelector("p");
+          img.src = image.currentSrc || image.src;
+          img.alt = image.alt || "";
+          caption.textContent = image.alt || "";
+          lightbox.showModal();
+        });
+      });
+    </script>
+  </body>
+</html>

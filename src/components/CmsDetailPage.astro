@@ -1,0 +1,89 @@
+---
+import PlaceholderPage from "@components/PlaceholderPage.astro";
+import GalleryLightbox from "@components/GalleryLightbox.astro";
+import PortableBody from "@components/PortableBody.astro";
+import type { Locale } from "@data/site";
+import { imageSrc, type CmsDetail } from "@lib/cms";
+
+type Kind = "event" | "project" | "resource" | "video";
+
+const { locale, kind, item } = Astro.props as { locale: Locale; kind: Kind; item: CmsDetail | null };
+const dateLocale = locale === "zh" ? "zh-Hant" : locale;
+const labels = {
+  event: locale === "zh" ? "活動" : locale === "fr" ? "Événement" : "Event",
+  project: locale === "zh" ? "項目" : locale === "fr" ? "Projet" : "Project",
+  resource: locale === "zh" ? "資源" : locale === "fr" ? "Ressource" : "Resource",
+  video: locale === "zh" ? "影片" : locale === "fr" ? "Vidéo" : "Video"
+};
+const image = item ? imageSrc(item.coverImage || item.poster || item.thumbnail, 1400) : "";
+const readLabel = locale === "zh" ? "線上閱讀" : locale === "fr" ? "Lire en ligne" : "Read Online";
+const downloadLabel = locale === "zh" ? "下載 PDF" : locale === "fr" ? "Télécharger le PDF" : "Download PDF";
+const registerLabel = locale === "zh" ? "活動報名" : locale === "fr" ? "Inscription" : "Register";
+---
+
+{item ? (
+  <main class="detail-page editorial-reveal">
+    <article class="detail-article">
+      <p class="section-kicker">{labels[kind]}</p>
+      <h1>{item.title}</h1>
+      {item.date && <time datetime={item.date}>{new Date(item.date).toLocaleDateString(dateLocale)}</time>}
+      {item.location && <p class="detail-meta">{item.location}</p>}
+      {image && <img class="detail-cover" src={image} alt={item.coverImage?.alt || item.poster?.alt || item.thumbnail?.alt || item.title} />}
+      {(item.summary || item.description) && <p class="detail-summary">{item.summary || item.description}</p>}
+      {item.registrationUrl && <p><a class="button primary" href={item.registrationUrl} target="_blank" rel="noopener">{registerLabel}</a></p>}
+      {item.body && <PortableBody value={item.body} />}
+      {kind === "resource" && item.fileUrl && (
+        <section class="resource-reader detail-reader">
+          <div class="resource-copy">
+            <div class="resource-actions">
+              <a class="button primary" href={item.fileUrl} target="_blank" rel="noopener">{readLabel}</a>
+              <a class="button secondary" href={item.fileUrl} download>{downloadLabel}</a>
+            </div>
+          </div>
+          <div class="book-reader" data-reader data-pdf={item.fileUrl} data-title={item.title}>
+            <div class="book-toolbar">
+              <button type="button" data-prev>{locale === "zh" ? "上一頁" : locale === "fr" ? "Page précédente" : "Previous"}</button>
+              <span><strong data-page>1</strong></span>
+              <button type="button" data-next>{locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" : "Next"}</button>
+            </div>
+            <div class="book-stage">
+              <iframe src={`${item.fileUrl}#toolbar=0&navpanes=0&scrollbar=1&page=1&view=Fit`} title={`${item.title} online reader`}></iframe>
+            </div>
+          </div>
+        </section>
+      )}
+      {kind === "video" && item.youtubeUrl && (
+        <div class="video-embed">
+          <iframe src={item.youtubeUrl.replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")} title={item.title} allowfullscreen></iframe>
+        </div>
+      )}
+      {kind === "video" && item.transcript && <p class="detail-summary">{item.transcript}</p>}
+      {item.gallery && item.gallery.length > 0 && <GalleryLightbox images={item.gallery} />}
+    </article>
+  </main>
+  <script is:inline>
+    document.querySelectorAll("[data-reader]").forEach((reader) => {
+      let page = 1;
+      const pdf = reader.dataset.pdf;
+      const frame = reader.querySelector("iframe");
+      const pageLabel = reader.querySelector("[data-page]");
+      const render = () => {
+        pageLabel.textContent = page;
+        frame.src = "about:blank";
+        window.setTimeout(() => {
+          frame.src = `${pdf}#toolbar=0&navpanes=0&scrollbar=1&page=${page}&view=Fit`;
+        }, 90);
+      };
+      reader.querySelector("[data-prev]")?.addEventListener("click", () => {
+        page = Math.max(1, page - 1);
+        render();
+      });
+      reader.querySelector("[data-next]")?.addEventListener("click", () => {
+        page += 1;
+        render();
+      });
+    });
+  </script>
+) : (
+  <PlaceholderPage title={labels[kind]} />
+)}

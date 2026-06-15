@@ -1,0 +1,30 @@
+---
+import PlaceholderPage from "@components/PlaceholderPage.astro";
+import { content } from "@data/content";
+import type { Locale } from "@data/site";
+import { getAllNews } from "@lib/news";
+
+const { locale } = Astro.props as { locale: Locale };
+const t = content[locale];
+const news = await getAllNews(locale);
+---
+
+{news.length > 0 ? (
+  <main class="news-section editorial-reveal" id="news">
+    <div class="section-heading">
+      <p class="section-kicker">{t.sections.news.kicker}</p>
+      <h1>{t.sections.news.title}</h1>
+    </div>
+    <div class="news-list">
+      {news.map((article) => (
+        <article>
+          <p>{article.category || t.sections.news.kicker}</p>
+          <h3><a href={`/${locale}/news/${article.slug}/`}>{article.title}</a></h3>
+          {article.publishDate && <time datetime={article.publishDate}>{new Date(article.publishDate).toLocaleDateString(locale === "zh" ? "zh-Hant" : locale)}</time>}
+        </article>
+      ))}
+    </div>
+  </main>
+) : (
+  <PlaceholderPage title={t.sections.news.kicker} />
+)}

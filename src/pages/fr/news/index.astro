@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NewsListPage from "@components/NewsListPage.astro";
+import { content } from "@data/content";
+
+const locale = "fr";
+const t = content[locale];
+---
+
+<BaseLayout locale={locale} title={`Actualités | ${t.metaTitle}`} description={t.metaDescription} path="news">
+  <NewsListPage locale={locale} />
+</BaseLayout>

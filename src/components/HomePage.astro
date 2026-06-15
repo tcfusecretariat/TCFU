@@ -1,0 +1,160 @@
+---
+import { content, projects } from "@data/content";
+import { siteSettings, type Locale } from "@data/site";
+import { getItems, getPartners, imageSrc } from "@lib/cms";
+import { getLatestNews } from "@lib/news";
+
+const { locale } = Astro.props as { locale: Locale };
+const t = content[locale];
+const latestNews = await getLatestNews(locale);
+const cmsProjects = await getItems("project", locale, 3);
+const partners = await getPartners();
+const learnMore = locale === "zh" ? "了解更多" : locale === "fr" ? "En savoir plus" : "Learn more";
+---
+
+<main id="main">
+  <p class="search-status" id="search-status" aria-live="polite" hidden></p>
+
+  <section class="hero editorial-reveal">
+    <div class="hero-copy">
+      <div class="hero-sigil" aria-label="啟動核心源動力">
+        <img class="hero-sigil-mark" src={siteSettings.logoMark} alt="" aria-hidden="true" />
+        <img class="hero-calligraphy" src={siteSettings.calligraphy} alt="啟動核心源動力" />
+        <div class="hero-translations" aria-label="Multilingual expression of the core philosophy">
+          {t.hero.translations.map((line) => <span dir={line.includes("أ") ? "rtl" : undefined} lang={line.includes("أ") ? "ar" : undefined}>{line}</span>)}
+        </div>
+      </div>
+      <p>{t.hero.description}</p>
+      <div class="hero-actions">
+        <a class="button primary" href={`/${locale}/#about`}>{t.hero.primaryCta}</a>
+        <a class="button secondary" href={`/${locale}/#library`}>{t.hero.secondaryCta}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="idea-section editorial-reveal" id="about">
+    <p class="section-kicker">{t.sections.philosophy.kicker}</p>
+    <div class="idea-layout">
+      <h2 set:html={t.sections.philosophy.title} />
+      <div>
+        {t.sections.philosophy.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        <a class="text-link section-more" href={`/${locale}/about/`}>{learnMore}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pillars-section editorial-reveal" id="work">
+    <div class="section-heading">
+      <p class="section-kicker">{t.sections.work.kicker}</p>
+      <h2 set:html={t.sections.work.title} />
+    </div>
+    <div class="pillar-grid">
+      {t.sections.work.pillars.map((pillar, index) => (
+        <article>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <h3>{pillar.title}</h3>
+          <p>{pillar.subtitle}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="projects-section editorial-reveal">
+    <div class="section-heading">
+      <p class="section-kicker">{t.sections.projects.kicker}</p>
+      <h2 set:html={t.sections.projects.title} />
+    </div>
+    <div class="project-list">
+      {cmsProjects.length > 0 ? (
+        cmsProjects.map((project) => (
+          <a href={`/${locale}/projects/${project.slug}/`}>
+            <span>{project.summary || t.sections.projects.kicker}</span>
+            <strong>{project.title}</strong>
+          </a>
+        ))
+      ) : (
+        projects.map((project) => (
+          <a href={`/${locale}/${project.href}/`}>
+            <span>{project.eyebrow}</span>
+            <strong>{project[locale]}</strong>
+          </a>
+        ))
+      )}
+    </div>
+    <a class="text-link section-more" href={`/${locale}/projects/`}>{learnMore}</a>
+  </section>
+
+  <section class="library-section editorial-reveal" id="library">
+    <div class="library-copy">
+      <p class="section-kicker">{t.sections.library.kicker}</p>
+      <h2>{t.sections.library.title}</h2>
+      <p>{t.sections.library.description}</p>
+    </div>
+    <div class="language-shelf" aria-label="Available language editions">
+      {t.sections.library.languages.map((language) => <span>{language}</span>)}
+    </div>
+    <a class="text-link section-more" href={`/${locale}/library/`}>{learnMore}</a>
+  </section>
+
+  <section class="event-feature editorial-reveal" id="ipc-2025">
+    <div class="event-media">
+      <img src="/assets/events/international-peace-conference-2025-poster.jpg" alt="International Peace Conference on Education for Well-being 2025 poster" />
+    </div>
+    <div class="event-copy">
+      <p class="section-kicker">{t.sections.event.kicker}</p>
+      <h2>{t.sections.event.title}</h2>
+      <p>{t.sections.event.description}</p>
+      <a class="text-link" href="/assets/events/international-peace-conference-2025-programme.pdf">{t.sections.event.link}</a>
+      <a class="text-link section-more" href={`/${locale}/news/`}>{learnMore}</a>
+    </div>
+  </section>
+
+  {latestNews.length > 0 && (
+    <section class="news-section editorial-reveal" id="news">
+      <div class="section-heading">
+        <p class="section-kicker">{t.sections.news.kicker}</p>
+        <h2>{t.sections.news.title}</h2>
+      </div>
+      <div class="news-list">
+        {latestNews.map((article) => (
+          <article>
+            <p>{article.category || t.sections.news.kicker}</p>
+            <h3><a href={`/${locale}/news/${article.slug}/`}>{article.title}</a></h3>
+            {article.publishDate && <time datetime={article.publishDate}>{new Date(article.publishDate).toLocaleDateString(locale === "zh" ? "zh-Hant" : locale)}</time>}
+          </article>
+        ))}
+      </div>
+      <a class="text-link section-more" href={`/${locale}/news/`}>{learnMore}</a>
+    </section>
+  )}
+
+  {partners.length > 0 && (
+    <section class="partners-section editorial-reveal" id="partners">
+      <div class="section-heading">
+        <p class="section-kicker">{locale === "zh" ? "合作夥伴" : locale === "fr" ? "Partenaires" : "Partners"}</p>
+        <h2>{locale === "zh" ? "共同推動文化 教育與和平" : locale === "fr" ? "Avancer ensemble pour la culture l’éducation et la paix" : "Advancing culture education and peace together"}</h2>
+      </div>
+      <div class="partner-grid">
+        {partners.map((partner) => {
+          const logo = imageSrc(partner.logo, 520);
+          const body = (
+            <>
+              {logo && <img src={logo} alt={partner.logo?.alt || partner.name} />}
+              <strong>{partner.name}</strong>
+              {partner.description && <p>{partner.description}</p>}
+            </>
+          );
+          return partner.website ? <a href={partner.website} target="_blank" rel="noopener">{body}</a> : <article>{body}</article>;
+        })}
+      </div>
+    </section>
+  )}
+
+  <section class="support-section editorial-reveal" id="support">
+    <p class="section-kicker">{t.sections.support.kicker}</p>
+    <h2 set:html={t.sections.support.title} />
+    <ul>{t.sections.support.items.map((item) => <li>{item}</li>)}</ul>
+    <a class="text-link section-more" href={`/${locale}/support/`}>{learnMore}</a>
+    <a class="button primary" href={siteSettings.helloAssoUrl} target="_blank" rel="noopener">{t.sections.support.cta}</a>
+  </section>
+</main>

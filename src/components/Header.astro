@@ -1,0 +1,33 @@
+---
+import { content } from "@data/content";
+import { languages, type Locale } from "@data/site";
+import { getSiteSettings } from "@lib/cms";
+
+const { locale } = Astro.props as { locale: Locale };
+const t = content[locale];
+const settings = await getSiteSettings();
+---
+
+<header class="site-header">
+  <div class="language-links" aria-label="Language selector">
+    {Object.entries(languages).map(([key, language]) => (
+      <a href={language.path} aria-current={key === locale ? "page" : undefined}>{language.label}</a>
+    ))}
+  </div>
+  <nav class="main-nav" aria-label="Main navigation">
+    <a class="brand" href={languages[locale].path} aria-label={`${settings.name} homepage`}>
+      <img src={settings.logo} alt={settings.name} />
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="main-menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="main-menu">
+      {t.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <form class="site-search" role="search" action={`${languages[locale].path}search/`}>
+        <label class="sr-only" for={`site-search-${locale}`}>{t.search}</label>
+        <input id={`site-search-${locale}`} name="q" type="search" placeholder={t.search} autocomplete="off" />
+        <button type="submit">{locale === "fr" ? "Rechercher" : locale === "en" ? "Search" : "搜索"}</button>
+      </form>
+    </div>
+  </nav>
+</header>

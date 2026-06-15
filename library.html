@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>資源中心 | Traditional Culture Foundation at UNESCO</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="language-links"><a href="en.html">English</a><a href="index.html">正體中文</a><a href="fr.html">Français</a></div>
+      <nav class="main-nav">
+        <a class="brand" href="index.html"><img src="assets/tcf-logo.svg" alt="Traditional Culture Foundation at UNESCO" /></a>
+        <div class="nav-links"><a href="index.html#about">認識我們</a><a href="index.html#work">核心工作</a><a href="index.html#news">最新動態</a><a href="index.html#library">資源中心</a><a href="index.html#support">支持我們</a></div>
+      </nav>
+    </header>
+
+    <main class="resource-page">
+      <section class="resource-hero editorial-reveal">
+        <p class="section-kicker">資源中心</p>
+        <h1>傳統智慧<br />世界共享</h1>
+        <p>精選《群書治要》多語版本，提供線上閱讀與 PDF 下載，讓經典智慧以清晰、優雅的方式被更多讀者親近。</p>
+      </section>
+
+      <section class="resource-library editorial-reveal" aria-label="群書治要線上閱讀資源">
+        <article class="resource-reader" id="qunshu-zh">
+          <div class="resource-copy">
+            <p class="section-kicker">中文</p>
+            <h2>群書治要三六〇 中文版</h2>
+            <p>以精簡篇章呈現《群書治要》的治理智慧與修身理念，適合大眾閱讀、研習與分享。</p>
+            <div class="resource-actions">
+              <a class="button primary" href="assets/resources/qunshu-zhiyao-360-zh.pdf" target="_blank" rel="noopener">線上閱讀</a>
+              <a class="button secondary" href="assets/resources/qunshu-zhiyao-360-zh.pdf" download>下載 PDF</a>
+            </div>
+          </div>
+          <div class="book-reader" data-reader data-pdf="assets/resources/qunshu-zhiyao-360-zh.pdf" data-title="群書治要三六〇 中文版">
+            <div class="book-toolbar">
+              <button type="button" data-prev>上一頁</button>
+              <span><strong data-page>1</strong></span>
+              <button type="button" data-next>下一頁</button>
+            </div>
+            <div class="book-stage">
+              <iframe src="assets/resources/qunshu-zhiyao-360-zh.pdf#toolbar=0&navpanes=0&scrollbar=1&page=1&view=Fit" title="群書治要三六〇 中文版線上閱讀"></iframe>
+            </div>
+          </div>
+        </article>
+
+        <article class="resource-reader" id="qunshu-es">
+          <div class="resource-copy">
+            <p class="section-kicker">Español</p>
+            <h2>Los Principios de Gobierno de la Antigua China</h2>
+            <p>Versión en español de la sabiduría clásica de 《群書治要》, preparada para facilitar el estudio y la difusión internacional.</p>
+            <div class="resource-actions">
+              <a class="button primary" href="assets/resources/qunshu-zhiyao-es.pdf" target="_blank" rel="noopener">線上閱讀</a>
+              <a class="button secondary" href="assets/resources/qunshu-zhiyao-es.pdf" download>下載 PDF</a>
+            </div>
+          </div>
+          <div class="book-reader" data-reader data-pdf="assets/resources/qunshu-zhiyao-es.pdf" data-title="西班牙文群書治要">
+            <div class="book-toolbar">
+              <button type="button" data-prev>上一頁</button>
+              <span><strong data-page>1</strong></span>
+              <button type="button" data-next>下一頁</button>
+            </div>
+            <div class="book-stage">
+              <iframe src="assets/resources/qunshu-zhiyao-es.pdf#toolbar=0&navpanes=0&scrollbar=1&page=1&view=Fit" title="西班牙文群書治要線上閱讀"></iframe>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      document.querySelectorAll("[data-reader]").forEach((reader) => {
+        let page = 1;
+        const pdf = reader.dataset.pdf;
+        const frame = reader.querySelector("iframe");
+        const pageLabel = reader.querySelector("[data-page]");
+        const render = () => {
+          pageLabel.textContent = page;
+          frame.src = "about:blank";
+          window.setTimeout(() => {
+            frame.src = `${pdf}#toolbar=0&navpanes=0&scrollbar=1&page=${page}&view=Fit`;
+          }, 90);
+        };
+        reader.querySelector("[data-prev]").addEventListener("click", () => {
+          page = Math.max(1, page - 1);
+          render();
+        });
+        reader.querySelector("[data-next]").addEventListener("click", () => {
+          page += 1;
+          render();
+        });
+      });
+    </script>
+
+    <footer class="site-footer"><div class="footer-brand"><img src="assets/tcf-logo.svg" alt="Traditional Culture Foundation at UNESCO" /></div><div class="footer-links"><a href="mailto:office@tcfunesco.org">聯繫我們</a><a href="support.html">捐助支持</a><a href="privacy.html">隱私政策</a></div>
+      <div class="footer-social" aria-label="Social media">
+        <a href="https://www.youtube.com/@Traditional_Culture_Foundation" target="_blank" rel="noopener" aria-label="YouTube"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M21.58 7.19a2.77 2.77 0 0 0-1.95-1.95C17.91 4.78 12 4.78 12 4.78s-5.91 0-7.63.46a2.77 2.77 0 0 0-1.95 1.95A28.8 28.8 0 0 0 2 12a28.8 28.8 0 0 0 .42 4.81 2.77 2.77 0 0 0 1.95 1.95c1.72.46 7.63.46 7.63.46s5.91 0 7.63-.46a2.77 2.77 0 0 0 1.95-1.95A28.8 28.8 0 0 0 22 12a28.8 28.8 0 0 0-.42-4.81ZM10 15.28V8.72L15.68 12 10 15.28Z" /></svg></a>
+        <a href="https://www.instagram.com/traditionalculture.foundation" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4a3.8 3.8 0 0 0 3.8-3.8V7.8A3.8 3.8 0 0 0 16.2 4H7.8Zm8.7 2.4a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2ZM12 7.15A4.85 4.85 0 1 1 12 16.85 4.85 4.85 0 0 1 12 7.15Zm0 2A2.85 2.85 0 1 0 12 14.85 2.85 2.85 0 0 0 12 9.15Z" /></svg></a>
+      </div></footer>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import CmsDetailPage from "@components/CmsDetailPage.astro";
+import { content } from "@data/content";
+import { getResourceItem, getResources } from "@lib/cms";
+
+const locale = "en";
+export async function getStaticPaths() {
+  const items = await getResources("en");
+  return items.map((item) => ({ params: { slug: item.slug } }));
+}
+
+const item = await getResourceItem(locale, Astro.params.slug || "");
+const t = content[locale];
+---
+
+<BaseLayout locale={locale} title={`${item?.seoTitle || item?.title || "Resource"} | ${t.metaTitle}`} description={item?.seoDescription || item?.description || t.metaDescription} path={`resources/${Astro.params.slug || ""}`}>
+  <CmsDetailPage locale={locale} kind="resource" item={item} />
+</BaseLayout>

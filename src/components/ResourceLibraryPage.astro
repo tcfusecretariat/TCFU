@@ -1,0 +1,88 @@
+---
+import type { Locale } from "@data/site";
+import { getResources } from "@lib/cms";
+
+const { locale } = Astro.props as { locale: Locale };
+const resources = await getResources(locale);
+const copy = {
+  zh: {
+    kicker: "資源中心",
+    title: "傳統智慧<br />世界共享",
+    intro: "精選《群書治要》多語版本，提供線上閱讀與 PDF 下載，讓經典智慧以清晰、優雅的方式被更多讀者親近。",
+    read: "線上閱讀",
+    download: "下載 PDF"
+  },
+  en: {
+    kicker: "Resource Center",
+    title: "Traditional Wisdom<br />Shared with the World",
+    intro: "Selected multilingual editions of Qunshu Zhiyao are available for online reading and PDF download.",
+    read: "Read Online",
+    download: "Download PDF"
+  },
+  fr: {
+    kicker: "Ressources",
+    title: "Sagesse traditionnelle<br />partagée avec le monde",
+    intro: "Des éditions multilingues sélectionnées de Qunshu Zhiyao sont disponibles en lecture en ligne et en téléchargement PDF.",
+    read: "Lire en ligne",
+    download: "Télécharger le PDF"
+  }
+}[locale];
+---
+
+<main class="resource-page">
+  <section class="resource-hero editorial-reveal">
+    <p class="section-kicker">{copy.kicker}</p>
+    <h1 set:html={copy.title} />
+    <p>{copy.intro}</p>
+  </section>
+
+  <section class="resource-library editorial-reveal" aria-label={copy.kicker}>
+    {resources.map((resource) => (
+      <article class="resource-reader" id={resource.slug}>
+        <div class="resource-copy">
+          <p class="section-kicker">{resource.language}</p>
+          <h2>{resource.title}</h2>
+          <p>{resource.description}</p>
+          <div class="resource-actions">
+            <a class="button primary" href={resource.file} target="_blank" rel="noopener">{copy.read}</a>
+            <a class="button secondary" href={resource.file} download>{copy.download}</a>
+          </div>
+        </div>
+        <div class="book-reader" data-reader data-pdf={resource.file} data-title={resource.title}>
+          <div class="book-toolbar">
+            <button type="button" data-prev>{locale === "zh" ? "上一頁" : locale === "fr" ? "Page précédente" : "Previous"}</button>
+            <span><strong data-page>1</strong></span>
+            <button type="button" data-next>{locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" : "Next"}</button>
+          </div>
+          <div class="book-stage">
+            <iframe src={`${resource.file}#toolbar=0&navpanes=0&scrollbar=1&page=1&view=Fit`} title={`${resource.title} online reader`}></iframe>
+          </div>
+        </div>
+      </article>
+    ))}
+  </section>
+</main>
+
+<script is:inline>
+  document.querySelectorAll("[data-reader]").forEach((reader) => {
+    let page = 1;
+    const pdf = reader.dataset.pdf;
+    const frame = reader.querySelector("iframe");
+    const pageLabel = reader.querySelector("[data-page]");
+    const render = () => {
+      pageLabel.textContent = page;
+      frame.src = "about:blank";
+      window.setTimeout(() => {
+        frame.src = `${pdf}#toolbar=0&navpanes=0&scrollbar=1&page=${page}&view=Fit`;
+      }, 90);
+    };
+    reader.querySelector("[data-prev]").addEventListener("click", () => {
+      page = Math.max(1, page - 1);
+      render();
+    });
+    reader.querySelector("[data-next]").addEventListener("click", () => {
+      page += 1;
+      render();
+    });
+  });
+</script>

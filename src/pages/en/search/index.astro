@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SearchPage from "@components/SearchPage.astro";
+import { content } from "@data/content";
+
+const locale = "en";
+const t = content[locale];
+---
+
+<BaseLayout locale={locale} title={`Site Search | ${t.metaTitle}`} description={t.metaDescription} path="search">
+  <SearchPage locale={locale} />
+</BaseLayout>

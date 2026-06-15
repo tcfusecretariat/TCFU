@@ -1,0 +1,13 @@
+---
+import { placeholderText } from "@data/content";
+
+const { title, kicker = title } = Astro.props as { title: string; kicker?: string };
+---
+
+<main class="placeholder-page">
+  <section class="placeholder-content editorial-reveal">
+    <p class="section-kicker">{kicker}</p>
+    <h1>{title}</h1>
+    <p>{placeholderText}</p>
+  </section>
+</main>

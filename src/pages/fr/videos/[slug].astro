@@ -1,0 +1,19 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import CmsDetailPage from "@components/CmsDetailPage.astro";
+import { content } from "@data/content";
+import { getItem, getItems } from "@lib/cms";
+
+const locale = "fr";
+export async function getStaticPaths() {
+  const items = await getItems("video", "fr");
+  return items.map((item) => ({ params: { slug: item.slug } }));
+}
+
+const item = await getItem("video", locale, Astro.params.slug || "");
+const t = content[locale];
+---
+
+<BaseLayout locale={locale} title={`${item?.seoTitle || item?.title || "Vidéo"} | ${t.metaTitle}`} description={item?.seoDescription || item?.description || t.metaDescription} path={`videos/${Astro.params.slug || ""}`}>
+  <CmsDetailPage locale={locale} kind="video" item={item} />
+</BaseLayout>

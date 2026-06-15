@@ -1,0 +1,25 @@
+---
+import PlaceholderPage from "@components/PlaceholderPage.astro";
+import PortableBody from "@components/PortableBody.astro";
+import type { NewsDetail } from "@lib/news";
+
+const { article } = Astro.props as { article: NewsDetail | null };
+---
+
+{article ? (
+  <main class="idea-section editorial-reveal">
+    <p class="section-kicker">{article.category || "News"}</p>
+    <div class="idea-layout">
+      <h1>{article.title}</h1>
+      <div>
+        {article.publishDate && <p><time datetime={article.publishDate}>{new Date(article.publishDate).toLocaleDateString()}</time></p>}
+        {article.summary && <p>{article.summary}</p>}
+        {article.body && <PortableBody value={article.body} />}
+        {article.videoUrl && <p><a class="text-link" href={article.videoUrl}>Video</a></p>}
+        {article.pdfUrl && <p><a class="text-link" href={article.pdfUrl}>PDF</a></p>}
+      </div>
+    </div>
+  </main>
+) : (
+  <PlaceholderPage title="最新動態" />
+)}

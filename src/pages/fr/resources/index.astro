@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import CmsListPage from "@components/CmsListPage.astro";
+import { content } from "@data/content";
+
+const locale = "fr";
+const t = content[locale];
+---
+
+<BaseLayout locale={locale} title={`Ressources | ${t.metaTitle}`} description={t.metaDescription} path="resources">
+  <CmsListPage locale={locale} kind="resource" />
+</BaseLayout>

@@ -1,0 +1,73 @@
+---
+import PlaceholderPage from "@components/PlaceholderPage.astro";
+import { content } from "@data/content";
+import type { Locale } from "@data/site";
+import { getItems, getResources, imageSrc, type CmsSummary } from "@lib/cms";
+
+type Kind = "event" | "project" | "resource" | "video";
+
+const { locale, kind } = Astro.props as { locale: Locale; kind: Kind };
+const t = content[locale];
+const labels = {
+  event: {
+    kicker: locale === "zh" ? "活動" : locale === "fr" ? "Événements" : "Events",
+    title: locale === "zh" ? "活動與論壇" : locale === "fr" ? "Événements et forums" : "Events and Forums",
+    path: "events"
+  },
+  project: {
+    kicker: locale === "zh" ? "項目" : locale === "fr" ? "Projets" : "Projects",
+    title: t.sections.projects.title.replace("<br />", " "),
+    path: "projects"
+  },
+  resource: {
+    kicker: t.sections.library.kicker,
+    title: t.sections.library.title,
+    path: "resources"
+  },
+  video: {
+    kicker: locale === "zh" ? "影片" : locale === "fr" ? "Vidéos" : "Videos",
+    title: locale === "zh" ? "影音資源" : locale === "fr" ? "Ressources vidéo" : "Video Resources",
+    path: "videos"
+  }
+}[kind];
+
+const items: CmsSummary[] = kind === "resource"
+  ? (await getResources(locale)).map((resource) => ({
+      title: resource.title,
+      slug: resource.slug,
+      language: locale,
+      description: resource.description,
+      category: resource.language
+    }))
+  : await getItems(kind, locale);
+const dateLocale = locale === "zh" ? "zh-Hant" : locale;
+
+function imageFor(item: CmsSummary) {
+  return imageSrc(item.coverImage || item.poster || item.thumbnail, 900);
+}
+---
+
+{items.length > 0 ? (
+  <main class="listing-page editorial-reveal">
+    <section class="section-heading">
+      <p class="section-kicker">{labels.kicker}</p>
+      <h1 set:html={labels.title} />
+    </section>
+    <div class="cms-grid">
+      {items.map((item) => {
+        const src = imageFor(item);
+        return (
+          <article class="cms-card">
+            {src && <a href={`/${locale}/${labels.path}/${item.slug}/`}><img src={src} alt={item.coverImage?.alt || item.poster?.alt || item.thumbnail?.alt || item.title} /></a>}
+            <p>{item.category || item.location || labels.kicker}</p>
+            <h2><a href={`/${locale}/${labels.path}/${item.slug}/`}>{item.title}</a></h2>
+            {(item.summary || item.description) && <p class="cms-summary">{item.summary || item.description}</p>}
+            {item.date && <time datetime={item.date}>{new Date(item.date).toLocaleDateString(dateLocale)}</time>}
+          </article>
+        );
+      })}
+    </div>
+  </main>
+) : (
+  <PlaceholderPage title={labels.kicker} />
+)}

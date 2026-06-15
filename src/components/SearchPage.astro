@@ -1,0 +1,40 @@
+---
+import { searchIndex } from "@data/searchIndex";
+import type { Locale } from "@data/site";
+
+const { locale } = Astro.props as { locale: Locale };
+const items = searchIndex.filter((item) => item.locale === locale);
+const copy = {
+  zh: { kicker: "網站搜索", title: "網站搜索", placeholder: "輸入關鍵詞", empty: "沒有找到符合的內容" },
+  en: { kicker: "Site Search", title: "Site Search", placeholder: "Search", empty: "No matching content found" },
+  fr: { kicker: "Recherche", title: "Recherche", placeholder: "Rechercher", empty: "Aucun contenu trouvé" }
+}[locale];
+---
+
+<main class="placeholder-page search-page">
+  <section class="placeholder-content editorial-reveal">
+    <p class="section-kicker">{copy.kicker}</p>
+    <h1>{copy.title}</h1>
+    <label class="sr-only" for="search-page-input">{copy.placeholder}</label>
+    <input id="search-page-input" class="search-page-input" type="search" placeholder={copy.placeholder} data-search-input />
+    <div class="search-results" data-search-results></div>
+  </section>
+</main>
+
+<script define:vars={{ items, empty: copy.empty }}>
+  const input = document.querySelector("[data-search-input]");
+  const results = document.querySelector("[data-search-results]");
+  const params = new URLSearchParams(location.search);
+  input.value = params.get("q") || "";
+
+  function render() {
+    const query = input.value.trim().toLowerCase();
+    const matches = query ? items.filter((item) => `${item.title} ${item.description} ${item.type}`.toLowerCase().includes(query)) : items;
+    results.innerHTML = matches.length
+      ? matches.map((item) => `<article><p>${item.type}</p><h3><a href="${item.url}">${item.title}</a></h3><p>${item.description}</p></article>`).join("")
+      : `<p>${empty}</p>`;
+  }
+
+  input.addEventListener("input", render);
+  render();
+</script>

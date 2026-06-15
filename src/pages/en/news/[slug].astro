@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NewsArticlePage from "@components/NewsArticlePage.astro";
+import { content } from "@data/content";
+import { getAllNews, getNewsBySlug } from "@lib/news";
+
+const locale = "en";
+
+export async function getStaticPaths() {
+  const news = await getAllNews(locale);
+  return news.map((article) => ({ params: { slug: article.slug }, props: { article } }));
+}
+
+const article = await getNewsBySlug(locale, Astro.params.slug || "");
+const t = content[locale];
+---
+
+<BaseLayout locale={locale} title={`${article?.seoTitle || article?.title || "Latest News"} | ${t.metaTitle}`} description={article?.seoDescription || article?.summary || t.metaDescription} path={`news/${Astro.params.slug}`}>
+  <NewsArticlePage article={article} />
+</BaseLayout>

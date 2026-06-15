@@ -1,0 +1,17 @@
+---
+import { imageUrl } from "@lib/sanity";
+
+type Props = {
+  image: unknown;
+  alt: string;
+  widths?: number[];
+  sizes?: string;
+  class?: string;
+};
+
+const { image, alt, widths = [480, 768, 1024, 1440], sizes = "100vw", class: className } = Astro.props;
+const srcset = widths.map((width) => `${imageUrl(image).width(width).auto("format").fit("max").url()} ${width}w`).join(", ");
+const src = imageUrl(image).width(widths[0]).auto("format").fit("max").url();
+---
+
+<img class={className} src={src} srcset={srcset} sizes={sizes} alt={alt} loading="lazy" decoding="async" />

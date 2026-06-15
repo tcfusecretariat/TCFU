@@ -1,0 +1,23 @@
+---
+import { imageSrc } from "@lib/cms";
+
+type GalleryImage = {
+  src?: string;
+  alt?: string;
+  caption?: string;
+  asset?: unknown;
+};
+
+const { images = [] } = Astro.props as { images?: GalleryImage[] };
+---
+
+{images.length > 0 && (
+  <div class="gallery-grid" data-lightbox>
+    {images.map((image) => (
+      <figure>
+        <img src={image.src || imageSrc(image, 1100)} alt={image.alt || ""} loading="lazy" decoding="async" />
+        {(image.caption || image.alt) && <figcaption>{image.caption || image.alt}</figcaption>}
+      </figure>
+    ))}
+  </div>
+)}
