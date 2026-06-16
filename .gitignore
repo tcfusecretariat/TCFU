@@ -4,3 +4,10 @@ dist/
 .env
 .data/
 .DS_Store
+
+# Sanity Studio build artifacts (auto-generated)
+sanity/.sanity/
+sanity/dist/
+
+# Editor backup files
+*.save
