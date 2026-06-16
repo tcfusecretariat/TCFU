@@ -1,6 +1,8 @@
 import { fallbackResources } from "@data/resources";
+import { content } from "@data/content";
 import { siteSettings as fallbackSiteSettings, type Locale } from "@data/site";
-import { fetchOptional, imageUrl } from "@lib/sanity";
+import { fetchOptional, imageUrl, sanityApiUrl } from "@lib/sanity";
+import { resourcesSummaryQuery } from "@lib/sanity-queries";
 
 type ImageValue = {
   alt?: string;
@@ -26,13 +28,19 @@ export type CmsSummary = {
 export type CmsDetail = CmsSummary & {
   body?: unknown[];
   gallery?: ImageValue[];
+  time?: string;
+  organizers?: string;
+  isRegistrationOpen?: boolean;
   videoUrl?: string;
   youtubeUrl?: string;
   vimeoUrl?: string;
   bilibiliUrl?: string;
+  wechatUrl?: string;
+  tencentUrl?: string;
   transcript?: string;
   registrationUrl?: string;
   fileUrl?: string;
+  programmePdfUrl?: string;
   externalUrl?: string;
   files?: { url?: string; originalFilename?: string }[];
 };
@@ -41,6 +49,7 @@ export type Partner = {
   name: string;
   website?: string;
   description?: string;
+  type?: string;
   logo?: ImageValue;
 };
 
@@ -48,6 +57,8 @@ export type ResolvedSiteSettings = typeof fallbackSiteSettings & {
   footer?: string;
   phone?: string;
   address?: string;
+  googleMapUrl?: string;
+  siteTitle?: string;
   socialLinks: { label: string; url: string }[];
 };
 
@@ -58,25 +69,27 @@ const typeConfig = {
     type: "event",
     title: "eventName",
     date: "date",
-    extra: "location, registrationUrl, description, poster, gallery, videoUrl: video, files[]{\"url\": asset->url, \"originalFilename\": asset->originalFilename}"
+    extra:
+      'location, time, organizers, registrationUrl, isRegistrationOpen, description, body, poster, gallery, "videoUrl": video, "programmePdfUrl": programmePdf.asset->url, files[]{"url": asset->url, "originalFilename": asset->originalFilename}, seoTitle, seoDescription'
   },
   project: {
     type: "project",
     title: "title",
     date: "_createdAt",
-    extra: "summary, coverImage, body, gallery, seoTitle, seoDescription"
+    extra: "category, summary, coverImage, body, gallery, seoTitle, seoDescription"
   },
   resource: {
     type: "resource",
     title: "title",
     date: "_createdAt",
-    extra: "description, coverImage, externalUrl, \"fileUrl\": file.asset->url, seoTitle, seoDescription"
+    extra: 'type, category, description, coverImage, externalUrl, "fileUrl": file.asset->url, seoTitle, seoDescription'
   },
   video: {
     type: "video",
     title: "title",
-    date: "_createdAt",
-    extra: "thumbnail, youtubeUrl, vimeoUrl, bilibiliUrl, transcript, seoTitle, seoDescription"
+    date: "eventDate",
+    extra:
+      "description, thumbnail, youtubeUrl, vimeoUrl, bilibiliUrl, wechatUrl, tencentUrl, transcript, seoTitle, seoDescription"
   }
 } as const;
 
@@ -85,7 +98,7 @@ type CmsKind = keyof typeof typeConfig;
 function summaryQuery(kind: CmsKind, range = "") {
   const config = typeConfig[kind];
   return `*[_type == "${config.type}" && language == $locale && isHidden != true] | ${order}${range}{
-    "${"title"}": ${config.title},
+    "title": ${config.title},
     "slug": slug.current,
     language,
     "date": ${config.date},
@@ -96,7 +109,7 @@ function summaryQuery(kind: CmsKind, range = "") {
 function detailQuery(kind: CmsKind) {
   const config = typeConfig[kind];
   return `*[_type == "${config.type}" && language == $locale && slug.current == $slug && isHidden != true][0]{
-    "${"title"}": ${config.title},
+    "title": ${config.title},
     "slug": slug.current,
     language,
     "date": ${config.date},
@@ -105,7 +118,7 @@ function detailQuery(kind: CmsKind) {
 }
 
 export function imageSrc(image?: ImageValue, width = 1200) {
-  if (!image) return "";
+  if (!image || !image.asset) return "";
   try {
     return imageUrl(image).width(width).auto("format").fit("max").url();
   } catch {
@@ -124,10 +137,11 @@ export async function getItem(kind: CmsKind, locale: Locale, slug: string) {
 
 export async function getPartners() {
   return fetchOptional<Partner[]>(
-    `*[_type == "partner"] | order(name asc){
+    `*[_type == "partner" && isFeatured != false] | order(sortOrder asc, name asc){
       name,
       website,
       description,
+      type,
       logo
     }`,
     {},
@@ -135,39 +149,69 @@ export async function getPartners() {
   );
 }
 
-export async function getSiteSettings(): Promise<ResolvedSiteSettings> {
+export async function getSiteSettings(locale: Locale = "zh"): Promise<ResolvedSiteSettings> {
   const data = await fetchOptional<{
     logoUrl?: string;
     logoAlt?: string;
+    foundationName?: string;
+    siteTitleZh?: string;
+    siteTitleEn?: string;
+    siteTitleFr?: string;
     footer?: string;
-    socialLinks?: { label?: string; url?: string }[];
-    contactInformation?: { email?: string; phone?: string; address?: string };
+    contactEmail?: string;
+    phone?: string;
+    address?: string;
+    googleMapUrl?: string;
+    youtubeUrl?: string;
+    instagramUrl?: string;
+    helloAssoUrl?: string;
   } | null>(
     `*[_type == "siteSettings"][0]{
       "logoUrl": logo.asset->url,
       "logoAlt": logo.alt,
+      foundationName,
+      siteTitleZh,
+      siteTitleEn,
+      siteTitleFr,
       footer,
-      socialLinks,
-      contactInformation
+      contactEmail,
+      phone,
+      address,
+      googleMapUrl,
+      youtubeUrl,
+      instagramUrl,
+      helloAssoUrl
     }`,
     {},
     null
   );
 
   const socialLinks = [
-    ...(data?.socialLinks || []).filter((item): item is { label: string; url: string } => Boolean(item.label && item.url)),
-    { label: "YouTube", url: "https://www.youtube.com/@Traditional_Culture_Foundation" },
-    { label: "Instagram", url: "https://www.instagram.com/traditionalculture.foundation" }
+    ...(data?.youtubeUrl ? [{ label: "YouTube", url: data.youtubeUrl }] : []),
+    ...(data?.instagramUrl ? [{ label: "Instagram", url: data.instagramUrl }] : [])
   ];
+
+  if (socialLinks.length === 0) {
+    socialLinks.push(
+      { label: "YouTube", url: "https://www.youtube.com/@Traditional_Culture_Foundation" },
+      { label: "Instagram", url: "https://www.instagram.com/traditionalculture.foundation" }
+    );
+  }
+
+  const siteTitle =
+    locale === "en" ? data?.siteTitleEn : locale === "fr" ? data?.siteTitleFr : data?.siteTitleZh;
 
   return {
     ...fallbackSiteSettings,
     logo: data?.logoUrl || fallbackSiteSettings.logo,
-    name: data?.logoAlt || fallbackSiteSettings.name,
-    email: data?.contactInformation?.email || fallbackSiteSettings.email,
+    name: data?.foundationName || data?.logoAlt || fallbackSiteSettings.name,
+    email: data?.contactEmail || fallbackSiteSettings.email,
+    helloAssoUrl: data?.helloAssoUrl || fallbackSiteSettings.helloAssoUrl,
     footer: data?.footer,
-    phone: data?.contactInformation?.phone,
-    address: data?.contactInformation?.address,
+    phone: data?.phone,
+    address: data?.address,
+    googleMapUrl: data?.googleMapUrl,
+    siteTitle: siteTitle || undefined,
     socialLinks
   };
 }
@@ -180,11 +224,15 @@ export async function getResources(locale: Locale) {
       title: resource.title,
       language: resource.language || locale,
       description: resource.description || "",
-      file: (resource as CmsDetail).fileUrl || ""
+      file: (resource as CmsDetail).fileUrl || (resource as CmsDetail).externalUrl || ""
     })).filter((resource) => resource.file);
   }
 
   return fallbackResources[locale];
+}
+
+export function getResourcesApiUrl(locale: Locale) {
+  return sanityApiUrl(resourcesSummaryQuery, { locale });
 }
 
 export async function getResourceItem(locale: Locale, slug: string) {
@@ -201,4 +249,126 @@ export async function getResourceItem(locale: Locale, slug: string) {
     description: fallback.description,
     fileUrl: fallback.file
   } satisfies CmsDetail;
+}
+
+type HomeDoc = {
+  heroTitle?: string;
+  heroSubtitle?: string;
+  heroPrimaryCtaText?: string;
+  heroPrimaryCtaUrl?: string;
+  heroSecondaryCtaText?: string;
+  heroSecondaryCtaUrl?: string;
+  showPhilosophy?: boolean;
+  philosophyKicker?: string;
+  philosophyTitle?: string;
+  philosophyParagraphs?: string[];
+  showWork?: boolean;
+  workKicker?: string;
+  workTitle?: string;
+  workPillars?: { title?: string; subtitle?: string }[];
+  showProjects?: boolean;
+  projectsKicker?: string;
+  projectsTitle?: string;
+  showLibrary?: boolean;
+  libraryKicker?: string;
+  libraryTitle?: string;
+  libraryDescription?: string;
+  libraryLanguages?: string[];
+  showEvent?: boolean;
+  eventKicker?: string;
+  eventTitle?: string;
+  eventDescription?: string;
+  eventLinkText?: string;
+  eventLinkUrl?: string;
+  showNews?: boolean;
+  newsKicker?: string;
+  newsTitle?: string;
+  showSupport?: boolean;
+  supportKicker?: string;
+  supportTitle?: string;
+  supportItems?: string[];
+  supportCtaText?: string;
+  showPartners?: boolean;
+};
+
+const showDefault = (value: boolean | undefined) => value !== false;
+
+export async function getHomeContent(locale: Locale) {
+  const fallback = content[locale];
+  const doc = await fetchOptional<HomeDoc | null>(
+    `*[_type == "homePage" && language == $locale][0]{
+      heroTitle, heroSubtitle, heroPrimaryCtaText, heroPrimaryCtaUrl, heroSecondaryCtaText, heroSecondaryCtaUrl,
+      showPhilosophy, philosophyKicker, philosophyTitle, philosophyParagraphs,
+      showWork, workKicker, workTitle, workPillars,
+      showProjects, projectsKicker, projectsTitle,
+      showLibrary, libraryKicker, libraryTitle, libraryDescription, libraryLanguages,
+      showEvent, eventKicker, eventTitle, eventDescription, eventLinkText, eventLinkUrl,
+      showNews, newsKicker, newsTitle,
+      showSupport, supportKicker, supportTitle, supportItems, supportCtaText,
+      showPartners
+    }`,
+    { locale },
+    null
+  );
+
+  return {
+    hero: {
+      title: doc?.heroTitle || undefined,
+      description: doc?.heroSubtitle || fallback.hero.description,
+      primaryCta: doc?.heroPrimaryCtaText || fallback.hero.primaryCta,
+      primaryCtaUrl: doc?.heroPrimaryCtaUrl || `/${locale}/#about`,
+      secondaryCta: doc?.heroSecondaryCtaText || fallback.hero.secondaryCta,
+      secondaryCtaUrl: doc?.heroSecondaryCtaUrl || `/${locale}/#library`,
+      translations: fallback.hero.translations
+    },
+    philosophy: {
+      kicker: doc?.philosophyKicker || fallback.sections.philosophy.kicker,
+      title: doc?.philosophyTitle || fallback.sections.philosophy.title,
+      paragraphs: doc?.philosophyParagraphs?.length ? doc.philosophyParagraphs : fallback.sections.philosophy.paragraphs
+    },
+    work: {
+      kicker: doc?.workKicker || fallback.sections.work.kicker,
+      title: doc?.workTitle || fallback.sections.work.title,
+      pillars: doc?.workPillars?.length
+        ? doc.workPillars.map((pillar) => ({ title: pillar.title || "", subtitle: pillar.subtitle || "" }))
+        : fallback.sections.work.pillars
+    },
+    projects: {
+      kicker: doc?.projectsKicker || fallback.sections.projects.kicker,
+      title: doc?.projectsTitle || fallback.sections.projects.title
+    },
+    library: {
+      kicker: doc?.libraryKicker || fallback.sections.library.kicker,
+      title: doc?.libraryTitle || fallback.sections.library.title,
+      description: doc?.libraryDescription || fallback.sections.library.description,
+      languages: doc?.libraryLanguages?.length ? doc.libraryLanguages : fallback.sections.library.languages
+    },
+    event: {
+      kicker: doc?.eventKicker || fallback.sections.event.kicker,
+      title: doc?.eventTitle || fallback.sections.event.title,
+      description: doc?.eventDescription || fallback.sections.event.description,
+      link: doc?.eventLinkText || fallback.sections.event.link,
+      linkUrl: doc?.eventLinkUrl || "/assets/events/international-peace-conference-2025-programme.pdf"
+    },
+    news: {
+      kicker: doc?.newsKicker || fallback.sections.news.kicker,
+      title: doc?.newsTitle || fallback.sections.news.title
+    },
+    support: {
+      kicker: doc?.supportKicker || fallback.sections.support.kicker,
+      title: doc?.supportTitle || fallback.sections.support.title,
+      items: doc?.supportItems?.length ? doc.supportItems : fallback.sections.support.items,
+      cta: doc?.supportCtaText || fallback.sections.support.cta
+    },
+    show: {
+      philosophy: showDefault(doc?.showPhilosophy),
+      work: showDefault(doc?.showWork),
+      projects: showDefault(doc?.showProjects),
+      library: showDefault(doc?.showLibrary),
+      event: showDefault(doc?.showEvent),
+      news: showDefault(doc?.showNews),
+      support: showDefault(doc?.showSupport),
+      partners: showDefault(doc?.showPartners)
+    }
+  };
 }

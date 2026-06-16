@@ -26,10 +26,26 @@ export type HomeContent = {
     support: { kicker: string; title: string; items: string[]; cta: string };
   };
   footer: { contact: string; donate: string; privacy: string };
-  contact: { title: string; intro: string; name: string; email: string; subject: string; message: string; consent: string; submit: string };
+  contact: {
+    title: string;
+    intro: string;
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    consent: string;
+    submit: string;
+    sending: string;
+    success: string;
+    error: string;
+  };
 };
 
-export const placeholderText = "我們正在完善本頁內容，以提供更豐富的資訊與資源。敬請期待。";
+export const placeholderText: Record<Locale, string> = {
+  zh: "本頁內容正在整理與更新中，敬請期待。",
+  en: "This section is currently being developed and will be available soon.",
+  fr: "Cette rubrique est actuellement en préparation et sera prochainement disponible."
+};
 
 export const content: Record<Locale, HomeContent> = {
   zh: {
@@ -92,13 +108,16 @@ export const content: Record<Locale, HomeContent> = {
     footer: { contact: "聯繫我們", donate: "捐助支持", privacy: "隱私政策" },
     contact: {
       title: "聯繫我們",
-      intro: "請留下您的訊息，郵件將發送至 office@tcfunesco.org。",
+      intro: "請留下您的訊息，我們會盡快回覆您。",
       name: "姓名",
       email: "電子郵件",
       subject: "主旨",
       message: "訊息",
       consent: "我同意基金會依隱私政策使用此表單資料，以回覆我的詢問。",
-      submit: "發送郵件"
+      submit: "送出訊息",
+      sending: "處理中…",
+      success: "已為您開啟郵件程式，請確認後寄出即可完成聯絡。",
+      error: "無法開啟郵件程式，請直接來信 office@tcfunesco.org。"
     }
   },
   en: {
@@ -128,7 +147,19 @@ export const content: Record<Locale, HomeContent> = {
       support: { kicker: "Support Us", title: "Your support helps peace education<br />and classical translation reach the next generation", items: ["Peace education", "Youth projects", "International forums", "Classical translation"], cta: "Support the Foundation" }
     },
     footer: { contact: "Contact Us", donate: "Support Us", privacy: "Privacy Policy" },
-    contact: { title: "Contact Us", intro: "Leave your message and send it to office@tcfunesco.org.", name: "Name", email: "Email", subject: "Subject", message: "Message", consent: "I agree that the Foundation may use this form data to respond to my inquiry according to the Privacy Policy.", submit: "Send Email" }
+    contact: {
+      title: "Contact Us",
+      intro: "Leave your message and we will get back to you as soon as possible.",
+      name: "Name",
+      email: "Email",
+      subject: "Subject",
+      message: "Message",
+      consent: "I agree that the Foundation may use this form data to respond to my inquiry according to the Privacy Policy.",
+      submit: "Send Message",
+      sending: "Working…",
+      success: "We've opened your email app — please review and send to reach us.",
+      error: "Couldn't open your email app. Please email office@tcfunesco.org directly."
+    }
   },
   fr: {
     metaTitle: "Traditional Culture Foundation at UNESCO",
@@ -157,7 +188,19 @@ export const content: Record<Locale, HomeContent> = {
       support: { kicker: "Nous soutenir", title: "Votre soutien aide l’éducation à la paix<br />et la traduction des classiques", items: ["Éducation à la paix", "Projets jeunesse", "Forums internationaux", "Traduction des classiques"], cta: "Soutenir la Fondation" }
     },
     footer: { contact: "Nous contacter", donate: "Soutenir", privacy: "Confidentialité" },
-    contact: { title: "Nous contacter", intro: "Laissez votre message et envoyez-le à office@tcfunesco.org.", name: "Nom", email: "E-mail", subject: "Objet", message: "Message", consent: "J’accepte que la Fondation utilise les données de ce formulaire pour répondre à ma demande conformément à la politique de confidentialité.", submit: "Envoyer" }
+    contact: {
+      title: "Nous contacter",
+      intro: "Laissez votre message et nous vous répondrons dès que possible.",
+      name: "Nom",
+      email: "E-mail",
+      subject: "Objet",
+      message: "Message",
+      consent: "J’accepte que la Fondation utilise les données de ce formulaire pour répondre à ma demande conformément à la politique de confidentialité.",
+      submit: "Envoyer",
+      sending: "En cours…",
+      success: "Votre application e-mail s’est ouverte — vérifiez puis envoyez pour nous contacter.",
+      error: "Impossible d’ouvrir votre application e-mail. Écrivez directement à office@tcfunesco.org."
+    }
   }
 };
 

@@ -1,0 +1,83 @@
+---
+import { getResourcesApiUrl } from "@lib/cms";
+import type { Locale } from "@data/site";
+
+const { locale, read = "Read Online", download = "Download PDF" } = Astro.props as {
+  locale: Locale;
+  read?: string;
+  download?: string;
+};
+
+const apiUrl = getResourcesApiUrl(locale);
+const prev = locale === "zh" ? "上一頁" : locale === "fr" ? "Page précédente" : "Previous";
+const next = locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" : "Next";
+---
+
+<script is:inline define:vars={{ apiUrl, read, download, prev, next }}>
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+  }
+
+  function resourceCard(resource) {
+    const file = resource.fileUrl || resource.externalUrl || "";
+    if (!file) return "";
+    const safeFile = escapeHtml(file);
+    const title = escapeHtml(resource.title || "");
+    const language = escapeHtml(resource.language || "");
+    const description = escapeHtml(resource.description || "");
+    const slug = escapeHtml(resource.slug || "");
+    return `
+      <article class="resource-reader" id="${slug}">
+        <div class="resource-copy">
+          <p class="section-kicker">${language}</p>
+          <h2>${title}</h2>
+          <p>${description}</p>
+          <div class="resource-actions">
+            <a class="button primary" href="${safeFile}" target="_blank" rel="noopener">${escapeHtml(read)}</a>
+            <a class="button secondary" href="${safeFile}" download>${escapeHtml(download)}</a>
+          </div>
+        </div>
+        <div class="book-reader" data-reader data-pdf="${safeFile}">
+          <div class="book-toolbar">
+            <button type="button" data-prev>${escapeHtml(prev)}</button>
+            <span><strong data-page>1</strong> / <span data-total>…</span></span>
+            <button type="button" data-next>${escapeHtml(next)}</button>
+          </div>
+          <div class="book-stage">
+            <canvas data-canvas aria-label="${title} online reader"></canvas>
+            <p class="book-fallback" data-fallback hidden>
+              <a class="button secondary" href="${safeFile}" target="_blank" rel="noopener">${escapeHtml(read)}</a>
+            </p>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  async function hydrateSanityResources() {
+    try {
+      const response = await fetch(apiUrl, { headers: { Accept: "application/json" } });
+      if (!response.ok) return;
+      const payload = await response.json();
+      const items = Array.isArray(payload.result)
+        ? payload.result.filter((resource) => resource.fileUrl || resource.externalUrl)
+        : [];
+      if (items.length === 0) return;
+
+      const library = document.querySelector("[data-resource-library]");
+      if (!library) return;
+
+      library.innerHTML = items.map(resourceCard).join("");
+      if (typeof window.initPdfReaders === "function") {
+        window.initPdfReaders();
+      }
+    } catch (error) {
+      console.warn("[sanity] Live resources refresh failed:", error);
+    }
+  }
+
+  hydrateSanityResources();
+</script>

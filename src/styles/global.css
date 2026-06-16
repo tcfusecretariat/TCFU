@@ -39,6 +39,29 @@ img {
   max-width: 100%;
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
+svg,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+li,
+a,
+strong,
+blockquote {
+  overflow-wrap: break-word;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -297,9 +320,12 @@ h3 {
   align-items: center;
   justify-content: center;
   min-height: 48px;
+  max-width: 100%;
   padding: 12px 22px;
   border: 1px solid rgba(183, 154, 103, 0.55);
   font: inherit;
+  text-align: center;
+  overflow-wrap: break-word;
   transition: transform 0.25s var(--ease), box-shadow 0.25s ease, background 0.25s ease;
 }
 
@@ -321,6 +347,14 @@ h3 {
 .text-link {
   color: var(--champagne-deep);
   border-bottom: 1px solid currentColor;
+}
+
+.section-more {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-top: 28px;
+  text-align: right;
 }
 
 .hero-actions {
@@ -363,7 +397,7 @@ h3 {
 
 .pillar-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 34px;
 }
 
@@ -396,7 +430,7 @@ h3 {
 
 .impact-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 28px;
 }
 
@@ -487,7 +521,7 @@ h3 {
 
 .news-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 36px;
 }
 
@@ -790,10 +824,21 @@ h3 {
 }
 
 .book-stage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   min-height: 760px;
-  overflow: hidden;
+  overflow: auto;
+  padding: 12px;
   background: var(--white);
   box-shadow: inset 16px 0 34px rgba(23, 20, 18, 0.05), inset -16px 0 34px rgba(23, 20, 18, 0.05);
+}
+
+.book-stage canvas {
+  max-width: 100%;
+  height: auto;
+  background: var(--white);
+  box-shadow: 0 8px 24px rgba(23, 20, 18, 0.12);
 }
 
 .book-stage iframe {
@@ -802,6 +847,11 @@ h3 {
   min-height: 760px;
   border: 0;
   background: var(--white);
+}
+
+.book-fallback {
+  margin: auto;
+  text-align: center;
 }
 
 .cookie-banner {
@@ -1003,6 +1053,36 @@ textarea:focus-visible {
   font: inherit;
 }
 
+.form-status {
+  min-height: 1.5em;
+  color: var(--muted);
+}
+
+.form-status[data-state="success"] {
+  color: #2f6b3f;
+}
+
+.form-status[data-state="error"] {
+  color: #8b3a32;
+}
+
+.contact-page {
+  padding: clamp(48px, 8vw, 96px) 0;
+}
+
+.contact-page-content {
+  width: min(720px, calc(100vw - 32px));
+  margin: 0 auto;
+}
+
+.contact-page .contact-form {
+  padding: 0;
+}
+
+.contact-page .contact-form h2 {
+  font-size: clamp(36px, 5vw, 56px);
+}
+
 .dialog-close {
   position: absolute;
   top: 14px;
@@ -1149,6 +1229,28 @@ textarea:focus-visible {
     background: var(--ink);
   }
 
+  .nav-links[data-open] a {
+    width: 100%;
+    padding: 12px 0;
+    white-space: normal;
+    border-bottom: 1px solid rgba(183, 154, 103, 0.16);
+  }
+
+  .nav-links[data-open] .site-search {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .site-search input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+  }
+
+  .site-search input:focus {
+    width: auto;
+  }
+
   .hero,
   .idea-layout,
   .library-section,
@@ -1225,11 +1327,83 @@ textarea:focus-visible {
     gap: 10px;
   }
 
+  .idea-section,
+  .pillars-section,
+  .impact-section,
+  .projects-section,
+  .library-section,
+  .event-feature,
+  .news-section,
+  .support-section {
+    padding: clamp(56px, 14vw, 80px) 18px;
+  }
+
+  .listing-page,
+  .detail-page {
+    padding: 88px 18px;
+  }
+
+  .resource-hero,
+  .resource-library {
+    padding-inline: 18px;
+  }
+
+  h1 {
+    font-size: clamp(30px, 8vw, 42px);
+  }
+
+  h2 {
+    font-size: clamp(25px, 6.4vw, 36px);
+  }
+
+  .detail-article h1 {
+    font-size: clamp(32px, 9vw, 46px);
+  }
+
+  .cms-card h2 {
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  .cookie-banner {
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+
   .pdf-viewer,
   .pdf-viewer iframe,
   .book-stage,
   .book-stage iframe {
     min-height: 520px;
+  }
+}
+
+@media (max-width: 460px) {
+  .language-links {
+    gap: 12px;
+    padding-top: 8px;
+    font-size: 13px;
+  }
+
+  .brand img {
+    width: 150px;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .hero-actions .button,
+  .support-section .button {
+    width: 100%;
+  }
+
+  .resource-reader {
+    padding: 22px 16px;
+  }
+
+  .footer-links {
+    gap: 12px 22px;
   }
 }
 

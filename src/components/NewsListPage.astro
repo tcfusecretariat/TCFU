@@ -1,5 +1,6 @@
 ---
 import PlaceholderPage from "@components/PlaceholderPage.astro";
+import SanityLiveNews from "@components/SanityLiveNews.astro";
 import { content } from "@data/content";
 import type { Locale } from "@data/site";
 import { getAllNews } from "@lib/news";
@@ -9,22 +10,25 @@ const t = content[locale];
 const news = await getAllNews(locale);
 ---
 
-{news.length > 0 ? (
-  <main class="news-section editorial-reveal" id="news">
-    <div class="section-heading">
-      <p class="section-kicker">{t.sections.news.kicker}</p>
-      <h1>{t.sections.news.title}</h1>
-    </div>
-    <div class="news-list">
-      {news.map((article) => (
-        <article>
-          <p>{article.category || t.sections.news.kicker}</p>
-          <h3><a href={`/${locale}/news/${article.slug}/`}>{article.title}</a></h3>
-          {article.publishDate && <time datetime={article.publishDate}>{new Date(article.publishDate).toLocaleDateString(locale === "zh" ? "zh-Hant" : locale)}</time>}
-        </article>
-      ))}
-    </div>
-  </main>
-) : (
-  <PlaceholderPage title={t.sections.news.kicker} />
-)}
+<main class="news-section editorial-reveal" id="news" data-sanity-news-page={news.length === 0 ? true : undefined}>
+  {news.length > 0 ? (
+    <>
+      <div class="section-heading">
+        <p class="section-kicker">{t.sections.news.kicker}</p>
+        <h1>{t.sections.news.title}</h1>
+      </div>
+      <div class="news-list" data-sanity-news-list>
+        {news.map((article) => (
+          <article>
+            <p>{article.category || t.sections.news.kicker}</p>
+            <h3><a href={`/${locale}/news/${article.slug}/`}>{article.title}</a></h3>
+            {article.publishDate && <time datetime={article.publishDate}>{new Date(article.publishDate).toLocaleDateString(locale === "zh" ? "zh-Hant" : locale)}</time>}
+          </article>
+        ))}
+      </div>
+    </>
+  ) : (
+    <PlaceholderPage title={t.sections.news.kicker} kicker={t.sections.news.kicker} locale={locale} />
+  )}
+</main>
+<SanityLiveNews locale={locale} mode="list" kicker={t.sections.news.kicker} />

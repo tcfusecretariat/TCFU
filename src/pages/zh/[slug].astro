@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import ContactPage from "@components/ContactPage.astro";
 import PlaceholderPage from "@components/PlaceholderPage.astro";
 import { content, staticPages } from "@data/content";
 
@@ -14,5 +15,5 @@ const t = content[locale];
 ---
 
 <BaseLayout locale={locale} title={`${title} | ${t.metaTitle}`} description={t.metaDescription} path={slug}>
-  <PlaceholderPage title={title} />
+  {slug === "contact" ? <ContactPage locale={locale} title={title} /> : <PlaceholderPage title={title} locale={locale} />}
 </BaseLayout>

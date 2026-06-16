@@ -5,23 +5,28 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro build",
+    "build:check": "astro check && astro build",
     "preview": "astro preview",
+    "pages:dev": "npm run build && wrangler pages dev dist",
     "check": "astro check",
     "sanity:seed": "node scripts/seed-sanity-demo.mjs",
-    "sanity:dev": "sanity dev --project-path sanity",
-    "sanity:deploy": "sanity deploy --project-path sanity"
+    "sanity:dev": "npm run dev --prefix sanity",
+    "sanity:deploy": "npm run deploy --prefix sanity",
+    "sanity:login": "npm exec --prefix sanity sanity login"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@sanity/vision": "^3.63.0",
     "@sanity/client": "^6.22.4",
     "@sanity/image-url": "^1.1.0",
+    "@sanity/vision": "^3.63.0",
     "astro": "^4.16.18",
     "sanity": "^3.63.0",
+    "styled-components": "^6.4.2",
     "typescript": "^5.6.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260615.0"
+    "@cloudflare/workers-types": "^4.20260615.0",
+    "wrangler": "^4.24.0"
   }
 }

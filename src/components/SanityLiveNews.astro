@@ -1,0 +1,150 @@
+---
+import { getAllNewsApiUrl, getLatestNewsApiUrl, getNewsBySlugApiUrl } from "@lib/news";
+import type { Locale } from "@data/site";
+
+type Mode = "latest" | "list" | "article";
+
+const { locale, mode, slug, limit = 3, kicker = "News" } = Astro.props as {
+  locale: Locale;
+  mode: Mode;
+  slug?: string;
+  limit?: number;
+  kicker?: string;
+};
+
+const apiUrl =
+  mode === "latest"
+    ? getLatestNewsApiUrl(locale, limit)
+    : mode === "list"
+      ? getAllNewsApiUrl(locale)
+      : getNewsBySlugApiUrl(locale, slug || "");
+
+const dateLocale = locale === "zh" ? "zh-Hant" : locale;
+---
+
+<script
+  is:inline
+  define:vars={{
+    apiUrl,
+    mode,
+    locale,
+    kicker,
+    dateLocale
+  }}
+>
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+  }
+
+  function formatDate(value) {
+    if (!value) return "";
+    try {
+      return new Date(value).toLocaleDateString(dateLocale);
+    } catch {
+      return "";
+    }
+  }
+
+  function renderPortableBody(blocks) {
+    if (!Array.isArray(blocks) || blocks.length === 0) return "";
+    return blocks
+      .map((block) => {
+        if (block?._type === "image") return "";
+        const text = (block?.children || []).map((child) => child?.text || "").join("");
+        if (!text) return "";
+        if (block?.style === "h2") return `<h2>${escapeHtml(text)}</h2>`;
+        if (block?.style === "h3") return `<h3>${escapeHtml(text)}</h3>`;
+        if (block?.style === "blockquote") return `<blockquote>${escapeHtml(text)}</blockquote>`;
+        return `<p>${escapeHtml(text)}</p>`;
+      })
+      .join("");
+  }
+
+  function renderNewsCards(items) {
+    return items
+      .map((article) => {
+        const category = escapeHtml(article.category || kicker);
+        const title = escapeHtml(article.title);
+        const href = `/${locale}/news/${encodeURIComponent(article.slug)}/`;
+        const date = article.publishDate
+          ? `<time datetime="${escapeHtml(article.publishDate)}">${escapeHtml(formatDate(article.publishDate))}</time>`
+          : "";
+        return `<article><p>${category}</p><h3><a href="${href}">${title}</a></h3>${date}</article>`;
+      })
+      .join("");
+  }
+
+  function renderArticle(article) {
+    const category = escapeHtml(article.category || "News");
+    const title = escapeHtml(article.title);
+    const summary = article.summary ? `<p>${escapeHtml(article.summary)}</p>` : "";
+    const date = article.publishDate
+      ? `<p><time datetime="${escapeHtml(article.publishDate)}">${escapeHtml(formatDate(article.publishDate))}</time></p>`
+      : "";
+    const body = article.body ? `<div class="portable-body">${renderPortableBody(article.body)}</div>` : "";
+    const video = article.videoUrl
+      ? `<p><a class="text-link" href="${escapeHtml(article.videoUrl)}">Video</a></p>`
+      : "";
+    const pdf = article.pdfUrl ? `<p><a class="text-link" href="${escapeHtml(article.pdfUrl)}">PDF</a></p>` : "";
+
+    return `<main class="idea-section editorial-reveal"><p class="section-kicker">${category}</p><div class="idea-layout"><h1>${title}</h1><div>${date}${summary}${body}${video}${pdf}</div></div></main>`;
+  }
+
+  async function hydrateSanityNews() {
+    try {
+      const response = await fetch(apiUrl, { headers: { Accept: "application/json" } });
+      if (!response.ok) return;
+      const payload = await response.json();
+      const result = payload.result;
+
+      if (mode === "article") {
+        const target = document.querySelector("[data-sanity-news-article]");
+        if (!target || !result) return;
+        target.outerHTML = renderArticle(result);
+        document.title = `${result.seoTitle || result.title} | ${document.title.split(" | ").slice(1).join(" | ") || document.title}`;
+        return;
+      }
+
+      const items = Array.isArray(result) ? result : [];
+      if (items.length === 0) return;
+
+      if (mode === "latest") {
+        const list = document.querySelector("[data-sanity-news-list]");
+        const section = document.querySelector("[data-sanity-news-section]");
+        if (!list) return;
+        list.innerHTML = renderNewsCards(items);
+        section?.removeAttribute("hidden");
+        return;
+      }
+
+      if (mode === "list") {
+        const list = document.querySelector("[data-sanity-news-list]");
+        const page = document.querySelector("[data-sanity-news-page]");
+        if (list) {
+          list.innerHTML = renderNewsCards(items);
+          page?.removeAttribute("data-sanity-news-page");
+          const placeholder = page?.querySelector(".placeholder-page");
+          placeholder?.remove();
+          if (!page?.querySelector(".section-heading")) {
+            page?.insertAdjacentHTML(
+              "afterbegin",
+              `<div class="section-heading"><p class="section-kicker">${escapeHtml(kicker)}</p><h1>${escapeHtml(kicker)}</h1></div>`
+            );
+          }
+          return;
+        }
+        if (!page) return;
+        page.innerHTML = `<div class="section-heading"><p class="section-kicker">${escapeHtml(kicker)}</p><h1>${escapeHtml(kicker)}</h1></div><div class="news-list">${renderNewsCards(items)}</div>`;
+        return;
+      }
+    } catch (error) {
+      console.warn("[sanity] Live news refresh failed:", error);
+    }
+  }
+
+  hydrateSanityNews();
+</script>

@@ -1,13 +1,19 @@
 ---
 import PlaceholderPage from "@components/PlaceholderPage.astro";
 import PortableBody from "@components/PortableBody.astro";
+import SanityLiveNews from "@components/SanityLiveNews.astro";
+import type { Locale } from "@data/site";
 import type { NewsDetail } from "@lib/news";
 
-const { article } = Astro.props as { article: NewsDetail | null };
+const { article, locale, slug } = Astro.props as {
+  article: NewsDetail | null;
+  locale: Locale;
+  slug: string;
+};
 ---
 
 {article ? (
-  <main class="idea-section editorial-reveal">
+  <main class="idea-section editorial-reveal" data-sanity-news-article>
     <p class="section-kicker">{article.category || "News"}</p>
     <div class="idea-layout">
       <h1>{article.title}</h1>
@@ -21,5 +27,8 @@ const { article } = Astro.props as { article: NewsDetail | null };
     </div>
   </main>
 ) : (
-  <PlaceholderPage title="最新動態" />
+  <div data-sanity-news-article>
+    <PlaceholderPage title="News" locale={locale} />
+  </div>
 )}
+<SanityLiveNews locale={locale} mode="article" slug={slug} />

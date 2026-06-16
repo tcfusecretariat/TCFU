@@ -19,6 +19,24 @@ const image = item ? imageSrc(item.coverImage || item.poster || item.thumbnail, 
 const readLabel = locale === "zh" ? "線上閱讀" : locale === "fr" ? "Lire en ligne" : "Read Online";
 const downloadLabel = locale === "zh" ? "下載 PDF" : locale === "fr" ? "Télécharger le PDF" : "Download PDF";
 const registerLabel = locale === "zh" ? "活動報名" : locale === "fr" ? "Inscription" : "Register";
+const programmeLabel = locale === "zh" ? "活動手冊 PDF" : locale === "fr" ? "Programme (PDF)" : "Programme PDF";
+const watchLabel = locale === "zh" ? "前往觀看" : locale === "fr" ? "Regarder" : "Watch";
+
+function youtubeEmbed(url: string) {
+  const match = url.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : "";
+}
+
+const videoLinks = item
+  ? [
+      { label: "Vimeo", url: item.vimeoUrl },
+      { label: "Bilibili", url: item.bilibiliUrl },
+      { label: locale === "zh" ? "微信視頻號" : "WeChat", url: item.wechatUrl },
+      { label: locale === "zh" ? "騰訊視頻" : "Tencent Video", url: item.tencentUrl }
+    ].filter((link): link is { label: string; url: string } => Boolean(link.url))
+  : [];
+const youtubeSrc = item?.youtubeUrl ? youtubeEmbed(item.youtubeUrl) : "";
+const registrationOpen = item?.registrationUrl && item?.isRegistrationOpen !== false;
 ---
 
 {item ? (
@@ -26,11 +44,13 @@ const registerLabel = locale === "zh" ? "活動報名" : locale === "fr" ? "Insc
     <article class="detail-article">
       <p class="section-kicker">{labels[kind]}</p>
       <h1>{item.title}</h1>
-      {item.date && <time datetime={item.date}>{new Date(item.date).toLocaleDateString(dateLocale)}</time>}
+      {item.date && <time datetime={item.date}>{new Date(item.date).toLocaleDateString(dateLocale)}{item.time ? ` · ${item.time}` : ""}</time>}
       {item.location && <p class="detail-meta">{item.location}</p>}
+      {item.organizers && <p class="detail-meta">{item.organizers}</p>}
       {image && <img class="detail-cover" src={image} alt={item.coverImage?.alt || item.poster?.alt || item.thumbnail?.alt || item.title} />}
       {(item.summary || item.description) && <p class="detail-summary">{item.summary || item.description}</p>}
-      {item.registrationUrl && <p><a class="button primary" href={item.registrationUrl} target="_blank" rel="noopener">{registerLabel}</a></p>}
+      {registrationOpen && <p><a class="button primary" href={item.registrationUrl} target="_blank" rel="noopener">{registerLabel}</a></p>}
+      {item.programmePdfUrl && <p><a class="button secondary" href={item.programmePdfUrl} target="_blank" rel="noopener">{programmeLabel}</a></p>}
       {item.body && <PortableBody value={item.body} />}
       {kind === "resource" && item.fileUrl && (
         <section class="resource-reader detail-reader">
@@ -43,47 +63,131 @@ const registerLabel = locale === "zh" ? "活動報名" : locale === "fr" ? "Insc
           <div class="book-reader" data-reader data-pdf={item.fileUrl} data-title={item.title}>
             <div class="book-toolbar">
               <button type="button" data-prev>{locale === "zh" ? "上一頁" : locale === "fr" ? "Page précédente" : "Previous"}</button>
-              <span><strong data-page>1</strong></span>
+              <span><strong data-page>1</strong> / <span data-total>…</span></span>
               <button type="button" data-next>{locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" : "Next"}</button>
             </div>
             <div class="book-stage">
-              <iframe src={`${item.fileUrl}#toolbar=0&navpanes=0&scrollbar=1&page=1&view=Fit`} title={`${item.title} online reader`}></iframe>
+              <canvas data-canvas aria-label={`${item.title} online reader`}></canvas>
+              <p class="book-fallback" data-fallback hidden>
+                <a class="button secondary" href={item.fileUrl} target="_blank" rel="noopener">{readLabel}</a>
+              </p>
             </div>
           </div>
         </section>
       )}
-      {kind === "video" && item.youtubeUrl && (
+      {kind === "video" && youtubeSrc && (
         <div class="video-embed">
-          <iframe src={item.youtubeUrl.replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")} title={item.title} allowfullscreen></iframe>
+          <iframe src={youtubeSrc} title={item.title} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
+      )}
+      {kind === "video" && (videoLinks.length > 0 || (item.youtubeUrl && !youtubeSrc)) && (
+        <p class="video-links">
+          {item.youtubeUrl && !youtubeSrc && <a class="button secondary" href={item.youtubeUrl} target="_blank" rel="noopener">YouTube</a>}
+          {videoLinks.map((link) => (
+            <a class="button secondary" href={link.url} target="_blank" rel="noopener">{`${link.label} · ${watchLabel}`}</a>
+          ))}
+        </p>
       )}
       {kind === "video" && item.transcript && <p class="detail-summary">{item.transcript}</p>}
       {item.gallery && item.gallery.length > 0 && <GalleryLightbox images={item.gallery} />}
     </article>
   </main>
   <script is:inline>
-    document.querySelectorAll("[data-reader]").forEach((reader) => {
-      let page = 1;
-      const pdf = reader.dataset.pdf;
-      const frame = reader.querySelector("iframe");
-      const pageLabel = reader.querySelector("[data-page]");
-      const render = () => {
-        pageLabel.textContent = page;
-        frame.src = "about:blank";
-        window.setTimeout(() => {
-          frame.src = `${pdf}#toolbar=0&navpanes=0&scrollbar=1&page=${page}&view=Fit`;
-        }, 90);
-      };
-      reader.querySelector("[data-prev]")?.addEventListener("click", () => {
-        page = Math.max(1, page - 1);
+    (async () => {
+      const readers = document.querySelectorAll("[data-reader]");
+      if (!readers.length) return;
+
+      const PDFJS_VERSION = "4.7.76";
+      const base = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}/build`;
+
+      let pdfjsLib;
+      try {
+        pdfjsLib = await import(`${base}/pdf.min.mjs`);
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `${base}/pdf.worker.min.mjs`;
+      } catch (error) {
+        console.warn("[reader] Failed to load PDF.js:", error);
+        document.querySelectorAll("[data-fallback]").forEach((el) => el.removeAttribute("hidden"));
+        return;
+      }
+
+      readers.forEach(async (reader) => {
+        const url = reader.dataset.pdf;
+        const canvas = reader.querySelector("[data-canvas]");
+        const ctx = canvas?.getContext("2d");
+        const pageLabel = reader.querySelector("[data-page]");
+        const totalLabel = reader.querySelector("[data-total]");
+        const stage = reader.querySelector(".book-stage");
+        const fallback = reader.querySelector("[data-fallback]");
+        if (!url || !canvas || !ctx) return;
+
+        let doc;
+        let page = 1;
+        let rendering = false;
+        let queued = false;
+
+        try {
+          doc = await pdfjsLib.getDocument({ url, withCredentials: false }).promise;
+        } catch (error) {
+          console.warn("[reader] Failed to open PDF:", error);
+          fallback?.removeAttribute("hidden");
+          return;
+        }
+
+        if (totalLabel) totalLabel.textContent = String(doc.numPages);
+
+        const render = async () => {
+          if (rendering) {
+            queued = true;
+            return;
+          }
+          rendering = true;
+          try {
+            const pdfPage = await doc.getPage(page);
+            const ratio = window.devicePixelRatio || 1;
+            const stageWidth = (stage?.clientWidth || 800) - 4;
+            const unscaled = pdfPage.getViewport({ scale: 1 });
+            const scale = Math.min(2.2, stageWidth / unscaled.width);
+            const viewport = pdfPage.getViewport({ scale: scale * ratio });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            canvas.style.width = `${viewport.width / ratio}px`;
+            canvas.style.height = `${viewport.height / ratio}px`;
+            await pdfPage.render({ canvasContext: ctx, viewport }).promise;
+            if (pageLabel) pageLabel.textContent = String(page);
+          } catch (error) {
+            console.warn("[reader] Failed to render page:", error);
+          } finally {
+            rendering = false;
+            if (queued) {
+              queued = false;
+              render();
+            }
+          }
+        };
+
+        reader.querySelector("[data-prev]")?.addEventListener("click", () => {
+          if (page > 1) {
+            page -= 1;
+            render();
+          }
+        });
+        reader.querySelector("[data-next]")?.addEventListener("click", () => {
+          if (page < doc.numPages) {
+            page += 1;
+            render();
+          }
+        });
+
+        let resizeTimer;
+        window.addEventListener("resize", () => {
+          window.clearTimeout(resizeTimer);
+          resizeTimer = window.setTimeout(render, 200);
+        });
+
         render();
       });
-      reader.querySelector("[data-next]")?.addEventListener("click", () => {
-        page += 1;
-        render();
-      });
-    });
+    })();
   </script>
 ) : (
-  <PlaceholderPage title={labels[kind]} />
+  <PlaceholderPage title={labels[kind]} locale={locale} />
 )}

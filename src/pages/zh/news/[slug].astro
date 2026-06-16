@@ -17,5 +17,5 @@ const t = content.zh;
 ---
 
 <BaseLayout locale="zh" title={`${article?.seoTitle || article?.title || "最新動態"} | ${t.metaTitle}`} description={article?.seoDescription || article?.summary || t.metaDescription} path={`news/${Astro.params.slug}`}>
-  <NewsArticlePage article={article} />
+  <NewsArticlePage article={article} locale="zh" slug={Astro.params.slug || ""} />
 </BaseLayout>

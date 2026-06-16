@@ -28,32 +28,32 @@ export const fallbackResources: Record<Locale, LibraryResource[]> = {
   en: [
     {
       slug: "qunshu-zhiyao-360-zh",
-      title: "Qunshu Zhiyao 360 Chinese Edition",
+      title: "The Governing Principles of Ancient China 360 Chinese Edition",
       language: "中文",
-      description: "A concise selection from Qunshu Zhiyao for reading, study, and public sharing.",
+      description: "A concise selection from The Governing Principles of Ancient China for reading, study, and public sharing.",
       file: "/assets/resources/qunshu-zhiyao-360-zh.pdf"
     },
     {
       slug: "qunshu-zhiyao-es",
       title: "Los Principios de Gobierno de la Antigua China",
       language: "Español",
-      description: "The Spanish edition of Qunshu Zhiyao for international study and dissemination.",
+      description: "The Spanish edition of The Governing Principles of Ancient China for international study and dissemination.",
       file: "/assets/resources/qunshu-zhiyao-es.pdf"
     }
   ],
   fr: [
     {
       slug: "qunshu-zhiyao-360-zh",
-      title: "Qunshu Zhiyao 360 édition chinoise",
+      title: "Les principes de gouvernance de la chine ancienne 360 édition chinoise",
       language: "中文",
-      description: "Une sélection concise de Qunshu Zhiyao pour la lecture, l’étude et le partage.",
+      description: "Une sélection concise des principes de gouvernance de la chine ancienne pour la lecture, l’étude et le partage.",
       file: "/assets/resources/qunshu-zhiyao-360-zh.pdf"
     },
     {
       slug: "qunshu-zhiyao-es",
       title: "Los Principios de Gobierno de la Antigua China",
       language: "Español",
-      description: "Édition espagnole de Qunshu Zhiyao destinée à l’étude et à la diffusion internationale.",
+      description: "Édition espagnole des principes de gouvernance de la chine ancienne destinée à l’étude et à la diffusion internationale.",
       file: "/assets/resources/qunshu-zhiyao-es.pdf"
     }
   ]

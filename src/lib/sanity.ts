@@ -1,17 +1,17 @@
 import { createClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
 
-const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
-const dataset = import.meta.env.PUBLIC_SANITY_DATASET || "production";
-const apiVersion = import.meta.env.PUBLIC_SANITY_API_VERSION || "2026-06-15";
+export const sanityProjectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID || "8f53fq35";
+export const sanityDataset = import.meta.env.PUBLIC_SANITY_DATASET || "production";
+export const sanityApiVersion = import.meta.env.PUBLIC_SANITY_API_VERSION || "2026-06-15";
 
-export const hasSanityConfig = Boolean(projectId && dataset);
+export const hasSanityConfig = Boolean(sanityProjectId && sanityDataset);
 
 export const sanityClient = createClient({
-  projectId: projectId || "placeholder",
-  dataset,
-  apiVersion,
-  useCdn: true
+  projectId: sanityProjectId,
+  dataset: sanityDataset,
+  apiVersion: sanityApiVersion,
+  useCdn: false
 });
 
 const builder = imageUrlBuilder(sanityClient);
@@ -26,7 +26,16 @@ export async function fetchOptional<T>(query: string, params: Record<string, unk
   try {
     const data = await sanityClient.fetch<T | null>(query, params);
     return data ?? fallback;
-  } catch {
+  } catch (error) {
+    console.warn("[sanity] Failed to fetch content:", error instanceof Error ? error.message : error);
     return fallback;
   }
+}
+
+export function sanityApiUrl(query: string, params: Record<string, unknown> = {}) {
+  const search = new URLSearchParams({ query });
+  for (const [key, value] of Object.entries(params)) {
+    search.set(`$${key}`, JSON.stringify(value));
+  }
+  return `https://${sanityProjectId}.api.sanity.io/v${sanityApiVersion}/data/query/${sanityDataset}?${search.toString()}`;
 }

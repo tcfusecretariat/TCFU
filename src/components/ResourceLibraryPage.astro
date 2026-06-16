@@ -1,6 +1,7 @@
 ---
 import type { Locale } from "@data/site";
 import { getResources } from "@lib/cms";
+import SanityLiveResources from "@components/SanityLiveResources.astro";
 
 const { locale } = Astro.props as { locale: Locale };
 const resources = await getResources(locale);
@@ -10,21 +11,27 @@ const copy = {
     title: "傳統智慧<br />世界共享",
     intro: "精選《群書治要》多語版本，提供線上閱讀與 PDF 下載，讓經典智慧以清晰、優雅的方式被更多讀者親近。",
     read: "線上閱讀",
-    download: "下載 PDF"
+    download: "下載 PDF",
+    prev: "上一頁",
+    next: "下一頁"
   },
   en: {
     kicker: "Resource Center",
     title: "Traditional Wisdom<br />Shared with the World",
-    intro: "Selected multilingual editions of Qunshu Zhiyao are available for online reading and PDF download.",
+    intro: "Selected multilingual editions of The Governing Principles of Ancient China are available for online reading and PDF download.",
     read: "Read Online",
-    download: "Download PDF"
+    download: "Download PDF",
+    prev: "Previous",
+    next: "Next"
   },
   fr: {
     kicker: "Ressources",
     title: "Sagesse traditionnelle<br />partagée avec le monde",
-    intro: "Des éditions multilingues sélectionnées de Qunshu Zhiyao sont disponibles en lecture en ligne et en téléchargement PDF.",
+    intro: "Des éditions multilingues sélectionnées des principes de gouvernance de la chine ancienne sont disponibles en lecture en ligne et en téléchargement PDF.",
     read: "Lire en ligne",
-    download: "Télécharger le PDF"
+    download: "Télécharger le PDF",
+    prev: "Page précédente",
+    next: "Page suivante"
   }
 }[locale];
 ---
@@ -36,7 +43,7 @@ const copy = {
     <p>{copy.intro}</p>
   </section>
 
-  <section class="resource-library editorial-reveal" aria-label={copy.kicker}>
+  <section class="resource-library editorial-reveal" aria-label={copy.kicker} data-resource-library>
     {resources.map((resource) => (
       <article class="resource-reader" id={resource.slug}>
         <div class="resource-copy">
@@ -48,14 +55,17 @@ const copy = {
             <a class="button secondary" href={resource.file} download>{copy.download}</a>
           </div>
         </div>
-        <div class="book-reader" data-reader data-pdf={resource.file} data-title={resource.title}>
+        <div class="book-reader" data-reader data-pdf={resource.file}>
           <div class="book-toolbar">
-            <button type="button" data-prev>{locale === "zh" ? "上一頁" : locale === "fr" ? "Page précédente" : "Previous"}</button>
-            <span><strong data-page>1</strong></span>
-            <button type="button" data-next>{locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" : "Next"}</button>
+            <button type="button" data-prev>{copy.prev}</button>
+            <span><strong data-page>1</strong> / <span data-total>…</span></span>
+            <button type="button" data-next>{copy.next}</button>
           </div>
           <div class="book-stage">
-            <iframe src={`${resource.file}#toolbar=0&navpanes=0&scrollbar=1&page=1&view=Fit`} title={`${resource.title} online reader`}></iframe>
+            <canvas data-canvas aria-label={`${resource.title} online reader`}></canvas>
+            <p class="book-fallback" data-fallback hidden>
+              <a class="button secondary" href={resource.file} target="_blank" rel="noopener">{copy.read}</a>
+            </p>
           </div>
         </div>
       </article>
@@ -64,25 +74,119 @@ const copy = {
 </main>
 
 <script is:inline>
-  document.querySelectorAll("[data-reader]").forEach((reader) => {
-    let page = 1;
-    const pdf = reader.dataset.pdf;
-    const frame = reader.querySelector("iframe");
-    const pageLabel = reader.querySelector("[data-page]");
-    const render = () => {
-      pageLabel.textContent = page;
-      frame.src = "about:blank";
-      window.setTimeout(() => {
-        frame.src = `${pdf}#toolbar=0&navpanes=0&scrollbar=1&page=${page}&view=Fit`;
-      }, 90);
+  (() => {
+    const PDFJS_VERSION = "4.7.76";
+    const base = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}/build`;
+    let libPromise = null;
+
+    function loadPdfJs() {
+      if (!libPromise) {
+        libPromise = import(`${base}/pdf.min.mjs`).then((lib) => {
+          lib.GlobalWorkerOptions.workerSrc = `${base}/pdf.worker.min.mjs`;
+          return lib;
+        });
+      }
+      return libPromise;
+    }
+
+    async function setupReader(reader, pdfjsLib) {
+      const url = reader.dataset.pdf;
+      const canvas = reader.querySelector("[data-canvas]");
+      const ctx = canvas?.getContext("2d");
+      const pageLabel = reader.querySelector("[data-page]");
+      const totalLabel = reader.querySelector("[data-total]");
+      const stage = reader.querySelector(".book-stage");
+      const fallback = reader.querySelector("[data-fallback]");
+      if (!url || !canvas || !ctx) return;
+
+      let doc;
+      let page = 1;
+      let rendering = false;
+      let queued = false;
+
+      try {
+        doc = await pdfjsLib.getDocument({ url, withCredentials: false }).promise;
+      } catch (error) {
+        console.warn("[reader] Failed to open PDF:", error);
+        fallback?.removeAttribute("hidden");
+        return;
+      }
+
+      if (totalLabel) totalLabel.textContent = String(doc.numPages);
+
+      const render = async () => {
+        if (rendering) {
+          queued = true;
+          return;
+        }
+        rendering = true;
+        try {
+          const pdfPage = await doc.getPage(page);
+          const ratio = window.devicePixelRatio || 1;
+          const stageWidth = (stage?.clientWidth || 800) - 4;
+          const unscaled = pdfPage.getViewport({ scale: 1 });
+          const scale = Math.min(2.2, stageWidth / unscaled.width);
+          const viewport = pdfPage.getViewport({ scale: scale * ratio });
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.style.width = `${viewport.width / ratio}px`;
+          canvas.style.height = `${viewport.height / ratio}px`;
+          await pdfPage.render({ canvasContext: ctx, viewport }).promise;
+          if (pageLabel) pageLabel.textContent = String(page);
+        } catch (error) {
+          console.warn("[reader] Failed to render page:", error);
+        } finally {
+          rendering = false;
+          if (queued) {
+            queued = false;
+            render();
+          }
+        }
+      };
+
+      reader.querySelector("[data-prev]")?.addEventListener("click", () => {
+        if (page > 1) {
+          page -= 1;
+          render();
+        }
+      });
+      reader.querySelector("[data-next]")?.addEventListener("click", () => {
+        if (page < doc.numPages) {
+          page += 1;
+          render();
+        }
+      });
+
+      let resizeTimer;
+      window.addEventListener("resize", () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(render, 200);
+      });
+
+      render();
+    }
+
+    window.initPdfReaders = async () => {
+      const readers = Array.from(document.querySelectorAll("[data-reader]")).filter(
+        (reader) => !reader.dataset.readerReady
+      );
+      if (!readers.length) return;
+      let pdfjsLib;
+      try {
+        pdfjsLib = await loadPdfJs();
+      } catch (error) {
+        console.warn("[reader] Failed to load PDF.js:", error);
+        document.querySelectorAll("[data-fallback]").forEach((el) => el.removeAttribute("hidden"));
+        return;
+      }
+      readers.forEach((reader) => {
+        reader.dataset.readerReady = "true";
+        setupReader(reader, pdfjsLib);
+      });
     };
-    reader.querySelector("[data-prev]").addEventListener("click", () => {
-      page = Math.max(1, page - 1);
-      render();
-    });
-    reader.querySelector("[data-next]").addEventListener("click", () => {
-      page += 1;
-      render();
-    });
-  });
+
+    window.initPdfReaders();
+  })();
 </script>
+
+<SanityLiveResources locale={locale} read={copy.read} download={copy.download} />

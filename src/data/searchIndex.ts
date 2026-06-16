@@ -14,7 +14,7 @@ export const searchIndex: SearchItem[] = [
   { locale: "zh", type: "Resource", title: "群書治要三六〇 中文版", description: "線上閱讀與 PDF 下載。", url: "/zh/library/#qunshu-zhiyao-360-zh" },
   { locale: "zh", type: "Resource", title: "西班牙文群書治要", description: "Los Principios de Gobierno de la Antigua China。", url: "/zh/library/#qunshu-zhiyao-es" },
   { locale: "en", type: "Page", title: "About Us", description: "Foundation mission and vision.", url: "/en/about/" },
-  { locale: "en", type: "Resource", title: "Qunshu Zhiyao 360 Chinese Edition", description: "Online reading and PDF download.", url: "/en/library/#qunshu-zhiyao-360-zh" },
+  { locale: "en", type: "Resource", title: "The Governing Principles of Ancient China 360 Chinese Edition", description: "Online reading and PDF download.", url: "/en/library/#qunshu-zhiyao-360-zh" },
   { locale: "fr", type: "Page", title: "Nous connaître", description: "Mission et vision de la Fondation.", url: "/fr/about/" },
-  { locale: "fr", type: "Resource", title: "Qunshu Zhiyao", description: "Lecture en ligne et téléchargement PDF.", url: "/fr/library/#qunshu-zhiyao-360-zh" }
+  { locale: "fr", type: "Resource", title: "Les principes de gouvernance de la chine ancienne", description: "Lecture en ligne et téléchargement PDF.", url: "/fr/library/#qunshu-zhiyao-360-zh" }
 ];

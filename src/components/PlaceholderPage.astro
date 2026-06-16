@@ -1,13 +1,19 @@
 ---
 import { placeholderText } from "@data/content";
+import type { Locale } from "@data/site";
 
-const { title, kicker = title } = Astro.props as { title: string; kicker?: string };
+const { title, kicker = title, locale = "zh" } = Astro.props as {
+  title: string;
+  kicker?: string;
+  locale?: Locale;
+};
+const message = placeholderText[locale] ?? placeholderText.zh;
 ---
 
 <main class="placeholder-page">
   <section class="placeholder-content editorial-reveal">
     <p class="section-kicker">{kicker}</p>
     <h1>{title}</h1>
-    <p>{placeholderText}</p>
+    <p>{message}</p>
   </section>
 </main>

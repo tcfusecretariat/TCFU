@@ -1,0 +1,12 @@
+---
+import ContactForm from "@components/ContactForm.astro";
+import type { Locale } from "@data/site";
+
+const { locale } = Astro.props as { locale: Locale; title?: string };
+---
+
+<main class="contact-page">
+  <section class="contact-page-content editorial-reveal">
+    <ContactForm locale={locale} />
+  </section>
+</main>
