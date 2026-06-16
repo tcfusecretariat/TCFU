@@ -2,18 +2,23 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ContactPage from "@components/ContactPage.astro";
 import PlaceholderPage from "@components/PlaceholderPage.astro";
-import { content, staticPages } from "@data/content";
+import { content, projects, staticPages } from "@data/content";
 
 const locale = "zh";
 
 export function getStaticPaths() {
-  return staticPages.zh.map((page) => ({ params: { slug: page.slug }, props: page }));
+  const pages = staticPages.zh.map((page) => ({ params: { slug: page.slug }, props: page }));
+  const projectPages = projects.map((project) => ({
+    params: { slug: project.href },
+    props: { slug: project.href, title: project.zh, message: "內容建設中，敬請期待" }
+  }));
+  return [...pages, ...projectPages];
 }
 
-const { title, slug } = Astro.props;
+const { title, slug, message } = Astro.props as { title: string; slug: string; message?: string };
 const t = content[locale];
 ---
 
 <BaseLayout locale={locale} title={`${title} | ${t.metaTitle}`} description={t.metaDescription} path={slug}>
-  {slug === "contact" ? <ContactPage locale={locale} title={title} /> : <PlaceholderPage title={title} locale={locale} />}
+  {slug === "contact" ? <ContactPage locale={locale} title={title} /> : <PlaceholderPage title={title} locale={locale} message={message} />}
 </BaseLayout>
