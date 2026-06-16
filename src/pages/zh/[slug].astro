@@ -1,10 +1,13 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ContactPage from "@components/ContactPage.astro";
+import ContentPage from "@components/ContentPage.astro";
 import PlaceholderPage from "@components/PlaceholderPage.astro";
 import { content, projects, staticPages } from "@data/content";
+import { getPage } from "@lib/cms";
 
 const locale = "zh";
+const editableKeys = ["about", "work", "support"];
 
 export function getStaticPaths() {
   const pages = staticPages.zh.map((page) => ({ params: { slug: page.slug }, props: page }));
@@ -17,8 +20,17 @@ export function getStaticPaths() {
 
 const { title, slug, message } = Astro.props as { title: string; slug: string; message?: string };
 const t = content[locale];
+const page = editableKeys.includes(slug) ? await getPage(slug, locale) : null;
+const metaTitle = page?.seoTitle || page?.title || title;
+const metaDescription = page?.seoDescription || t.metaDescription;
 ---
 
-<BaseLayout locale={locale} title={`${title} | ${t.metaTitle}`} description={t.metaDescription} path={slug}>
-  {slug === "contact" ? <ContactPage locale={locale} title={title} /> : <PlaceholderPage title={title} locale={locale} message={message} />}
+<BaseLayout locale={locale} title={`${metaTitle} | ${t.metaTitle}`} description={metaDescription} path={slug}>
+  {slug === "contact" ? (
+    <ContactPage locale={locale} title={title} />
+  ) : editableKeys.includes(slug) ? (
+    <ContentPage locale={locale} title={title} page={page} message={message} />
+  ) : (
+    <PlaceholderPage title={title} locale={locale} message={message} />
+  )}
 </BaseLayout>

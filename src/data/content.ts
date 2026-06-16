@@ -52,11 +52,11 @@ export const content: Record<Locale, HomeContent> = {
     metaTitle: "Traditional Culture Foundation at UNESCO",
     metaDescription: "以和平教育、青少年身心健康、文明對話與傳統智慧促進世界和平與人類共同福祉。",
     nav: [
-      { label: "認識我們", href: "/zh/#about" },
-      { label: "核心工作", href: "/zh/#work" },
-      { label: "最新動態", href: "/zh/#news" },
+      { label: "認識我們", href: "/zh/about/" },
+      { label: "核心工作", href: "/zh/work/" },
+      { label: "最新動態", href: "/zh/news/" },
       { label: "資源中心", href: "/zh/#library" },
-      { label: "支持我們", href: "/zh/#support" }
+      { label: "支持我們", href: "/zh/support/" }
     ],
     search: "網站搜索",
     hero: {
@@ -124,11 +124,11 @@ export const content: Record<Locale, HomeContent> = {
     metaTitle: "Traditional Culture Foundation at UNESCO",
     metaDescription: "An international cultural foundation advancing peace education, youth well-being, intercultural dialogue, and traditional wisdom.",
     nav: [
-      { label: "About Us", href: "/en/#about" },
-      { label: "Core Work", href: "/en/#work" },
-      { label: "Latest News", href: "/en/#news" },
+      { label: "About Us", href: "/en/about/" },
+      { label: "Core Work", href: "/en/work/" },
+      { label: "Latest News", href: "/en/news/" },
       { label: "Resource Center", href: "/en/#library" },
-      { label: "Support Us", href: "/en/#support" }
+      { label: "Support Us", href: "/en/support/" }
     ],
     search: "Site Search",
     hero: {
@@ -165,11 +165,11 @@ export const content: Record<Locale, HomeContent> = {
     metaTitle: "Traditional Culture Foundation at UNESCO",
     metaDescription: "Fondation culturelle internationale dédiée à l’éducation à la paix, au bien-être des jeunes, au dialogue interculturel et à la sagesse traditionnelle.",
     nav: [
-      { label: "Nous connaître", href: "/fr/#about" },
-      { label: "Axes de travail", href: "/fr/#work" },
-      { label: "Actualités", href: "/fr/#news" },
+      { label: "Nous connaître", href: "/fr/about/" },
+      { label: "Axes de travail", href: "/fr/work/" },
+      { label: "Actualités", href: "/fr/news/" },
       { label: "Ressources", href: "/fr/#library" },
-      { label: "Nous soutenir", href: "/fr/#support" }
+      { label: "Nous soutenir", href: "/fr/support/" }
     ],
     search: "Recherche",
     hero: {
@@ -219,6 +219,7 @@ export const legalPages = [
 export const staticPages = {
   zh: [
     { slug: "about", title: "認識我們" },
+    { slug: "work", title: "核心工作" },
     { slug: "contact", title: "聯繫我們" },
     { slug: "support", title: "支持我們" },
     { slug: "privacy", title: "隱私政策" },
@@ -227,6 +228,7 @@ export const staticPages = {
   ],
   en: [
     { slug: "about", title: "About Us" },
+    { slug: "work", title: "Core Work" },
     { slug: "contact", title: "Contact" },
     { slug: "support", title: "Support Us" },
     { slug: "privacy", title: "Privacy Policy" },
@@ -235,6 +237,7 @@ export const staticPages = {
   ],
   fr: [
     { slug: "about", title: "Nous connaître" },
+    { slug: "work", title: "Axes de travail" },
     { slug: "contact", title: "Contact" },
     { slug: "support", title: "Nous soutenir" },
     { slug: "privacy", title: "Politique de confidentialité" },

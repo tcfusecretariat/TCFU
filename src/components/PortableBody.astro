@@ -3,36 +3,112 @@ import { imageSrc } from "@lib/cms";
 
 type SpanChild = {
   _type?: string;
+  _key?: string;
   text?: string;
+  marks?: string[];
+};
+
+type MarkDef = {
+  _key?: string;
+  _type?: string;
+  href?: string;
 };
 
 type Block = {
   _type?: string;
+  _key?: string;
   style?: string;
+  listItem?: string;
+  level?: number;
   children?: SpanChild[];
+  markDefs?: MarkDef[];
   alt?: string;
 };
 
 const { value = [] } = Astro.props as { value?: Block[] };
 
-function textOf(block: Block) {
-  return (block.children || []).map((child) => child.text || "").join("");
+function escapeHtml(input: string) {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function renderSpans(block: Block) {
+  const markDefs = block.markDefs || [];
+  return (block.children || [])
+    .map((child) => {
+      let html = escapeHtml(child.text || "");
+      if (!html) return "";
+      for (const mark of child.marks || []) {
+        if (mark === "strong") {
+          html = `<strong>${html}</strong>`;
+        } else if (mark === "em") {
+          html = `<em>${html}</em>`;
+        } else if (mark === "underline") {
+          html = `<u>${html}</u>`;
+        } else if (mark === "code") {
+          html = `<code>${html}</code>`;
+        } else {
+          const def = markDefs.find((d) => d._key === mark);
+          if (def?._type === "link" && def.href) {
+            const href = escapeHtml(def.href);
+            const external = /^https?:\/\//.test(def.href);
+            html = `<a href="${href}"${external ? ' target="_blank" rel="noopener"' : ""}>${html}</a>`;
+          }
+        }
+      }
+      return html;
+    })
+    .join("");
+}
+
+type ListGroup = { kind: "list"; listItem: string; items: Block[] };
+type Single = { kind: "block"; block: Block };
+type Node = ListGroup | Single;
+
+const nodes: Node[] = [];
+for (const block of value) {
+  if (block._type === "block" && block.listItem) {
+    const last = nodes[nodes.length - 1];
+    if (last && last.kind === "list" && last.listItem === block.listItem) {
+      last.items.push(block);
+    } else {
+      nodes.push({ kind: "list", listItem: block.listItem, items: [block] });
+    }
+  } else {
+    nodes.push({ kind: "block", block });
+  }
 }
 ---
 
 <div class="portable-body">
-  {value.map((block) => {
+  {nodes.map((node) => {
+    if (node.kind === "list") {
+      const Tag = node.listItem === "number" ? "ol" : "ul";
+      return (
+        <Tag>
+          {node.items.map((item) => (
+            <li set:html={renderSpans(item)} />
+          ))}
+        </Tag>
+      );
+    }
+
+    const block = node.block;
     if (block._type === "image") {
       const src = imageSrc(block, 1200);
       return src ? <img src={src} alt={block.alt || ""} loading="lazy" decoding="async" /> : null;
     }
+    if (block._type !== "block") return null;
 
-    const text = textOf(block);
-    if (!text) return null;
+    const html = renderSpans(block);
+    if (!html) return null;
 
-    if (block.style === "h2") return <h2>{text}</h2>;
-    if (block.style === "h3") return <h3>{text}</h3>;
-    if (block.style === "blockquote") return <blockquote>{text}</blockquote>;
-    return <p>{text}</p>;
+    if (block.style === "h2") return <h2 set:html={html} />;
+    if (block.style === "h3") return <h3 set:html={html} />;
+    if (block.style === "blockquote") return <blockquote set:html={html} />;
+    return <p set:html={html} />;
   })}
 </div>

@@ -61,6 +61,18 @@ export default defineConfig({
               ),
             S.divider(),
             S.listItem()
+              .id("page")
+              .title("📄 內容頁面（認識我們・核心工作・支持我們）")
+              .schemaType("page")
+              .child(
+                S.documentTypeList("page")
+                  .title("內容頁面 · 編輯「認識我們 / 核心工作 / 支持我們」頁面（每頁每語言一份；未填則前台顯示提示）")
+                  .defaultOrdering([
+                    { field: "pageKey", direction: "asc" },
+                    { field: "language", direction: "asc" }
+                  ])
+              ),
+            S.listItem()
               .id("homePage")
               .title("🏠 首頁內容（Homepage）")
               .child(

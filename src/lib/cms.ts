@@ -251,6 +251,28 @@ export async function getResourceItem(locale: Locale, slug: string) {
   } satisfies CmsDetail;
 }
 
+export type PageContent = {
+  title?: string;
+  coverImage?: ImageValue;
+  body?: unknown[];
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
+export async function getPage(pageKey: string, locale: Locale) {
+  return fetchOptional<PageContent | null>(
+    `*[_type == "page" && pageKey == $pageKey && language == $locale && isHidden != true][0]{
+      title,
+      coverImage,
+      body,
+      seoTitle,
+      seoDescription
+    }`,
+    { pageKey, locale },
+    null
+  );
+}
+
 type HomeDoc = {
   heroTitle?: string;
   heroSubtitle?: string;

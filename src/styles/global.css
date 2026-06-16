@@ -10,6 +10,7 @@
   --line: rgba(23, 20, 18, 0.14);
   --serif-en: Baskerville, "Libre Baskerville", "Times New Roman", serif;
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
+  --kai-zh: Baskerville, "Libre Baskerville", "Kaiti TC", "DFKai-SB", "BiauKai", "標楷體", "TW-Kai", "AR PL UKai TW", KaiTi, STKaiti, serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -606,6 +607,64 @@ h3 {
 
 .detail-meta {
   color: var(--champagne-deep);
+}
+
+.content-page .portable-body {
+  max-width: 820px;
+  margin-top: 14px;
+  color: var(--ink);
+  font-family: var(--kai-zh);
+}
+
+.content-page .portable-body p,
+.content-page .portable-body li {
+  font-family: var(--kai-zh);
+}
+
+.content-page .portable-body h2,
+.content-page .portable-body h3 {
+  margin: 1.4em 0 0.5em;
+  color: var(--ink);
+  font-family: var(--kai-zh);
+}
+
+.content-page .portable-body blockquote {
+  margin: 1.4em 0;
+  padding-left: 22px;
+  border-left: 3px solid var(--champagne);
+  color: var(--champagne-deep);
+  font-style: italic;
+}
+
+.content-page .portable-body img {
+  width: 100%;
+  margin: 1.6em 0;
+}
+
+.portable-body ul,
+.portable-body ol {
+  max-width: 760px;
+  margin: 1em 0;
+  padding-left: 1.4em;
+  color: var(--muted);
+  font-size: clamp(19px, 2vw, 25px);
+  line-height: 1.85;
+}
+
+.content-page .portable-body ul,
+.content-page .portable-body ol {
+  max-width: 820px;
+  color: var(--ink);
+  font-family: var(--kai-zh);
+}
+
+.portable-body li {
+  margin: 0.4em 0;
+}
+
+.portable-body a {
+  color: var(--champagne-deep);
+  text-decoration: underline;
 }
 
 .detail-reader {

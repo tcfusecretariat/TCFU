@@ -1,0 +1,22 @@
+---
+description: Always commit and push to main after completing any change (triggers Cloudflare deploy)
+alwaysApply: true
+---
+
+# Auto commit & push to `main`
+
+After finishing ANY operation that modifies files in this repo, automatically:
+
+1. `git add` the relevant changed files (never `.env` or secrets).
+2. `git commit` with a clear, concise message describing the change.
+3. `git push` to `origin main`.
+
+This is the production branch; pushing to `main` triggers the Cloudflare Pages
+auto-deploy. The user has standing approval for this commit+push workflow, so do
+it without asking again each time.
+
+Rules:
+- Do this at the end of the task, after the change is verified (e.g. `npm run build` passes when relevant).
+- Group the work into one logical commit per task.
+- Never force push. Never commit `.env`, keys, or other secrets.
+- If `git push` fails (e.g. needs pull/rebase), report it instead of forcing.
