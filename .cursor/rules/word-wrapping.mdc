@@ -1,0 +1,40 @@
+---
+description: Word-wrapping and line-break policy for all desktop and mobile layouts
+alwaysApply: true
+---
+
+# Line-break / word-wrapping policy
+
+On EVERY page (desktop and mobile), text must never break in the middle of a
+word. Lines wrap at semantic boundaries, while staying visually clean.
+
+## Rules
+
+- Never split a word mid-character. Do NOT use `overflow-wrap: break-word`,
+  `overflow-wrap: anywhere`, `word-break: break-all`, or `word-break: break-word`
+  on text content (headings, paragraphs, list items, links, buttons, labels).
+- Latin text (English / French) wraps only at spaces → use
+  `overflow-wrap: normal; word-break: normal;`.
+- Chinese wraps between characters (that is its correct semantic behaviour) — the
+  default `word-break: normal` already handles this; do not force `keep-all`.
+- Disable hyphenation: `hyphens: none; -webkit-hyphens: none;` so words are never
+  broken with a hyphen.
+- For aesthetics, prefer `text-wrap: balance` on headings and `text-wrap: pretty`
+  on body copy.
+- To prevent long words from overflowing on narrow screens, REDUCE font size via
+  responsive `clamp()` / media queries — never by breaking the word.
+
+## Example
+
+```css
+/* GOOD */
+h1, h2, h3, p, li, a {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+h1, h2, h3 { text-wrap: balance; }
+
+/* BAD — splits words mid-character */
+h1 { overflow-wrap: break-word; }
+```

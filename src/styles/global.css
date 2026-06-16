@@ -52,6 +52,12 @@ iframe {
   max-width: 100%;
 }
 
+/*
+ * Word-wrapping policy: never split a word mid-character.
+ * - Latin/French/English wrap only at spaces (overflow-wrap/word-break normal).
+ * - Chinese wraps between characters, which is its correct semantic behaviour.
+ * - Hyphenation disabled so words are never broken with hyphens.
+ */
 h1,
 h2,
 h3,
@@ -60,7 +66,22 @@ li,
 a,
 strong,
 blockquote {
-  overflow-wrap: break-word;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  -webkit-hyphens: none;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p,
+li,
+blockquote {
+  text-wrap: pretty;
 }
 
 .sr-only {
@@ -326,7 +347,9 @@ h3 {
   border: 1px solid rgba(183, 154, 103, 0.55);
   font: inherit;
   text-align: center;
-  overflow-wrap: break-word;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
   transition: transform 0.25s var(--ease), box-shadow 0.25s ease, background 0.25s ease;
 }
 
