@@ -1,5 +1,11 @@
 export const SYMPOSIUM_EVENT_KEY = "international-symposium-youth-wellbeing-peace-education-2026";
 
+export const CONFERENCE_TITLE = {
+  en: "International Peace Conference on Traditional Culture Education for Youth: Ignite the Vital Spark of the Heart",
+  zh: "世界和平論壇 傳統文化教育啟動青少年核心源動力",
+  fr: "Conférence internationale pour la paix sur l'éducation à la culture traditionnelle pour la jeunesse : Réveiller l'élan vital du cœur"
+};
+
 export const PARTICIPANT_CATEGORIES = [
   "government",
   "international-organization",
@@ -49,8 +55,7 @@ export function createEventRegistration(payload) {
     specialRequirements: clean(payload.specialRequirements),
     messageToCommittee: clean(payload.messageToCommittee),
     consent: bool(payload.consent),
-    locale: clean(payload.locale) || "en",
-    turnstileToken: clean(payload["cf-turnstile-response"] || payload.turnstileToken)
+    locale: clean(payload.locale) || "en"
   };
 
   const required = [
@@ -90,10 +95,6 @@ export function createEventRegistration(payload) {
 
   if (!ATTENDANCE_OPTIONS.includes(registration.attendanceDates)) {
     throw new Error("Invalid attendance date selection.");
-  }
-
-  if (!registration.turnstileToken) {
-    throw new Error("Security verification is required.");
   }
 
   return registration;

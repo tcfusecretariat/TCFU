@@ -1,4 +1,5 @@
 import {
+  CONFERENCE_TITLE,
   createEventRegistration,
   SYMPOSIUM_EVENT_KEY,
   toSanityDocument
@@ -12,7 +13,6 @@ type Env = {
   RESEND_API_KEY?: string;
   REGISTRATION_FROM_EMAIL?: string;
   SECRETARIAT_EMAIL?: string;
-  TURNSTILE_SECRET_KEY?: string;
   EVENT_REGISTRATION_CAPACITY?: string;
 };
 
@@ -81,28 +81,6 @@ async function sanityMutate(env: Env, mutations: unknown[]) {
   return response.json();
 }
 
-async function verifyTurnstile(token: string, env: Env, request: Request) {
-  if (!env.TURNSTILE_SECRET_KEY) {
-    throw new Error("TURNSTILE_SECRET_KEY is not configured.");
-  }
-
-  const body = new URLSearchParams();
-  body.set("secret", env.TURNSTILE_SECRET_KEY);
-  body.set("response", token);
-  body.set("remoteip", request.headers.get("CF-Connecting-IP") || "");
-
-  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body
-  });
-
-  const result = (await response.json()) as { success?: boolean };
-  if (!result.success) {
-    throw new Error("Security verification failed.");
-  }
-}
-
 async function sendResendEmail(env: Env, payload: { to: string; subject: string; text: string; replyTo?: string }) {
   if (!env.RESEND_API_KEY || !env.REGISTRATION_FROM_EMAIL) {
     throw new Error("Resend is not configured.");
@@ -128,10 +106,15 @@ async function sendResendEmail(env: Env, payload: { to: string; subject: string;
   }
 }
 
+function eventTitleForLocale(locale: string) {
+  const key = locale in CONFERENCE_TITLE ? locale : "en";
+  return CONFERENCE_TITLE[key as keyof typeof CONFERENCE_TITLE];
+}
+
 function formatRegistrationSummary(registration: ReturnType<typeof createEventRegistration>, status: string) {
   const fullName = `${registration.givenName} ${registration.familyName}`.trim();
   return [
-    `Event: International Symposium on Youth Well-being and Peace Education`,
+    `Event: ${eventTitleForLocale(registration.locale)}`,
     `Status: ${status}`,
     `Name: ${fullName}`,
     `Email: ${registration.email}`,
@@ -160,13 +143,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   } catch (error) {
     const message = error instanceof Error ? error.message : "Invalid request.";
     return json({ ok: false, message }, { status: 400 });
-  }
-
-  try {
-    await verifyTurnstile(registration.turnstileToken, env, request);
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Security verification failed.";
-    return json({ ok: false, message }, { status: 403 });
   }
 
   try {
@@ -205,12 +181,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const fullName = `${registration.givenName} ${registration.familyName}`.trim();
     const participantSubject =
       status === "waitlist"
-        ? "Registration received — waitlist | International Symposium 2026"
-        : "Registration received | International Symposium 2026";
+        ? "Registration received — waitlist | World Peace Forum 2026"
+        : "Registration received | World Peace Forum 2026";
     const participantIntro =
       status === "waitlist"
-        ? "Thank you for registering. The symposium has reached its confirmed capacity, so your registration has been placed on the waitlist. The Secretariat will contact you if a place becomes available."
-        : "Thank you for registering for the International Symposium on Youth Well-being and Peace Education. Your registration has been received and is pending review by the Secretariat.";
+        ? "Thank you for registering. The conference has reached its confirmed capacity, so your registration has been placed on the waitlist. The Secretariat will contact you if a place becomes available."
+        : `Thank you for registering for ${CONFERENCE_TITLE.en}. Your registration has been received and is pending review by the Secretariat.`;
 
     try {
       await sendResendEmail(env, {
@@ -222,7 +198,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
           participantIntro,
           "",
           "Event details",
-          "International Symposium on Youth Well-being and Peace Education",
+          eventTitleForLocale(registration.locale),
           "Dates: 1–2 October 2026",
           "Venue: UNESCO Headquarters, Paris",
           "",
@@ -242,9 +218,9 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       try {
         await sendResendEmail(env, {
           to: env.SECRETARIAT_EMAIL,
-          subject: `[Symposium Registration] ${status.toUpperCase()} — ${fullName}`,
+          subject: `[World Peace Forum Registration] ${status.toUpperCase()} — ${fullName}`,
           text: [
-            "A new symposium registration was submitted.",
+            "A new conference registration was submitted.",
             "",
             formatRegistrationSummary(registration, status),
             "",

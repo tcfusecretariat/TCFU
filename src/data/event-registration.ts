@@ -3,6 +3,13 @@ import type { Locale } from "./site";
 export const SYMPOSIUM_EVENT_KEY = "international-symposium-youth-wellbeing-peace-education-2026";
 export const SYMPOSIUM_PAGE_SLUG = "international-symposium-youth-wellbeing-peace-education-2026";
 
+/** Official conference titles (2026, UNESCO Paris) */
+export const CONFERENCE_TITLE = {
+  en: "International Peace Conference on Traditional Culture Education for Youth: Ignite the Vital Spark of the Heart",
+  zh: "世界和平論壇 傳統文化教育啟動青少年核心源動力",
+  fr: "Conférence internationale pour la paix sur l'éducation à la culture traditionnelle pour la jeunesse : Réveiller l'élan vital du cœur"
+} as const;
+
 export const PARTICIPANT_CATEGORY_KEYS = [
   "government",
   "international-organization",
@@ -59,9 +66,9 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
   en: {
     metaTitle: "Event Registration",
     metaDescription:
-      "Register for the International Symposium on Youth Well-being and Peace Education at UNESCO Headquarters, Paris.",
+      "Register for the International Peace Conference on Traditional Culture Education for Youth at UNESCO Headquarters, Paris.",
     kicker: "Event Registration",
-    title: "International Symposium on Youth Well-being and Peace Education",
+    title: CONFERENCE_TITLE.en,
     subtitle: "Registration Form",
     date: "1–2 October 2026",
     venue: "UNESCO Headquarters, Paris",
@@ -111,15 +118,15 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     successPending:
       "Thank you. Your registration has been received and is pending review. A confirmation email has been sent to your address.",
     successWaitlist:
-      "Thank you. The symposium has reached confirmed capacity, so your registration has been placed on the waitlist. A confirmation email has been sent to your address.",
+      "Thank you. The conference has reached confirmed capacity, so your registration has been placed on the waitlist. A confirmation email has been sent to your address.",
     error: "We could not submit your registration. Please review the form and try again."
   },
   zh: {
     metaTitle: "活動報名",
-    metaDescription: "報名參加「青少年身心健康與和平教育國際研討會」，地點：巴黎 UNESCO 總部。",
+    metaDescription: "報名參加「世界和平論壇 傳統文化教育啟動青少年核心源動力」，地點：巴黎 UNESCO 總部。",
     kicker: "活動報名",
-    title: "青少年身心健康與和平教育國際研討會",
-    subtitle: "International Symposium on Youth Well-being and Peace Education",
+    title: CONFERENCE_TITLE.zh,
+    subtitle: CONFERENCE_TITLE.en,
     date: "2026 年 10 月 1–2 日",
     venue: "巴黎 UNESCO 總部",
     intro: "請填寫所有必填欄位。秘書處將審核您的報名，並就確認及入場安排與您聯繫。",
@@ -165,16 +172,16 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     submit: "提交報名",
     sending: "提交中…",
     successPending: "感謝您。您的報名已收到，正在等候審核。確認信已寄至您的電郵。",
-    successWaitlist: "感謝您。研討會確認名額已滿，您的報名已列入候補。確認信已寄至您的電郵。",
+    successWaitlist: "感謝您。論壇確認名額已滿，您的報名已列入候補。確認信已寄至您的電郵。",
     error: "無法提交報名，請檢查表格後再試。"
   },
   fr: {
     metaTitle: "Inscription à l'événement",
     metaDescription:
-      "Inscrivez-vous au Symposium international sur le bien-être des jeunes et l'éducation à la paix, au siège de l'UNESCO à Paris.",
+      "Inscrivez-vous à la Conférence internationale pour la paix sur l'éducation à la culture traditionnelle pour la jeunesse, au siège de l'UNESCO à Paris.",
     kicker: "Inscription",
-    title: "Symposium international sur le bien-être des jeunes et l'éducation à la paix",
-    subtitle: "International Symposium on Youth Well-being and Peace Education",
+    title: CONFERENCE_TITLE.fr,
+    subtitle: CONFERENCE_TITLE.en,
     date: "1–2 octobre 2026",
     venue: "Siège de l'UNESCO, Paris",
     intro:
@@ -223,7 +230,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     successPending:
       "Merci. Votre inscription a bien été reçue et est en attente d'examen. Un e-mail de confirmation vous a été envoyé.",
     successWaitlist:
-      "Merci. Le symposium a atteint sa capacité confirmée ; votre inscription a été placée sur liste d'attente. Un e-mail de confirmation vous a été envoyé.",
+      "Merci. La conférence a atteint sa capacité confirmée ; votre inscription a été placée sur liste d'attente. Un e-mail de confirmation vous a été envoyé.",
     error: "Impossible d'envoyer votre inscription. Veuillez vérifier le formulaire et réessayer."
   }
 };
