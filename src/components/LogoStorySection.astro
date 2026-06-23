@@ -39,13 +39,46 @@ const story = getLogoStory(locale);
 </section>
 
 <script>
+  // Rotation (degrees) applied to the whole emblem so the active cultural
+  // element turns toward the upper-right, facing the text on the right.
+  // Values are continuous (no wrap-around) so the wheel always turns in the
+  // same direction for a calm, museum-style narration. Derived from the real
+  // SVG geometry (each element sits ~40deg apart around the ring).
+  const rotationMap: Record<string, number> = {
+    "main-ring": 0,
+    opera: -95,
+    "dance-literature": -128,
+    music: -168,
+    architecture: -207,
+    "culinary-culture": -226,
+    penmanship: -276,
+    "drum-music": -321,
+    "ritual-arts": -393,
+    complete: -360,
+  };
+
   function initLogoStory(root: HTMLElement) {
     const svg = root.querySelector(".logo-story-visual-inner svg");
+    const layer = svg?.querySelector<SVGGElement>(".logo-rotating-layer") ?? null;
     const steps = Array.from(root.querySelectorAll<HTMLElement>("[data-logo-target]"));
     const parts = svg ? Array.from(svg.querySelectorAll<SVGElement>(".logo-part")) : [];
     if (!steps.length || !parts.length) return;
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // On narrow screens the logo sits above the text, so a gentler turn reads
+    // better and avoids drawing attention away from reading.
+    const compactQuery = window.matchMedia("(max-width: 860px)");
+
+    const applyRotation = (target: string) => {
+      if (!layer) return;
+      if (reducedMotionQuery.matches) {
+        layer.style.transform = "";
+        return;
+      }
+      const base = rotationMap[target] ?? 0;
+      const deg = compactQuery.matches ? base * 0.4 : base;
+      layer.style.transform = `rotate(${deg}deg)`;
+    };
 
     const setActive = (target: string) => {
       steps.forEach((step) => {
@@ -57,24 +90,19 @@ const story = getLogoStory(locale);
           part.classList.remove("is-active", "is-dimmed");
           part.classList.add("is-complete");
         });
-        return;
+      } else {
+        parts.forEach((part) => {
+          part.classList.remove("is-complete");
+          const isActive = part.id === target;
+          part.classList.toggle("is-active", isActive);
+          part.classList.toggle("is-dimmed", !isActive);
+        });
       }
 
-      parts.forEach((part) => {
-        part.classList.remove("is-complete");
-        const isActive = part.id === target;
-        part.classList.toggle("is-active", isActive);
-        part.classList.toggle("is-dimmed", !isActive);
-      });
+      applyRotation(target);
     };
 
-    if (reducedMotion) {
-      parts.forEach((part) => {
-        part.classList.remove("is-dimmed");
-        part.classList.add("is-complete");
-      });
-      return;
-    }
+    let current = steps[0]?.dataset.logoTarget ?? "main-ring";
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -84,7 +112,8 @@ const story = getLogoStory(locale);
 
         const best = visible[0]?.target as HTMLElement | undefined;
         if (best?.dataset.logoTarget) {
-          setActive(best.dataset.logoTarget);
+          current = best.dataset.logoTarget;
+          setActive(current);
         }
       },
       {
@@ -95,7 +124,12 @@ const story = getLogoStory(locale);
     );
 
     steps.forEach((step) => observer.observe(step));
-    setActive(steps[0]?.dataset.logoTarget ?? "main-ring");
+    setActive(current);
+
+    // Re-evaluate rotation when motion preference or layout breakpoint changes.
+    const refresh = () => applyRotation(current);
+    reducedMotionQuery.addEventListener("change", refresh);
+    compactQuery.addEventListener("change", refresh);
   }
 
   document.querySelectorAll<HTMLElement>("[data-logo-story]").forEach((root) => {

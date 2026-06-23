@@ -1803,9 +1803,14 @@ textarea:focus-visible {
 
 /* Logo story — About Us emblem scroll narrative */
 .logo-story-section {
+  --ls-gold-muted: #b08a64;
+  --ls-gold-active: #c9a46a;
+  --ls-text-title: #7a5a36;
+  --ls-text-body: #2f2a24;
+  --ls-text-inactive: #b9aa98;
   margin-top: clamp(3rem, 8vw, 5.5rem);
   padding: clamp(3rem, 7vw, 5rem) clamp(1.25rem, 4vw, 2.5rem);
-  background: linear-gradient(180deg, #fffdf8 0%, var(--ivory-deep) 100%);
+  background: linear-gradient(180deg, #fffdf8 0%, #f8f4ec 100%);
   border-top: 1px solid var(--line);
 }
 
@@ -1821,6 +1826,7 @@ textarea:focus-visible {
   font-weight: 500;
   letter-spacing: 0.01em;
   color: var(--ink);
+  text-wrap: balance;
 }
 
 .logo-story-lead {
@@ -1865,23 +1871,48 @@ textarea:focus-visible {
   overflow: visible;
 }
 
+/* The cultural emblem turns gently like a wheel as the story unfolds. */
+.logo-rotating-layer {
+  transform-box: fill-box;
+  transform-origin: center center;
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
 .logo-story-visual .logo-part {
-  transition: opacity 0.55s var(--ease), filter 0.55s var(--ease);
+  opacity: 0.2;
+  transition: opacity 700ms ease, filter 700ms ease;
+}
+
+.logo-story-visual .logo-part path {
+  transition: fill 700ms ease;
 }
 
 .logo-story-visual .logo-part.is-dimmed {
-  opacity: 0.22;
-  filter: saturate(0.65);
+  opacity: 0.2;
+  filter: none;
+}
+
+.logo-story-visual .logo-part.is-dimmed path {
+  fill: var(--ls-gold-muted) !important;
 }
 
 .logo-story-visual .logo-part.is-active {
   opacity: 1;
-  filter: saturate(1.05);
+  filter: drop-shadow(0 0 14px rgba(201, 164, 106, 0.38));
+}
+
+.logo-story-visual .logo-part.is-active path {
+  fill: var(--ls-gold-active) !important;
 }
 
 .logo-story-visual .logo-part.is-complete {
   opacity: 1;
-  filter: none;
+  filter: drop-shadow(0 0 12px rgba(201, 164, 106, 0.25));
+}
+
+.logo-story-visual .logo-part.is-complete path {
+  fill: var(--ls-gold-active) !important;
 }
 
 .logo-story-steps {
@@ -1893,19 +1924,25 @@ textarea:focus-visible {
 
 .logo-story-step {
   max-width: 36rem;
-  opacity: 0.42;
-  transition: opacity 0.45s var(--ease);
+  opacity: 0.38;
+  transition: opacity 600ms ease, transform 600ms ease;
 }
 
 .logo-story-step.is-active {
   opacity: 1;
+  transform: translateY(-4px);
 }
 
 .logo-story-step h3 {
   margin: 0 0 0.5rem;
   font-size: clamp(1.15rem, 2vw, 1.35rem);
   font-weight: 500;
-  color: var(--champagne-deep);
+  color: var(--ls-text-inactive);
+  transition: color 600ms ease;
+}
+
+.logo-story-step.is-active h3 {
+  color: var(--ls-text-title);
 }
 
 .logo-story-step-subtitle {
@@ -1918,7 +1955,7 @@ textarea:focus-visible {
 
 .logo-story-step p:last-child {
   margin: 0;
-  color: var(--ink);
+  color: var(--ls-text-body);
   text-wrap: pretty;
 }
 
@@ -1928,12 +1965,12 @@ textarea:focus-visible {
   }
 
   .logo-story-visual {
-    position: relative;
-    top: auto;
+    position: sticky;
+    top: clamp(4rem, 9vh, 5.5rem);
   }
 
   .logo-story-visual-inner {
-    max-width: min(100%, 16rem);
+    max-width: min(70%, 15rem);
   }
 
   .logo-story-steps {
@@ -1942,21 +1979,19 @@ textarea:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .logo-rotating-layer {
+    transition: none;
+    transform: none !important;
+  }
+
   .logo-story-visual .logo-part,
-  .logo-story-step {
+  .logo-story-visual .logo-part path,
+  .logo-story-step,
+  .logo-story-step h3 {
     transition: none;
   }
 
-  .logo-story-visual .logo-part.is-dimmed {
-    opacity: 1;
-    filter: none;
-  }
-
-  .logo-story-step {
-    opacity: 1;
-  }
-
-  .logo-story-step:not(.is-active) h3 {
-    color: var(--muted);
+  .logo-story-step.is-active {
+    transform: none;
   }
 }
