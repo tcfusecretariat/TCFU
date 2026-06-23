@@ -1,3 +1,6 @@
 name = "tcfunesco-website"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-06-15"
+
+[vars]
+PUBLIC_SITE_URL = "https://traditionalculturefoundation.org"

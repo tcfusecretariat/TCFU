@@ -16,7 +16,7 @@ type Props = {
 };
 
 const { locale, title, description, path = "", image = siteSettings.defaultOgImage } = Astro.props;
-const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "https://www.tcfunesco.org";
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "https://traditionalculturefoundation.org";
 const canonical = new URL(`/${locale}/${path}`.replace(/\/{2,}/g, "/"), `${siteUrl}/`).toString();
 const ogImage = new URL(image, `${siteUrl}/`).toString();
 const alternateLinks = hreflangLinks(path).map((link) => ({

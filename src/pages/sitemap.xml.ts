@@ -4,7 +4,7 @@ import { languages, type Locale } from "@data/site";
 const pageSlugs = ["", "about", "contact", "support", "privacy-policy", "legal-notice", "accessibility", "news", "library"];
 
 export const GET: APIRoute = ({ site }) => {
-  const origin = site?.toString().replace(/\/$/, "") || "https://www.tcfunesco.org";
+  const origin = site?.toString().replace(/\/$/, "") || "https://traditionalculturefoundation.org";
   const urls = Object.keys(languages).flatMap((locale) =>
     pageSlugs.map((slug) => {
       const path = `/${locale}/${slug ? `${slug}/` : ""}`;
