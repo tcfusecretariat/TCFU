@@ -23,9 +23,9 @@ const helloAssoUrl = settings.helloAssoUrl || siteSettings.helloAssoUrl;
       <div class="hero-sigil" aria-label="啟動核心源動力">
         <img class="hero-sigil-mark" src={siteSettings.logoMark} alt="" aria-hidden="true" />
         <img class="hero-calligraphy" src={siteSettings.calligraphy} alt="啟動核心源動力" />
-        <div class="hero-translations" aria-label="Multilingual expression of the core philosophy">
-          {home.hero.translations.map((line) => <span dir={line.includes("أ") ? "rtl" : undefined} lang={line.includes("أ") ? "ar" : undefined}>{line}</span>)}
-        </div>
+      </div>
+      <div class="hero-translations" aria-label="Multilingual expression of the core philosophy">
+        {home.hero.translations.map((line) => <span dir={line.includes("أ") ? "rtl" : undefined} lang={line.includes("أ") ? "ar" : undefined}>{line}</span>)}
       </div>
       {home.hero.title && <h1 set:html={home.hero.title} />}
       <p>{home.hero.description}</p>

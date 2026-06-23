@@ -60,7 +60,7 @@ export const content: Record<Locale, HomeContent> = {
     ],
     search: "網站搜索",
     hero: {
-      translations: ["Ignite the Inner Source of Power", "Réveiller l’élan vital du cœur", "أيقِظ طاقة الجوهر الأولى"],
+      translations: ["Ignite the vital spark of the heart", "Réveiller l’élan vital du cœur", "أشعل الشرارة الحيوية في القلب"],
       description: "透過傳統智慧、和平教育與文明對話，培養面向未來世代的品格、福祉與和平。",
       primaryCta: "認識基金會",
       secondaryCta: "探索資源中心"
@@ -132,7 +132,7 @@ export const content: Record<Locale, HomeContent> = {
     ],
     search: "Site Search",
     hero: {
-      translations: ["Ignite the Inner Source of Power", "Réveiller l’élan vital du cœur", "أيقِظ طاقة الجوهر الأولى"],
+      translations: ["Ignite the vital spark of the heart", "Réveiller l’élan vital du cœur", "أشعل الشرارة الحيوية في القلب"],
       description: "Through traditional wisdom, peace education, and intercultural dialogue, we cultivate character, well-being, and peace for future generations.",
       primaryCta: "About the Foundation",
       secondaryCta: "Explore Resources"
@@ -173,7 +173,7 @@ export const content: Record<Locale, HomeContent> = {
     ],
     search: "Recherche",
     hero: {
-      translations: ["Ignite the Inner Source of Power", "Réveiller l’élan vital du cœur", "أيقِظ طاقة الجوهر الأولى"],
+      translations: ["Ignite the vital spark of the heart", "Réveiller l’élan vital du cœur", "أشعل الشرارة الحيوية في القلب"],
       description: "Par la sagesse traditionnelle, l’éducation à la paix et le dialogue interculturel, nous cultivons le caractère, le bien-être et la paix pour les générations futures.",
       primaryCta: "Connaître la Fondation",
       secondaryCta: "Explorer les ressources"

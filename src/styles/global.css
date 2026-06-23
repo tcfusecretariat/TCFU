@@ -218,38 +218,39 @@ blockquote {
 .hero-copy {
   position: relative;
   z-index: 2;
-  display: grid;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   max-width: 1040px;
+  margin: 0 auto;
   padding: clamp(34px, 4.5vw, 64px) 24px clamp(42px, 5vw, 72px);
   text-align: center;
 }
 
 .hero-sigil {
   position: relative;
-  display: grid;
-  place-items: center;
-  width: min(680px, 84vw);
-  min-height: clamp(320px, 43vw, 480px);
-  margin: -8px auto 26px;
+  display: block;
+  width: min(540px, 84vw);
+  margin: -8px auto clamp(22px, 3vw, 40px);
   isolation: isolate;
 }
 
 .hero-sigil-mark {
-  position: absolute;
-  z-index: -1;
-  width: min(450px, 46vw);
-  max-width: 72%;
-  opacity: 0.32;
-  filter: saturate(0.78);
+  display: block;
+  width: 100%;
+  opacity: 1;
+  filter: none;
   transform-origin: center;
-  animation: core-startup 5.6s cubic-bezier(0.22, 0.72, 0.18, 1) 250ms both;
+  animation: image-reveal 1.3s var(--ease) both;
 }
 
 .hero-calligraphy {
-  display: block;
-  width: min(570px, 70vw);
-  margin-top: clamp(16px, 3vw, 42px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 47%;
+  transform: translate(-50%, -50%);
   pointer-events: none;
   opacity: 1;
   mix-blend-mode: normal;
@@ -258,19 +259,19 @@ blockquote {
 
 .hero-translations {
   display: grid;
-  gap: 2px;
-  margin-top: clamp(-44px, -4vw, -24px);
+  gap: 4px;
+  margin: 0 auto;
   color: var(--ink);
   font-family: var(--serif-en);
-  font-size: clamp(19px, 2.2vw, 30px);
+  font-size: clamp(20px, 2.4vw, 32px);
   font-weight: 700;
-  line-height: 1.18;
+  line-height: 1.22;
   text-align: center;
 }
 
 .hero-translations [lang="ar"] {
   font-family: "Times New Roman", serif;
-  font-size: 1.04em;
+  font-size: 1.06em;
 }
 
 .hero p {
@@ -1345,7 +1346,7 @@ textarea:focus-visible {
   }
 
   .hero-sigil {
-    min-height: clamp(300px, 70vw, 430px);
+    width: min(480px, 90vw);
   }
 
   .pillar-grid,
@@ -1376,23 +1377,22 @@ textarea:focus-visible {
   }
 
   .hero-sigil {
-    width: min(520px, 96vw);
-    min-height: 300px;
-    margin-bottom: 24px;
+    width: min(440px, 88vw);
+    margin-bottom: 20px;
   }
 
   .hero-sigil-mark {
-    width: min(310px, 78vw);
-    max-width: 80%;
+    width: 100%;
+    max-width: none;
   }
 
   .hero-calligraphy {
-    width: min(390px, 88vw);
+    width: 47%;
   }
 
   .hero-translations {
-    margin-top: -28px;
-    font-size: clamp(17px, 5.3vw, 23px);
+    margin-top: 0;
+    font-size: clamp(16px, 4.6vw, 22px);
   }
 
   .pillar-grid,
