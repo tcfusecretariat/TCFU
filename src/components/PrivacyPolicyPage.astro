@@ -10,51 +10,146 @@ const doc = privacyPolicyContent[locale];
   <article class="detail-article privacy-policy-article">
     <header class="privacy-policy-header">
       <p class="section-kicker">{doc.kicker}</p>
-      <h1>{doc.title}</h1>
+      <h1 class="privacy-policy-title">{doc.pageTitle}</h1>
       <p class="privacy-policy-updated">{doc.lastUpdatedLabel}: {doc.lastUpdated}</p>
     </header>
 
-    <div class="portable-body privacy-policy-body">
-      {doc.intro.map((paragraph) => (
-        <p>{paragraph}</p>
-      ))}
+    <div class="privacy-tabs" data-privacy-tabs>
+      <nav class="privacy-tabs-nav" role="tablist" aria-label={doc.navAriaLabel}>
+        {
+          doc.tabs.map((tab, index) => (
+            <button
+              type="button"
+              role="tab"
+              class:list={["privacy-tab", { "is-active": index === 0 }]}
+              id={`privacy-tab-${tab.id}`}
+              aria-controls={`privacy-panel-${tab.id}`}
+              aria-selected={index === 0 ? "true" : "false"}
+              tabindex={index === 0 ? 0 : -1}
+              data-privacy-tab={tab.id}
+            >
+              <span class="privacy-tab-arrow" aria-hidden="true">→</span>
+              <span class="privacy-tab-label">{tab.navLabel}</span>
+            </button>
+          ))
+        }
+      </nav>
 
-      {doc.sections.map((section) => (
-        <section class="privacy-policy-section" id={section.id}>
-          {section.heading && <h2>{section.heading}</h2>}
+      <div class="privacy-tabs-panels">
+        {
+          doc.tabs.map((tab, index) => (
+            <section
+              role="tabpanel"
+              class:list={["privacy-panel portable-body", { "is-active": index === 0 }]}
+              id={`privacy-panel-${tab.id}`}
+              aria-labelledby={`privacy-tab-${tab.id}`}
+              data-privacy-panel={tab.id}
+              tabindex="0"
+              hidden={index !== 0}
+            >
+              <h2 class="privacy-panel-title">{tab.heading}</h2>
 
-          {section.paragraphs?.map((paragraph) => (
-            <p class="privacy-policy-multiline">{paragraph}</p>
-          ))}
+              {tab.blocks.map((block) => (
+                <div class="privacy-block">
+                  {block.heading && <h3>{block.heading}</h3>}
 
-          {section.subsections?.map((subsection) => (
-            <div class="privacy-policy-subsection">
-              <h3>{subsection.heading}</h3>
-              {subsection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
-              {subsection.list && (
-                <ul>
-                  {subsection.list.map((item) => (
-                    <li>{item}</li>
+                  {block.paragraphs?.map((paragraph) => (
+                    <p class="privacy-policy-multiline">{paragraph}</p>
                   ))}
-                </ul>
-              )}
-            </div>
-          ))}
 
-          {section.list && (
-            <ul>
-              {section.list.map((item) => (
-                <li>{item}</li>
+                  {block.subsections?.map((subsection) => (
+                    <div class="privacy-policy-subsection">
+                      <h4>{subsection.heading}</h4>
+                      {subsection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+                      {subsection.list && (
+                        <ul>
+                          {subsection.list.map((item) => (
+                            <li>{item}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+
+                  {block.list && (
+                    <ul>
+                      {block.list.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {block.paragraphsAfter?.map((paragraph) => (
+                    <p class="privacy-policy-multiline">{paragraph}</p>
+                  ))}
+                </div>
               ))}
-            </ul>
-          )}
-
-          {"paragraphsAfter" in section &&
-            section.paragraphsAfter?.map((paragraph) => (
-              <p class="privacy-policy-multiline">{paragraph}</p>
-            ))}
-        </section>
-      ))}
+            </section>
+          ))
+        }
+      </div>
     </div>
   </article>
 </main>
+
+<script>
+  function initPrivacyTabs(root: HTMLElement) {
+    const tabs = Array.from(root.querySelectorAll<HTMLElement>("[data-privacy-tab]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-privacy-panel]"));
+    if (!tabs.length || !panels.length) return;
+
+    const activate = (id: string, focusTab: boolean) => {
+      tabs.forEach((tab) => {
+        const active = tab.dataset.privacyTab === id;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute("aria-selected", active ? "true" : "false");
+        tab.tabIndex = active ? 0 : -1;
+        if (active && focusTab) tab.focus();
+      });
+      panels.forEach((panel) => {
+        const active = panel.dataset.privacyPanel === id;
+        panel.classList.toggle("is-active", active);
+        panel.hidden = !active;
+      });
+      // Keep the chosen tab visible within the scrollable mobile tab strip.
+      const activeTab = tabs.find((tab) => tab.dataset.privacyTab === id);
+      activeTab?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const id = tab.dataset.privacyTab;
+        if (id) activate(id, false);
+      });
+
+      tab.addEventListener("keydown", (event) => {
+        const index = tabs.indexOf(tab);
+        let nextIndex: number | null = null;
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+          nextIndex = (index + 1) % tabs.length;
+        } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+          nextIndex = (index - 1 + tabs.length) % tabs.length;
+        } else if (event.key === "Home") {
+          nextIndex = 0;
+        } else if (event.key === "End") {
+          nextIndex = tabs.length - 1;
+        }
+        if (nextIndex !== null) {
+          event.preventDefault();
+          const id = tabs[nextIndex].dataset.privacyTab;
+          if (id) activate(id, true);
+        }
+      });
+    });
+
+    // Open a specific section when the URL hash matches a tab id.
+    const hash = decodeURIComponent(window.location.hash.replace("#", ""));
+    if (hash && tabs.some((tab) => tab.dataset.privacyTab === hash)) {
+      activate(hash, false);
+    }
+  }
+
+  document
+    .querySelectorAll<HTMLElement>("[data-privacy-tabs]")
+    .forEach((root) => initPrivacyTabs(root));
+</script>

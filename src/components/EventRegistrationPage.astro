@@ -14,7 +14,11 @@ const privacyPolicyLinkLabel = privacyPolicyContent[locale].privacyPolicyLinkLab
   <article class="registration-shell detail-article">
     <header class="registration-header">
       <p class="section-kicker">{t.kicker}</p>
-      <h1>{t.title}</h1>
+      <h1>
+        {t.titleLines
+          ? t.titleLines.map((line) => <span class="registration-title-line">{line}</span>)
+          : t.title}
+      </h1>
       <p class="registration-subtitle">{t.subtitle}</p>
       <div class="registration-meta">
         <p><strong>{t.date}</strong></p>

@@ -26,6 +26,8 @@ export type RegistrationCopy = {
   metaDescription: string;
   kicker: string;
   title: string;
+  /** Optional explicit line breaks for the displayed heading (SEO/email keep `title`). */
+  titleLines?: string[];
   subtitle: string;
   date: string;
   venue: string;
@@ -125,6 +127,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     metaDescription: "報名參加「世界和平論壇 傳統文化教育啟動青少年核心源動力」，地點：巴黎 UNESCO 總部。",
     kicker: "活動報名",
     title: CONFERENCE_TITLE.zh,
+    titleLines: ["世界和平論壇", "傳統文化教育啟動青少年核心源動力"],
     subtitle: CONFERENCE_TITLE.en,
     date: "2026 年 10 月 1–2 日",
     venue: "巴黎 UNESCO 總部",
