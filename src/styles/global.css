@@ -265,20 +265,19 @@ blockquote {
 }
 
 .hero-calligraphy {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: relative;
   z-index: 1;
+  grid-area: 1 / 1;
   display: block;
   width: 100%;
   max-width: none;
   height: auto;
-  transform: translate(-50%, -50%);
+  margin: 0;
   pointer-events: none;
   opacity: 1;
   mix-blend-mode: normal;
   filter: none;
-  animation: image-reveal 1.3s var(--ease) 0.45s both;
+  animation: hero-calligraphy-reveal 1.3s var(--ease) 0.45s both;
 }
 
 .hero-translations {
@@ -1241,6 +1240,17 @@ textarea:focus-visible {
     opacity: 1;
     transform: translateX(0);
     filter: none;
+  }
+}
+
+@keyframes hero-calligraphy-reveal {
+  from {
+    opacity: 0.46;
+    clip-path: inset(0 0 16% 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
   }
 }
 
