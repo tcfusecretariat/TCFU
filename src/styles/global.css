@@ -11,16 +11,16 @@
   --serif-en: Baskerville, "Libre Baskerville", "Times New Roman", serif;
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
   --kai-zh: Baskerville, "Libre Baskerville", "Kaiti TC", "DFKai-SB", "BiauKai", "標楷體", "TW-Kai", "AR PL UKai TW", KaiTi, STKaiti, serif;
-  --font-ar: "Layaan", "Layaan Arabic", "Noto Naskh Arabic", "Geeza Pro", serif;
+  --font-ar: layaan-arabic, "Layaan", "Noto Naskh Arabic", sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Self-hosted fallback when Adobe Fonts kit is unavailable */
 @font-face {
   font-family: "Layaan";
   src:
     url("/assets/fonts/Layaan.woff2") format("woff2"),
-    url("/assets/fonts/Layaan.woff") format("woff"),
-    url("/assets/fonts/LayaanArabic-Regular.woff2") format("woff2");
+    url("/assets/fonts/Layaan.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -254,20 +254,23 @@ blockquote {
 .hero-sigil-mark {
   position: absolute;
   inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  opacity: 1;
-  filter: none;
+  opacity: 0.32;
+  filter: saturate(0.78);
   transform-origin: center;
   animation: core-startup 5.6s cubic-bezier(0.22, 0.72, 0.18, 1) 250ms both;
 }
 
 .hero-calligraphy {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   z-index: 1;
-  display: block;
-  width: min(52%, 330px);
+  width: 100%;
+  transform: translate(-50%, -50%);
   pointer-events: none;
   opacity: 1;
   mix-blend-mode: normal;
@@ -299,6 +302,11 @@ blockquote {
   .hero-sigil-mark,
   .hero-calligraphy {
     animation: none;
+  }
+
+  .hero-sigil-mark {
+    opacity: 0.32;
+    transform: rotate(22deg);
   }
 }
 
@@ -1287,8 +1295,8 @@ textarea:focus-visible {
     transform: rotate(22deg) scale(1);
   }
   100% {
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
+    opacity: 0.32;
+    transform: rotate(22deg) scale(1);
   }
 }
 
@@ -1378,7 +1386,7 @@ textarea:focus-visible {
   }
 
   .hero-calligraphy {
-    width: min(54%, 280px);
+    width: 100%;
   }
 
   .pillar-grid,
@@ -1419,7 +1427,7 @@ textarea:focus-visible {
   }
 
   .hero-calligraphy {
-    width: min(56%, 250px);
+    width: 100%;
   }
 
   .hero-translations {

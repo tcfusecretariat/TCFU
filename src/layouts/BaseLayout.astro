@@ -25,7 +25,10 @@ const alternateLinks = hreflangLinks(path).map((link) => ({
 }));
 const xDefaultHref = new URL(`/zh/${path}`.replace(/\/{2,}/g, "/"), `${siteUrl}/`).toString();
 const cloudflareAnalyticsToken = import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
-const adobeFontsCss = import.meta.env.PUBLIC_ADOBE_FONTS_CSS;
+const adobeFontsKit = import.meta.env.PUBLIC_ADOBE_FONTS_KIT_ID;
+const adobeFontsCss =
+  import.meta.env.PUBLIC_ADOBE_FONTS_CSS ||
+  (adobeFontsKit ? `https://use.typekit.net/${adobeFontsKit}.css` : undefined);
 const cloudflareBeacon = JSON.stringify({ token: cloudflareAnalyticsToken });
 const analyticsScript = cloudflareAnalyticsToken
   ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='${cloudflareBeacon}'></script>`
@@ -51,7 +54,12 @@ const analyticsScript = cloudflareAnalyticsToken
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    {adobeFontsCss && <link rel="stylesheet" href={adobeFontsCss} />}
+    {adobeFontsCss && (
+      <>
+        <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+        <link rel="stylesheet" href={adobeFontsCss} />
+      </>
+    )}
     <Fragment set:html={analyticsScript} />
   </head>
   <body>
