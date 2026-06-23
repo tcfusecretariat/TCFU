@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { languages, type Locale } from "@data/site";
 
-const pageSlugs = ["", "about", "contact", "support", "privacy", "legal-notice", "accessibility", "news", "library"];
+const pageSlugs = ["", "about", "contact", "support", "privacy-policy", "legal-notice", "accessibility", "news", "library"];
 
 export const GET: APIRoute = ({ site }) => {
   const origin = site?.toString().replace(/\/$/, "") || "https://www.tcfunesco.org";

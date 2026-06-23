@@ -136,6 +136,14 @@ export const eventRegistration = defineType({
       readOnly: true
     }),
     defineField({
+      name: "privacyConsentAccepted",
+      title: "Privacy Consent Accepted 已同意私隱政策",
+      type: "boolean",
+      group: "participant",
+      readOnly: true,
+      initialValue: true
+    }),
+    defineField({
       name: "submittedAt",
       title: "Submitted At 提交時間",
       type: "datetime",

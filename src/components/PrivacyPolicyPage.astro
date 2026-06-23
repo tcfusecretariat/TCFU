@@ -1,0 +1,56 @@
+---
+import { privacyPolicyPage } from "@data/privacy-policy-content";
+---
+
+<main class="content-page privacy-policy-page detail-page editorial-reveal">
+  <article class="detail-article privacy-policy-article">
+    <header class="privacy-policy-header">
+      <p class="section-kicker">Legal</p>
+      <h1>{privacyPolicyPage.title}</h1>
+      <p class="privacy-policy-updated">Last updated: {privacyPolicyPage.lastUpdated}</p>
+    </header>
+
+    <div class="portable-body privacy-policy-body">
+      {privacyPolicyPage.intro.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+
+      {privacyPolicyPage.sections.map((section) => (
+        <section class="privacy-policy-section" id={section.id}>
+          {section.heading && <h2>{section.heading}</h2>}
+
+          {section.paragraphs?.map((paragraph) => (
+            <p class="privacy-policy-multiline">{paragraph}</p>
+          ))}
+
+          {section.subsections?.map((subsection) => (
+            <div class="privacy-policy-subsection">
+              <h3>{subsection.heading}</h3>
+              {subsection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+              {subsection.list && (
+                <ul>
+                  {subsection.list.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+
+          {section.list && (
+            <ul>
+              {section.list.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          )}
+
+          {"paragraphsAfter" in section &&
+            section.paragraphsAfter?.map((paragraph) => (
+              <p class="privacy-policy-multiline">{paragraph}</p>
+            ))}
+        </section>
+      ))}
+    </div>
+  </article>
+</main>

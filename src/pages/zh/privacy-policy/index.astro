@@ -1,0 +1,18 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PrivacyPolicyPage from "@components/PrivacyPolicyPage.astro";
+import { content } from "@data/content";
+import { privacyPolicyPage } from "@data/privacy-policy-content";
+
+const locale = "zh";
+const site = content[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${privacyPolicyPage.title} | ${site.metaTitle}`}
+  description="Privacy Policy of TRADITIONAL CULTURE FOUNDATION AT UNESCO — how we collect, use, and protect personal data."
+  path="privacy-policy"
+>
+  <PrivacyPolicyPage />
+</BaseLayout>

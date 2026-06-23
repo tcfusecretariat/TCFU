@@ -54,7 +54,7 @@ export function createEventRegistration(payload) {
     attendanceDates: clean(payload.attendanceDates),
     specialRequirements: clean(payload.specialRequirements),
     messageToCommittee: clean(payload.messageToCommittee),
-    consent: bool(payload.consent),
+    privacyConsent: bool(payload.privacyConsent),
     locale: clean(payload.locale) || "en"
   };
 
@@ -81,8 +81,8 @@ export function createEventRegistration(payload) {
     throw new Error("Missing required field: volunteer.");
   }
 
-  if (!registration.consent) {
-    throw new Error("Consent is required.");
+  if (!registration.privacyConsent) {
+    throw new Error("Privacy consent is required.");
   }
 
   if (!emailPattern.test(registration.email)) {
@@ -119,6 +119,7 @@ export function toSanityDocument(registration, { status, submittedAt, confirmati
     specialRequirements: registration.specialRequirements || undefined,
     messageToCommittee: registration.messageToCommittee || undefined,
     locale: registration.locale,
+    privacyConsentAccepted: registration.privacyConsent,
     submittedAt,
     status,
     confirmationEmailSent,

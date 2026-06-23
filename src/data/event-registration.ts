@@ -34,7 +34,7 @@ export type RegistrationCopy = {
     personal: string;
     contact: string;
     participation: string;
-    consent: string;
+    privacy: string;
   };
   fields: {
     familyName: string;
@@ -54,7 +54,7 @@ export type RegistrationCopy = {
   categories: Record<string, string>;
   volunteerOptions: { yes: string; no: string };
   attendanceOptions: { oct1: string; oct2: string; both: string };
-  consent: string;
+  privacyConsentRequired: string;
   submit: string;
   sending: string;
   successPending: string;
@@ -78,7 +78,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
       personal: "Personal Information",
       contact: "Contact Information",
       participation: "Participation Information",
-      consent: "Consent"
+      privacy: "Privacy"
     },
     fields: {
       familyName: "Family Name / Last Name",
@@ -111,8 +111,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
       oct2: "2 October 2026",
       both: "Both days"
     },
-    consent:
-      "I consent to the collection and processing of the personal data provided above for the purposes of event registration, participant verification, access management, safety communication, and necessary administrative arrangements.",
+    privacyConsentRequired: "You must read and accept the Privacy Policy before submitting.",
     submit: "Submit Registration",
     sending: "Submitting…",
     successPending:
@@ -134,7 +133,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
       personal: "個人資料",
       contact: "聯絡資料",
       participation: "參與資料",
-      consent: "同意事項"
+      privacy: "私隱與同意"
     },
     fields: {
       familyName: "姓（Family Name / Last Name）",
@@ -167,8 +166,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
       oct2: "2026 年 10 月 2 日",
       both: "兩日皆出席"
     },
-    consent:
-      "本人同意為活動報名、參加者核實、出入管理、安全聯絡及必要行政安排之目的，收集及處理上述個人資料。",
+    privacyConsentRequired: "提交前請先閱讀並同意私隱政策。",
     submit: "提交報名",
     sending: "提交中…",
     successPending: "感謝您。您的報名已收到，正在等候審核。確認信已寄至您的電郵。",
@@ -190,7 +188,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
       personal: "Informations personnelles",
       contact: "Coordonnées",
       participation: "Informations de participation",
-      consent: "Consentement"
+      privacy: "Confidentialité"
     },
     fields: {
       familyName: "Nom de famille",
@@ -223,8 +221,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
       oct2: "2 octobre 2026",
       both: "Les deux jours"
     },
-    consent:
-      "Je consens à la collecte et au traitement des données personnelles ci-dessus aux fins d'inscription, de vérification des participants, de gestion des accès, de communication de sécurité et des arrangements administratifs nécessaires.",
+    privacyConsentRequired: "Vous devez lire et accepter la politique de confidentialité avant l’envoi.",
     submit: "Envoyer l'inscription",
     sending: "Envoi en cours…",
     successPending:

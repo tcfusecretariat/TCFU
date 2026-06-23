@@ -19,6 +19,11 @@ export function getStaticPaths() {
 }
 
 const { title, slug, message } = Astro.props as { title: string; slug: string; message?: string };
+
+if (slug === "privacy") {
+  return Astro.redirect(`/${locale}/privacy-policy/`);
+}
+
 const t = content[locale];
 const page = editableKeys.includes(slug) ? await getPage(slug, locale) : null;
 const metaTitle = page?.seoTitle || page?.title || title;

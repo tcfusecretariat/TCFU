@@ -1,10 +1,11 @@
 ---
 import { PARTICIPANT_CATEGORY_KEYS, registrationCopy, SYMPOSIUM_EVENT_KEY } from "@data/event-registration";
+import { FOUNDATION_EMAIL, FOUNDATION_NAME } from "@data/privacy-policy-content";
 import type { Locale } from "@data/site";
 
 const { locale } = Astro.props as { locale: Locale };
 const t = registrationCopy[locale];
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
+const privacyPolicyHref = `/${locale}/privacy-policy/`;
 ---
 
 <form
@@ -16,6 +17,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
   data-success-waitlist={t.successWaitlist}
   data-error={t.error}
   data-sending={t.sending}
+  data-privacy-consent-required={t.privacyConsentRequired}
   novalidate
 >
   <input type="hidden" name="eventKey" value={SYMPOSIUM_EVENT_KEY} />
@@ -120,45 +122,49 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
   </fieldset>
 
   <fieldset class="registration-fieldset">
-    <legend>{t.sections.consent}</legend>
-    <label class="consent-field">
-      <input name="consent" type="checkbox" value="on" required />
-      <span>{t.consent}</span>
+    <legend>{t.sections.privacy}</legend>
+    <label class="consent-field privacy-consent-field">
+      <input name="privacyConsent" type="checkbox" value="on" required />
+      <span>
+        I have read and understood the <a href={privacyPolicyHref}>Privacy Policy</a>. I consent to the collection and
+        processing of the personal data provided in this form by {FOUNDATION_NAME} for the purposes of event
+        registration, participant verification, access management, safety communication, volunteer coordination, and
+        necessary administrative arrangements.
+        <br /><br />
+        I understand that, where strictly necessary for venue access or security management, limited participant
+        information may be shared with the relevant venue access or security services.
+        <br /><br />
+        To exercise my data protection rights, I may contact the Foundation Secretariat at{" "}
+        <a href={`mailto:${FOUNDATION_EMAIL}`}>{FOUNDATION_EMAIL}</a>.
+      </span>
     </label>
   </fieldset>
-
-  {turnstileSiteKey ? (
-    <div class="turnstile-wrap">
-      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light"></div>
-    </div>
-  ) : (
-    <p class="registration-note">Security verification is not configured for this environment.</p>
-  )}
 
   <button class="button primary registration-submit" type="submit">{t.submit}</button>
   <p class="form-status" data-form-status aria-live="polite"></p>
 </form>
 
-{turnstileSiteKey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
-
 <script is:inline>
   document.querySelectorAll("form.registration-form").forEach((form) => {
     const status = form.querySelector("[data-form-status]");
     const submitButton = form.querySelector(".registration-submit");
+    const privacyConsent = form.querySelector("[name='privacyConsent']");
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (!(form instanceof HTMLFormElement) || !status || !submitButton) return;
+
+      if (!(privacyConsent instanceof HTMLInputElement) || !privacyConsent.checked) {
+        status.dataset.state = "error";
+        status.textContent = form.dataset.privacyConsentRequired || "Privacy consent is required.";
+        return;
+      }
 
       status.textContent = form.dataset.sending || "Submitting…";
       status.dataset.state = "";
       submitButton.setAttribute("disabled", "true");
 
       const payload = Object.fromEntries(new FormData(form).entries());
-      const turnstileInput = form.querySelector("[name='cf-turnstile-response']");
-      if (turnstileInput instanceof HTMLInputElement && turnstileInput.value) {
-        payload.turnstileToken = turnstileInput.value;
-      }
 
       try {
         const response = await fetch("/api/event-registration", {
@@ -178,9 +184,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
             ? form.dataset.successWaitlist || result.message
             : form.dataset.successPending || result.message;
         form.reset();
-        if (window.turnstile) {
-          window.turnstile.reset();
-        }
       } catch (error) {
         status.dataset.state = "error";
         status.textContent = error instanceof Error ? error.message : form.dataset.error || "Submission failed.";
