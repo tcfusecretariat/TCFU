@@ -17,6 +17,6 @@ if [[ -z "${SANITY_WRITE_TOKEN:-}" ]]; then
   exit 1
 fi
 
-printf '%s' "$SANITY_WRITE_TOKEN" | npx wrangler pages secret put SANITY_WRITE_TOKEN --project-name=tcfunesco-website
+printf '%s' "$SANITY_WRITE_TOKEN" | npx wrangler pages secret put SANITY_WRITE_TOKEN --project-name=traditionalculturefoundation
 
-echo "SANITY_WRITE_TOKEN uploaded to Cloudflare Pages (tcfunesco-website)."
+echo "SANITY_WRITE_TOKEN uploaded to Cloudflare Pages (traditionalculturefoundation)."
