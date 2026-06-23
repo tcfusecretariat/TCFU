@@ -1,0 +1,5 @@
+# Copy to .dev.vars for local Pages Functions testing (wrangler pages dev).
+# Do not commit .dev.vars.
+
+SANITY_WRITE_TOKEN=
+RESEND_API_KEY=
