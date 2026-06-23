@@ -1,0 +1,25 @@
+---
+import EventRegistrationForm from "@components/EventRegistrationForm.astro";
+import { registrationCopy } from "@data/event-registration";
+import type { Locale } from "@data/site";
+
+const { locale } = Astro.props as { locale: Locale };
+const t = registrationCopy[locale];
+---
+
+<main class="registration-page detail-page editorial-reveal">
+  <article class="registration-shell detail-article">
+    <header class="registration-header">
+      <p class="section-kicker">{t.kicker}</p>
+      <h1>{t.title}</h1>
+      <p class="registration-subtitle">{t.subtitle}</p>
+      <div class="registration-meta">
+        <p><strong>{t.date}</strong></p>
+        <p>{t.venue}</p>
+      </div>
+      <p class="registration-intro">{t.intro}</p>
+    </header>
+
+    <EventRegistrationForm locale={locale} />
+  </article>
+</main>

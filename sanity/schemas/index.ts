@@ -1,4 +1,5 @@
 import { event } from "./event";
+import { eventRegistration } from "./eventRegistration";
 import { homePage } from "./homePage";
 import { news } from "./news";
 import { page } from "./page";
@@ -8,4 +9,4 @@ import { resource } from "./resource";
 import { siteSettings } from "./siteSettings";
 import { video } from "./video";
 
-export const schemaTypes = [news, event, project, resource, video, partner, page, homePage, siteSettings];
+export const schemaTypes = [news, event, eventRegistration, project, resource, video, partner, page, homePage, siteSettings];

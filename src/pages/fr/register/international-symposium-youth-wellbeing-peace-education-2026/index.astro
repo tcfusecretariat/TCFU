@@ -1,0 +1,19 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import EventRegistrationPage from "@components/EventRegistrationPage.astro";
+import { content } from "@data/content";
+import { registrationCopy, SYMPOSIUM_PAGE_SLUG } from "@data/event-registration";
+
+const locale = "fr";
+const t = registrationCopy[locale];
+const site = content[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${t.metaTitle} | ${site.metaTitle}`}
+  description={t.metaDescription}
+  path={`register/${SYMPOSIUM_PAGE_SLUG}/`}
+>
+  <EventRegistrationPage locale={locale} />
+</BaseLayout>

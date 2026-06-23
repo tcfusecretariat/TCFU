@@ -1,0 +1,192 @@
+---
+import { PARTICIPANT_CATEGORY_KEYS, registrationCopy, SYMPOSIUM_EVENT_KEY } from "@data/event-registration";
+import type { Locale } from "@data/site";
+
+const { locale } = Astro.props as { locale: Locale };
+const t = registrationCopy[locale];
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
+---
+
+<form
+  class="registration-form"
+  action="/api/event-registration"
+  method="post"
+  data-event-key={SYMPOSIUM_EVENT_KEY}
+  data-success-pending={t.successPending}
+  data-success-waitlist={t.successWaitlist}
+  data-error={t.error}
+  data-sending={t.sending}
+  novalidate
+>
+  <input type="hidden" name="eventKey" value={SYMPOSIUM_EVENT_KEY} />
+  <input type="hidden" name="locale" value={locale} />
+
+  <fieldset class="registration-fieldset">
+    <legend>{t.sections.personal}</legend>
+    <div class="registration-grid">
+      <label>
+        <span>{t.fields.familyName} *</span>
+        <input name="familyName" type="text" required autocomplete="family-name" />
+      </label>
+      <label>
+        <span>{t.fields.givenName} *</span>
+        <input name="givenName" type="text" required autocomplete="given-name" />
+      </label>
+    </div>
+    <div class="registration-grid">
+      <label>
+        <span>{t.fields.passportNumber} *</span>
+        <input name="passportNumber" type="text" required autocomplete="off" />
+      </label>
+      <label>
+        <span>{t.fields.nationality} *</span>
+        <input name="nationality" type="text" required autocomplete="country-name" />
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset class="registration-fieldset">
+    <legend>{t.sections.contact}</legend>
+    <div class="registration-grid">
+      <label>
+        <span>{t.fields.phone} *</span>
+        <input name="phone" type="tel" required autocomplete="tel" />
+      </label>
+      <label>
+        <span>{t.fields.email} *</span>
+        <input name="email" type="email" required autocomplete="email" />
+      </label>
+    </div>
+    <div class="registration-grid">
+      <label>
+        <span>{t.fields.emergencyContactName} *</span>
+        <input name="emergencyContactName" type="text" required autocomplete="off" />
+      </label>
+      <label>
+        <span>{t.fields.emergencyContactPhone} *</span>
+        <input name="emergencyContactPhone" type="tel" required autocomplete="off" />
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset class="registration-fieldset">
+    <legend>{t.sections.participation}</legend>
+    <label>
+      <span>{t.fields.participantCategory} *</span>
+      <select name="participantCategory" required>
+        <option value="" disabled selected hidden></option>
+        {PARTICIPANT_CATEGORY_KEYS.map((value) => (
+          <option value={value}>{t.categories[value]}</option>
+        ))}
+      </select>
+    </label>
+
+    <fieldset class="registration-options">
+      <legend>{t.fields.volunteer} *</legend>
+      <label class="registration-option">
+        <input type="radio" name="volunteer" value="yes" required />
+        <span>{t.volunteerOptions.yes}</span>
+      </label>
+      <label class="registration-option">
+        <input type="radio" name="volunteer" value="no" required />
+        <span>{t.volunteerOptions.no}</span>
+      </label>
+    </fieldset>
+
+    <fieldset class="registration-options">
+      <legend>{t.fields.attendanceDates} *</legend>
+      <label class="registration-option">
+        <input type="radio" name="attendanceDates" value="oct1" required />
+        <span>{t.attendanceOptions.oct1}</span>
+      </label>
+      <label class="registration-option">
+        <input type="radio" name="attendanceDates" value="oct2" required />
+        <span>{t.attendanceOptions.oct2}</span>
+      </label>
+      <label class="registration-option">
+        <input type="radio" name="attendanceDates" value="both" required />
+        <span>{t.attendanceOptions.both}</span>
+      </label>
+    </fieldset>
+
+    <label>
+      <span>{t.fields.specialRequirements}</span>
+      <textarea name="specialRequirements" rows="3"></textarea>
+    </label>
+    <label>
+      <span>{t.fields.messageToCommittee}</span>
+      <textarea name="messageToCommittee" rows="4"></textarea>
+    </label>
+  </fieldset>
+
+  <fieldset class="registration-fieldset">
+    <legend>{t.sections.consent}</legend>
+    <label class="consent-field">
+      <input name="consent" type="checkbox" value="on" required />
+      <span>{t.consent}</span>
+    </label>
+  </fieldset>
+
+  {turnstileSiteKey ? (
+    <div class="turnstile-wrap">
+      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light"></div>
+    </div>
+  ) : (
+    <p class="registration-note">Security verification is not configured for this environment.</p>
+  )}
+
+  <button class="button primary registration-submit" type="submit">{t.submit}</button>
+  <p class="form-status" data-form-status aria-live="polite"></p>
+</form>
+
+{turnstileSiteKey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
+<script is:inline>
+  document.querySelectorAll("form.registration-form").forEach((form) => {
+    const status = form.querySelector("[data-form-status]");
+    const submitButton = form.querySelector(".registration-submit");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!(form instanceof HTMLFormElement) || !status || !submitButton) return;
+
+      status.textContent = form.dataset.sending || "Submitting…";
+      status.dataset.state = "";
+      submitButton.setAttribute("disabled", "true");
+
+      const payload = Object.fromEntries(new FormData(form).entries());
+      const turnstileInput = form.querySelector("[name='cf-turnstile-response']");
+      if (turnstileInput instanceof HTMLInputElement && turnstileInput.value) {
+        payload.turnstileToken = turnstileInput.value;
+      }
+
+      try {
+        const response = await fetch("/api/event-registration", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (!response.ok || !result.ok) {
+          throw new Error(result.message || form.dataset.error || "Submission failed.");
+        }
+
+        status.dataset.state = "success";
+        status.textContent =
+          result.status === "waitlist"
+            ? form.dataset.successWaitlist || result.message
+            : form.dataset.successPending || result.message;
+        form.reset();
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
+      } catch (error) {
+        status.dataset.state = "error";
+        status.textContent = error instanceof Error ? error.message : form.dataset.error || "Submission failed.";
+      } finally {
+        submitButton.removeAttribute("disabled");
+      }
+    });
+  });
+</script>

@@ -59,6 +59,15 @@ export default defineConfig({
               .child(
                 S.documentTypeList("partner").title("合作夥伴 · 開啟「在首頁顯示」後出現在首頁「合作夥伴」區塊")
               ),
+            S.listItem()
+              .id("eventRegistration")
+              .title("📝 活動報名（Event Registrations）")
+              .schemaType("eventRegistration")
+              .child(
+                S.documentTypeList("eventRegistration")
+                  .title("活動報名 · 由網站表單自動建立；可更新狀態與內部備註")
+                  .defaultOrdering([{ field: "submittedAt", direction: "desc" }])
+              ),
             S.divider(),
             S.listItem()
               .id("page")
