@@ -11,20 +11,8 @@
   --serif-en: Baskerville, "Libre Baskerville", "Times New Roman", serif;
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
   --kai-zh: Baskerville, "Libre Baskerville", "Kaiti TC", "DFKai-SB", "BiauKai", "標楷體", "TW-Kai", "AR PL UKai TW", KaiTi, STKaiti, serif;
-  --font-ar: layaan-arabic, "Layaan", "Noto Naskh Arabic", sans-serif;
+  --font-ar: layaan-arabic, sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Self-hosted fallback when Adobe Fonts kit is unavailable */
-@font-face {
-  font-family: "Layaan";
-  src:
-    url("/assets/fonts/Layaan.woff2") format("woff2"),
-    url("/assets/fonts/Layaan.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
 }
 
 * {
@@ -297,6 +285,7 @@ blockquote {
   font-family: var(--font-ar);
   font-size: 1.08em;
   font-weight: 400;
+  font-style: normal;
   line-height: 1.35;
 }
 

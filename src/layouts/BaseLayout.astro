@@ -28,7 +28,7 @@ const cloudflareAnalyticsToken = import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOK
 const adobeFontsKit = import.meta.env.PUBLIC_ADOBE_FONTS_KIT_ID;
 const adobeFontsCss =
   import.meta.env.PUBLIC_ADOBE_FONTS_CSS ||
-  (adobeFontsKit ? `https://use.typekit.net/${adobeFontsKit}.css` : undefined);
+  (adobeFontsKit ? `https://use.typekit.net/${adobeFontsKit}.css` : "https://use.typekit.net/utx6cie.css");
 const cloudflareBeacon = JSON.stringify({ token: cloudflareAnalyticsToken });
 const analyticsScript = cloudflareAnalyticsToken
   ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='${cloudflareBeacon}'></script>`
