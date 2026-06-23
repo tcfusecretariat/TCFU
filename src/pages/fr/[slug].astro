@@ -34,7 +34,7 @@ const metaDescription = page?.seoDescription || t.metaDescription;
   {slug === "contact" ? (
     <ContactPage locale={locale} title={title} />
   ) : editableKeys.includes(slug) ? (
-    <ContentPage locale={locale} title={title} page={page} message={message} />
+    <ContentPage locale={locale} title={title} page={page} message={message} slug={slug} />
   ) : (
     <PlaceholderPage title={title} locale={locale} message={message} />
   )}

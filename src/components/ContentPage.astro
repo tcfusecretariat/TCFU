@@ -1,15 +1,17 @@
 ---
+import LogoStorySection from "@components/LogoStorySection.astro";
 import PlaceholderPage from "@components/PlaceholderPage.astro";
 import PortableBody from "@components/PortableBody.astro";
 import { imageSrc, type PageContent } from "@lib/cms";
 import type { Locale } from "@data/site";
 
-const { locale, title, kicker, page, message } = Astro.props as {
+const { locale, title, kicker, page, message, slug } = Astro.props as {
   locale: Locale;
   title: string;
   kicker?: string;
   page: PageContent | null;
   message?: string;
+  slug?: string;
 };
 
 const hasBody = Boolean(page?.body && Array.isArray(page.body) && page.body.length > 0);
@@ -24,8 +26,12 @@ const cover = page ? imageSrc(page.coverImage, 1400) : "";
       <h1>{heading}</h1>
       {cover && <img class="detail-cover" src={cover} alt={page?.coverImage?.alt || heading} />}
       <PortableBody value={page?.body as unknown[]} />
+      {slug === "about" && <LogoStorySection locale={locale} />}
     </article>
   </main>
 ) : (
-  <PlaceholderPage title={title} kicker={kicker} locale={locale} message={message} />
+  <>
+    <PlaceholderPage title={title} kicker={kicker} locale={locale} message={message} />
+    {slug === "about" && <LogoStorySection locale={locale} />}
+  </>
 )}

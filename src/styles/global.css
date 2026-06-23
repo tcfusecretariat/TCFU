@@ -1800,3 +1800,163 @@ textarea:focus-visible {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Logo story — About Us emblem scroll narrative */
+.logo-story-section {
+  margin-top: clamp(3rem, 8vw, 5.5rem);
+  padding: clamp(3rem, 7vw, 5rem) clamp(1.25rem, 4vw, 2.5rem);
+  background: linear-gradient(180deg, #fffdf8 0%, var(--ivory-deep) 100%);
+  border-top: 1px solid var(--line);
+}
+
+.logo-story-intro {
+  max-width: 42rem;
+  margin: 0 auto clamp(2.5rem, 6vw, 4rem);
+  text-align: center;
+}
+
+.logo-story-intro h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.logo-story-lead {
+  margin: 0;
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
+  line-height: 1.72;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.logo-story-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  max-width: 72rem;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.logo-story-visual {
+  position: sticky;
+  top: clamp(5rem, 12vh, 7rem);
+  align-self: start;
+}
+
+.logo-story-visual-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(140, 112, 78, 0.16);
+  border-radius: 50%;
+  aspect-ratio: 1;
+  max-width: min(100%, 22rem);
+  margin: 0 auto;
+}
+
+.logo-story-visual-inner svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.logo-story-visual .logo-part {
+  transition: opacity 0.55s var(--ease), filter 0.55s var(--ease);
+}
+
+.logo-story-visual .logo-part.is-dimmed {
+  opacity: 0.22;
+  filter: saturate(0.65);
+}
+
+.logo-story-visual .logo-part.is-active {
+  opacity: 1;
+  filter: saturate(1.05);
+}
+
+.logo-story-visual .logo-part.is-complete {
+  opacity: 1;
+  filter: none;
+}
+
+.logo-story-steps {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3.5rem, 12vh, 6rem);
+  padding-bottom: clamp(2rem, 8vh, 4rem);
+}
+
+.logo-story-step {
+  max-width: 36rem;
+  opacity: 0.42;
+  transition: opacity 0.45s var(--ease);
+}
+
+.logo-story-step.is-active {
+  opacity: 1;
+}
+
+.logo-story-step h3 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  font-weight: 500;
+  color: var(--champagne-deep);
+}
+
+.logo-story-step-subtitle {
+  margin: 0 0 0.85rem;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.logo-story-step p:last-child {
+  margin: 0;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+@media (max-width: 860px) {
+  .logo-story-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .logo-story-visual {
+    position: relative;
+    top: auto;
+  }
+
+  .logo-story-visual-inner {
+    max-width: min(100%, 16rem);
+  }
+
+  .logo-story-steps {
+    gap: clamp(2.5rem, 8vh, 4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-story-visual .logo-part,
+  .logo-story-step {
+    transition: none;
+  }
+
+  .logo-story-visual .logo-part.is-dimmed {
+    opacity: 1;
+    filter: none;
+  }
+
+  .logo-story-step {
+    opacity: 1;
+  }
+
+  .logo-story-step:not(.is-active) h3 {
+    color: var(--muted);
+  }
+}
