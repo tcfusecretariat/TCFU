@@ -102,9 +102,27 @@ async function sendResendEmail(env: Env, payload: { to: string; subject: string;
   });
 
   if (!response.ok) {
-    throw new Error(`Resend error (${response.status}).`);
+    const detail = await response.text();
+    throw new Error(`Resend error (${response.status}): ${detail}`);
   }
 }
+
+function resendConfigured(env: Env) {
+  return Boolean(env.RESEND_API_KEY && env.REGISTRATION_FROM_EMAIL);
+}
+
+export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
+  return json({
+    ok: true,
+    message: "Event registration endpoint is live.",
+    configured: {
+      storage: Boolean(env.SANITY_WRITE_TOKEN),
+      resend: resendConfigured(env),
+      fromEmail: Boolean(env.REGISTRATION_FROM_EMAIL),
+      secretariatEmail: Boolean(env.SECRETARIAT_EMAIL)
+    }
+  });
+};
 
 function eventTitleForLocale(locale: string) {
   const key = locale in CONFERENCE_TITLE ? locale : "en";
@@ -244,13 +262,25 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       ]);
     }
 
+    const waitlistMessage =
+      "Registration received. You have been placed on the waitlist and will be contacted if a place becomes available.";
+    const pendingWithEmail =
+      "Registration received. A confirmation email has been sent to your address.";
+    const pendingWithoutEmail =
+      "Registration received and is pending review. We could not send a confirmation email automatically; the Secretariat will contact you.";
+
     return json({
       ok: true,
       status,
+      emailSent: confirmationEmailSent,
       message:
         status === "waitlist"
-          ? "Registration received. You have been placed on the waitlist and will be contacted if a place becomes available."
-          : "Registration received. A confirmation email has been sent to your address."
+          ? confirmationEmailSent
+            ? `${waitlistMessage} A confirmation email has been sent to your address.`
+            : waitlistMessage
+          : confirmationEmailSent
+            ? pendingWithEmail
+            : pendingWithoutEmail
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to complete registration.";
