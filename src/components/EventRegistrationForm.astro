@@ -1,11 +1,13 @@
 ---
 import { PARTICIPANT_CATEGORY_KEYS, registrationCopy, SYMPOSIUM_EVENT_KEY } from "@data/event-registration";
-import { FOUNDATION_EMAIL, FOUNDATION_NAME } from "@data/privacy-policy-content";
+import { FOUNDATION_EMAIL, registrationConsentCopy } from "@data/privacy-policy-content";
 import type { Locale } from "@data/site";
 
 const { locale } = Astro.props as { locale: Locale };
 const t = registrationCopy[locale];
 const privacyPolicyHref = `/${locale}/privacy-policy/`;
+const consent = registrationConsentCopy[locale];
+const consentAfterLinkParts = consent.afterLink.split("\n\n");
 ---
 
 <form
@@ -126,16 +128,14 @@ const privacyPolicyHref = `/${locale}/privacy-policy/`;
     <label class="consent-field privacy-consent-field">
       <input name="privacyConsent" type="checkbox" value="on" required />
       <span>
-        I have read and understood the <a href={privacyPolicyHref}>Privacy Policy</a>. I consent to the collection and
-        processing of the personal data provided in this form by {FOUNDATION_NAME} for the purposes of event
-        registration, participant verification, access management, safety communication, volunteer coordination, and
-        necessary administrative arrangements.
+        {consent.intro}<a href={privacyPolicyHref}>{consent.privacyPolicyLinkLabel}</a>{consentAfterLinkParts.map((part, index) => (
+          <>
+            {part}
+            {index < consentAfterLinkParts.length - 1 && <><br /><br /></>}
+          </>
+        ))}
         <br /><br />
-        I understand that, where strictly necessary for venue access or security management, limited participant
-        information may be shared with the relevant venue access or security services.
-        <br /><br />
-        To exercise my data protection rights, I may contact the Foundation Secretariat at{" "}
-        <a href={`mailto:${FOUNDATION_EMAIL}`}>{FOUNDATION_EMAIL}</a>.
+        {consent.secretariatLine}<a href={`mailto:${FOUNDATION_EMAIL}`}>{FOUNDATION_EMAIL}</a>{consent.secretariatTrailing}
       </span>
     </label>
   </fieldset>

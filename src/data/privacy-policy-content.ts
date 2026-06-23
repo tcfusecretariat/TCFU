@@ -1,4 +1,7 @@
+import type { Locale } from "./site";
+
 export const FOUNDATION_NAME = "TRADITIONAL CULTURE FOUNDATION AT UNESCO";
+export const FOUNDATION_NAME_ZH = "聯合國教科文組織傳統文化基金會";
 export const FOUNDATION_ADDRESS = "1 RUE MIOLLIS, 75015 PARIS, France";
 export const FOUNDATION_EMAIL = "tcfu.secretariat@gmail.com";
 
@@ -9,9 +12,24 @@ export type PolicyBlock = {
   subsections?: { heading: string; paragraphs?: string[]; list?: string[] }[];
 };
 
-export const privacyPolicyPage = {
+export type PolicySection = PolicyBlock & { id?: string; paragraphsAfter?: string[] };
+
+export type PrivacyPolicyDoc = {
+  title: string;
+  kicker: string;
+  lastUpdatedLabel: string;
+  lastUpdated: string;
+  privacyPolicyLinkLabel: string;
+  intro: string[];
+  sections: PolicySection[];
+};
+
+const privacyPolicyEn: PrivacyPolicyDoc = {
   title: "Privacy Policy",
+  kicker: "Legal",
+  lastUpdatedLabel: "Last updated",
   lastUpdated: "23/06/2026",
+  privacyPolicyLinkLabel: "Privacy Policy",
   intro: [
     `This Privacy Policy explains how ${FOUNDATION_NAME} (“we”, “our”, or “the Foundation”) collects, uses, stores, and protects personal data through this website, including through contact forms, event registration forms, and other online services provided on the website.`,
     "We are committed to respecting the privacy and personal data protection rights of all visitors, participants, volunteers, partners, and other individuals who interact with our website and activities.",
@@ -298,9 +316,350 @@ export const privacyPolicyPage = {
         `Email: ${FOUNDATION_EMAIL}`
       ]
     }
-  ] as (PolicyBlock & { id?: string; paragraphsAfter?: string[] })[]
+  ]
+};
+
+const privacyPolicyZh: PrivacyPolicyDoc = {
+  title: "隱私政策",
+  kicker: "法律",
+  lastUpdatedLabel: "最後更新",
+  lastUpdated: "2026/06/23",
+  privacyPolicyLinkLabel: "隱私政策",
+  intro: [
+    `本隱私政策說明${FOUNDATION_NAME_ZH}（以下簡稱「我們」、「本基金會」）如何透過本網站（包括聯絡表單、活動報名表單及網站提供的其他線上服務）收集、使用、儲存及保護個人資料。`,
+    "我們致力於尊重所有造訪者、參加者、志工、合作夥伴及其他與本網站及活動互動之個人的隱私與個人資料保護權利。",
+    "本隱私政策旨在符合《歐盟一般資料保護規則》（EU 2016/679，以下簡稱「GDPR」）之原則，以及法國與歐洲適用之資料保護規範。"
+  ],
+  sections: [
+    {
+      heading: "1. 資料控管者",
+      paragraphs: [
+        "負責處理透過本網站所收集個人資料的資料控管者為：",
+        `${FOUNDATION_NAME_ZH}\n${FOUNDATION_ADDRESS}`,
+        `電郵：${FOUNDATION_EMAIL}`,
+        "如對本隱私政策或您個人資料之處理有任何疑問，您可聯絡本基金會秘書處：",
+        FOUNDATION_EMAIL
+      ]
+    },
+    {
+      heading: "2. 我們收集的個人資料",
+      paragraphs: ["視乎您與本網站互動的方式，我們可能收集及處理不同類別的個人資料。"],
+      subsections: [
+        {
+          heading: "2.1 聯絡表單",
+          paragraphs: ["當您透過本網站與我們聯絡時，我們可能收集："],
+          list: [
+            "姓名",
+            "電郵地址",
+            "機構或所屬單位",
+            "訊息內容",
+            "您選擇提供的任何其他資訊"
+          ]
+        },
+        {
+          heading: "2.2 活動報名表單",
+          paragraphs: ["當您報名參加活動時，我們可能收集："],
+          list: [
+            "姓（Family name / Last name）",
+            "名（Given name / First name）",
+            "護照號碼（於場地進出或安全管理所需時）",
+            "國籍",
+            "電話號碼",
+            "電郵地址",
+            "緊急聯絡人姓名",
+            "緊急聯絡人電話號碼",
+            "出席日期",
+            "是否願意擔任志工",
+            "自願提供的特殊需求",
+            "給籌委會的訊息",
+            "報名狀態",
+            "與您報名相關的內部行政備註",
+            "提交的日期與時間"
+          ]
+        },
+        {
+          heading: "2.3 技術資料",
+          paragraphs: ["當您瀏覽本網站時，部分技術資訊可能會被自動處理，例如："],
+          list: [
+            "IP 位址",
+            "瀏覽器類型與版本",
+            "裝置類型",
+            "瀏覽的頁面",
+            "造訪的日期與時間",
+            "安全與伺服器日誌"
+          ]
+        }
+      ],
+      paragraphsAfter: [
+        "如特定活動有需要，我們亦可能收集上傳的相片或文件，以用於參加者核實、進出管理或證件製作。",
+        "此等技術資訊用於網站安全、技術維護、效能、防範垃圾訊息及防止未經授權的存取。"
+      ]
+    },
+    {
+      heading: "3. 處理目的",
+      paragraphs: [
+        "我們僅為特定、明確且合法的目的收集及處理個人資料。",
+        "您的個人資料可能用於下列目的："
+      ],
+      list: [
+        "管理活動報名",
+        "於場地進出所需時核實參加者身分",
+        "與已報名的參加者聯繫",
+        "寄送報名收訖、審核、確認或實務資訊之電郵",
+        "安排進入活動場地",
+        "於必要時製作參加者名單、證件或進出文件",
+        "管理志工的參與",
+        "回應參加者自願提供的特殊需求",
+        "於確有必要時聯絡緊急聯絡人",
+        "確保活動的安全與保安",
+        "遵循行政、法律或場地相關之要求",
+        "回覆透過本網站送出的查詢",
+        "維護網站的安全與正常運作"
+      ],
+      paragraphsAfter: [
+        "我們不會出售您的個人資料。",
+        "我們不會將活動報名資料用於商業行銷目的。"
+      ]
+    },
+    {
+      heading: "4. 處理之法律依據",
+      paragraphs: [
+        "視乎情況，我們依據 GDPR 下列一項或多項法律依據處理個人資料："
+      ],
+      list: [
+        "同意：當您自願提交表單、提供特殊需求、上傳相片或文件，或同意我們為活動報名目的處理您的資料時。",
+        "正當利益：當處理為籌辦活動、確保場地進出、維護保安、防止濫用及管理與參加者之溝通所必要時。",
+        "履行締約前或籌辦措施：當處理為辦理您的報名或參與請求所必要時。",
+        "法律或行政義務：當我們因法律、行政或場地保安理由而須保存或提供特定資訊時。",
+        "重大利益：當緊急聯絡資訊需於嚴重且緊急的情況下使用時。"
+      ],
+      paragraphsAfter: [
+        "若特殊需求涉及敏感資訊（例如健康、無障礙、宗教或飲食資訊），該等資訊均屬自願提供，且僅用於支援您參與活動。"
+      ]
+    },
+    {
+      heading: "5. 活動報名與場地進出",
+      paragraphs: [
+        "對於在機構或國際場地（包括聯合國教科文組織總部或類似場地）舉行的活動，報名、進出管理、安全核實及行政協調可能需要特定個人資料。",
+        "此可能包括姓名、國籍、護照號碼、聯絡資料及出席日期。",
+        "於場地進出或安全管理確有必要時，有限的參加者資訊可能會與相關場地進出、保安或行政服務單位共享。",
+        "僅會共享為上述目的所必要的資訊。"
+      ]
+    },
+    {
+      heading: "6. 護照號碼與身分資訊",
+      paragraphs: [
+        "護照號碼與國籍僅於參加者核實、機構場地進出、安全要求或行政協調所必要時收集。",
+        "此等資訊不會用於不相關之目的，且保存期間不會超過必要範圍。",
+        "除非因法律、安全或行政理由須較長保存期間，護照號碼通常會於相關活動結束後三個月內刪除或匿名化。"
+      ]
+    },
+    {
+      heading: "7. 緊急聯絡資訊",
+      paragraphs: [
+        "緊急聯絡資訊僅為安全相關目的收集，並僅於與活動相關且必要時使用。",
+        "緊急聯絡資料不會用於與參加者安全無關之通訊。",
+        "除非因法律或行政理由須較長保存期間，緊急聯絡資訊通常會於相關活動結束後三個月內刪除或匿名化。"
+      ]
+    },
+    {
+      heading: "8. 特殊需求",
+      paragraphs: [
+        "參加者可自願告知我們特殊需求，例如無障礙需求、傳譯需求或飲食限制。",
+        "請僅提供我們支援您參與所必要的資訊。",
+        "特殊需求僅用於活動籌備與參加者支援。於必要時，僅獲授權的籌委會成員或相關服務提供者方可存取此等資訊。"
+      ]
+    },
+    {
+      heading: "9. 相片與上傳文件",
+      paragraphs: [
+        "於啟用相片上傳時，相片可能用於參加者核實、證件製作或活動進出管理而收集。",
+        "未經另行同意，相片與上傳文件不會用於宣傳或公開傳播目的。",
+        "除非因法律、安全或行政理由須較長保存期間，上傳的相片與文件通常會於相關活動結束後三個月內刪除或匿名化。"
+      ]
+    },
+    {
+      heading: "10. 個人資料之接收者",
+      paragraphs: [
+        "僅有為本隱私政策所述目的而需要之獲授權人員方可存取個人資料。",
+        "接收者可能包括："
+      ],
+      list: [
+        "籌委會成員",
+        "報名與秘書處團隊",
+        "活動進出或保安協調團隊",
+        "支援網站、資料庫、電郵寄送、主機代管或安全之技術服務提供者",
+        "於確有必要時，相關場地進出或保安服務單位"
+      ],
+      paragraphsAfter: [
+        "我們採取合理措施，確保個人資料僅由獲授權人員為合法目的存取。"
+      ]
+    },
+    {
+      heading: "11. 第三方服務提供者",
+      paragraphs: [
+        "為營運本網站及報名系統，我們可能使用受信任的第三方服務提供者，包括："
+      ],
+      list: [
+        "Sanity：用於內容管理及報名資料儲存",
+        "Cloudflare：用於網站主機代管、安全、效能及防垃圾訊息保護",
+        "Resend 或其他電郵服務提供者：用於寄送自動報名電郵",
+        "GitHub：用於網站程式碼版本管理"
+      ],
+      paragraphsAfter: [
+        "個人資料不應直接儲存於公開的程式碼儲存庫中。",
+        "此等服務提供者僅得於為我們提供服務所必要之範圍內，並依其自身之安全與資料保護義務處理個人資料。"
+      ]
+    },
+    {
+      heading: "12. 國際傳輸",
+      paragraphs: [
+        "部分用於網站主機代管、資料儲存、安全或電郵寄送之服務提供者，可能於歐洲經濟區以外處理資料。",
+        "當發生此類傳輸時，我們會盡力依 GDPR 採取適當的保障措施，例如適足性決定、標準契約條款或其他適用之合法傳輸機制。"
+      ]
+    },
+    {
+      heading: "13. 資料保存",
+      paragraphs: [
+        "我們僅於為收集目的所必要之期間保存個人資料。",
+        "除非法律或正當行政需要另有要求，一般適用下列保存期間："
+      ],
+      list: [
+        "聯絡表單訊息：最長 12 個月",
+        "活動報名資料：活動結束後最長 12 個月",
+        "護照號碼：通常於活動結束後三個月內刪除或匿名化",
+        "緊急聯絡資訊：通常於活動結束後三個月內刪除或匿名化",
+        "上傳的相片或文件：通常於活動結束後三個月內刪除或匿名化",
+        "志工資訊：最長 24 個月（於當事人同意就未來志工機會接受聯繫時）",
+        "技術與安全日誌：於網站安全與維護所必要之有限期間內保存"
+      ],
+      paragraphsAfter: [
+        "於相關保存期間屆滿後，個人資料將於必要時被刪除、匿名化或安全封存。"
+      ]
+    },
+    {
+      heading: "14. 資料安全",
+      paragraphs: [
+        "我們採取適當的技術與組織措施，保護個人資料免於未經授權之存取、遺失、濫用、變更或揭露。",
+        "此等措施可能包括："
+      ],
+      list: [
+        "限制僅獲授權人員存取",
+        "安全的網站主機代管",
+        "防垃圾訊息與安全保護",
+        "安全儲存報名資料",
+        "限制存取敏感資訊",
+        "定期檢視資料存取與保存",
+        "避免將個人資料儲存於公開的程式碼儲存庫"
+      ],
+      paragraphsAfter: [
+        "然而，沒有任何系統能保證絕對安全。因此，我們鼓勵使用者不要透過線上表單提交不必要的敏感資訊。"
+      ]
+    },
+    {
+      id: "cookies",
+      heading: "15. Cookies 與類似技術",
+      paragraphs: [
+        "本網站可能基於技術、安全、統計或功能目的使用 cookies 或類似技術。",
+        "嚴格必要的 cookies 可能用於確保網站的正常運作與安全。",
+        "於使用非必要 cookies（例如分析、嵌入式媒體或行銷 cookies）時，我們會在適用法律要求時徵求您的同意。",
+        "您可在我們的 Cookie 政策中查閱更多資訊（見上述第 15 節）。"
+      ]
+    },
+    {
+      heading: "16. 您的權利",
+      paragraphs: [
+        "依 GDPR，您對您的個人資料可能享有下列權利："
+      ],
+      list: [
+        "查閱您個人資料之權利",
+        "要求更正不正確或不完整資料之權利",
+        "要求刪除您資料之權利",
+        "要求限制處理之權利",
+        "反對處理之權利",
+        "於處理係基於同意時，隨時撤回同意之權利",
+        "於適用時，資料可攜之權利",
+        "向主管資料保護機關提出申訴之權利"
+      ],
+      paragraphsAfter: [
+        `如欲行使您的權利，請聯絡本基金會秘書處：\n\n${FOUNDATION_EMAIL}`,
+        "在回應您的請求前，我們可能需要核實您的身分。",
+        "如您身處法國，您亦有權聯絡法國資料保護機關 CNIL。"
+      ]
+    },
+    {
+      heading: "17. 兒童與青少年參加者",
+      paragraphs: [
+        "我們的活動或計劃可能涉及青少年參加者。當收集未成年人之個人資料時，我們會格外謹慎，並於必要時向家長、法定監護人、學校或獲授權代表徵求許可。",
+        "在須取得相關授權之情況下，我們不會在未取得適當授權前故意收集未成年人之個人資料。"
+      ]
+    },
+    {
+      heading: "18. 本隱私政策之變更",
+      paragraphs: [
+        "我們可能不時更新本隱私政策，以反映本網站、活動、法律義務或資料處理實務之變更。",
+        "更新後的版本將連同修訂之「最後更新」日期公布於本頁。"
+      ]
+    },
+    {
+      heading: "19. 聯絡",
+      paragraphs: [
+        "如對本隱私政策或您個人資料之處理有任何疑問，請聯絡：",
+        `${FOUNDATION_NAME_ZH}\n${FOUNDATION_ADDRESS}`,
+        `電郵：${FOUNDATION_EMAIL}`
+      ]
+    }
+  ]
+};
+
+export const privacyPolicyContent: Record<Locale, PrivacyPolicyDoc> = {
+  en: privacyPolicyEn,
+  zh: privacyPolicyZh,
+  fr: privacyPolicyEn
 };
 
 /** Short notice displayed above the event registration form. */
-export const registrationPrivacyNotice =
-  "Please complete this form to register for the event. The information collected will be used only for event registration, participant verification, venue access management, safety communication, volunteer coordination, and necessary administrative arrangements.\n\nDue to venue access and security requirements, registration is subject to review and confirmation by the Organizing Committee.";
+export const registrationPrivacyNotice: Record<Locale, string> = {
+  en:
+    "Please complete this form to register for the event. The information collected will be used only for event registration, participant verification, venue access management, safety communication, volunteer coordination, and necessary administrative arrangements.\n\nDue to venue access and security requirements, registration is subject to review and confirmation by the Organizing Committee.",
+  zh:
+    "請填寫本表單以報名參加活動。所收集的資訊僅用於活動報名、參加者核實、場地進出管理、安全聯絡、志工協調及必要的行政安排。\n\n基於場地進出與安全要求，報名須經籌委會審核及確認。",
+  fr:
+    "Please complete this form to register for the event. The information collected will be used only for event registration, participant verification, venue access management, safety communication, volunteer coordination, and necessary administrative arrangements.\n\nDue to venue access and security requirements, registration is subject to review and confirmation by the Organizing Committee."
+};
+
+export type RegistrationConsentCopy = {
+  privacyPolicyLinkLabel: string;
+  /** Text shown before the inline Privacy Policy link. */
+  intro: string;
+  /** Text shown after the link, up to the secretariat sentence (may be empty). */
+  afterLink: string;
+  /** Sentence that precedes the secretariat email link. */
+  secretariatLine: string;
+  /** Trailing text after the email link (e.g. a closing period for some languages). */
+  secretariatTrailing: string;
+};
+
+export const registrationConsentCopy: Record<Locale, RegistrationConsentCopy> = {
+  en: {
+    privacyPolicyLinkLabel: "Privacy Policy",
+    intro: "I have read and understood the ",
+    afterLink: `. I consent to the collection and processing of the personal data provided in this form by ${FOUNDATION_NAME} for the purposes of event registration, participant verification, access management, safety communication, volunteer coordination, and necessary administrative arrangements.\n\nI understand that, where strictly necessary for venue access or security management, limited participant information may be shared with the relevant venue access or security services.`,
+    secretariatLine: "To exercise my data protection rights, I may contact the Foundation Secretariat at ",
+    secretariatTrailing: "."
+  },
+  zh: {
+    privacyPolicyLinkLabel: "隱私政策",
+    intro: "本人已閱讀並理解",
+    afterLink: `。本人同意${FOUNDATION_NAME_ZH}為活動報名、參加者核實、進出管理、安全聯絡、志工協調及必要行政安排之目的，收集及處理本表單所提供之個人資料。\n\n本人理解，於場地進出或安全管理確有必要時，有限的參加者資訊可能會與相關場地進出或保安服務單位共享。`,
+    secretariatLine: "如欲行使本人之資料保護權利，本人可聯絡本基金會秘書處：",
+    secretariatTrailing: "。"
+  },
+  fr: {
+    privacyPolicyLinkLabel: "Privacy Policy",
+    intro: "I have read and understood the ",
+    afterLink: `. I consent to the collection and processing of the personal data provided in this form by ${FOUNDATION_NAME} for the purposes of event registration, participant verification, access management, safety communication, volunteer coordination, and necessary administrative arrangements.\n\nI understand that, where strictly necessary for venue access or security management, limited participant information may be shared with the relevant venue access or security services.`,
+    secretariatLine: "To exercise my data protection rights, I may contact the Foundation Secretariat at ",
+    secretariatTrailing: "."
+  }
+};

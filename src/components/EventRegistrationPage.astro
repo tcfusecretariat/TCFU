@@ -1,12 +1,13 @@
 ---
 import EventRegistrationForm from "@components/EventRegistrationForm.astro";
 import { registrationCopy } from "@data/event-registration";
-import { registrationPrivacyNotice } from "@data/privacy-policy-content";
+import { privacyPolicyContent, registrationPrivacyNotice } from "@data/privacy-policy-content";
 import type { Locale } from "@data/site";
 
 const { locale } = Astro.props as { locale: Locale };
 const t = registrationCopy[locale];
-const noticeParagraphs = registrationPrivacyNotice.split("\n\n");
+const noticeParagraphs = registrationPrivacyNotice[locale].split("\n\n");
+const privacyPolicyLinkLabel = privacyPolicyContent[locale].privacyPolicyLinkLabel;
 ---
 
 <main class="registration-page detail-page editorial-reveal">
@@ -26,7 +27,7 @@ const noticeParagraphs = registrationPrivacyNotice.split("\n\n");
         <p>{paragraph}</p>
       ))}
       <p>
-        <a href={`/${locale}/privacy-policy/`}>Privacy Policy</a>
+        <a href={`/${locale}/privacy-policy/`}>{privacyPolicyLinkLabel}</a>
       </p>
     </aside>
 

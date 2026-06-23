@@ -1,21 +1,25 @@
 ---
-import { privacyPolicyPage } from "@data/privacy-policy-content";
+import { privacyPolicyContent } from "@data/privacy-policy-content";
+import type { Locale } from "@data/site";
+
+const { locale } = Astro.props as { locale: Locale };
+const doc = privacyPolicyContent[locale];
 ---
 
 <main class="content-page privacy-policy-page detail-page editorial-reveal">
   <article class="detail-article privacy-policy-article">
     <header class="privacy-policy-header">
-      <p class="section-kicker">Legal</p>
-      <h1>{privacyPolicyPage.title}</h1>
-      <p class="privacy-policy-updated">Last updated: {privacyPolicyPage.lastUpdated}</p>
+      <p class="section-kicker">{doc.kicker}</p>
+      <h1>{doc.title}</h1>
+      <p class="privacy-policy-updated">{doc.lastUpdatedLabel}: {doc.lastUpdated}</p>
     </header>
 
     <div class="portable-body privacy-policy-body">
-      {privacyPolicyPage.intro.map((paragraph) => (
+      {doc.intro.map((paragraph) => (
         <p>{paragraph}</p>
       ))}
 
-      {privacyPolicyPage.sections.map((section) => (
+      {doc.sections.map((section) => (
         <section class="privacy-policy-section" id={section.id}>
           {section.heading && <h2>{section.heading}</h2>}
 
