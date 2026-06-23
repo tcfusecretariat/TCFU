@@ -25,7 +25,14 @@ const helloAssoUrl = settings.helloAssoUrl || siteSettings.helloAssoUrl;
         <img class="hero-calligraphy" src={siteSettings.calligraphy} alt="啟動核心源動力" />
       </div>
       <div class="hero-translations" aria-label="Multilingual expression of the core philosophy">
-        {home.hero.translations.map((line) => <span dir={line.includes("أ") ? "rtl" : undefined} lang={line.includes("أ") ? "ar" : undefined}>{line}</span>)}
+        {home.hero.translations.map((line, index) => {
+          const isArabic = index === 2 || /[\u0600-\u06FF]/.test(line);
+          return (
+            <span dir={isArabic ? "rtl" : undefined} lang={isArabic ? "ar" : undefined}>
+              {line}
+            </span>
+          );
+        })}
       </div>
       {home.hero.title && <h1 set:html={home.hero.title} />}
       <p>{home.hero.description}</p>
