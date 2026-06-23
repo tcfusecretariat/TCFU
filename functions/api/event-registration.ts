@@ -205,7 +205,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
           formatRegistrationSummary(registration, status),
           "",
           "Traditional Culture Foundation at UNESCO",
-          "office@tcfunesco.org"
+          "tcfu.secretariat@gmail.com"
         ].join("\n"),
         replyTo: env.SECRETARIAT_EMAIL
       });
