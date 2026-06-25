@@ -262,12 +262,39 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       ]);
     }
 
-    const waitlistMessage =
-      "Registration received. You have been placed on the waitlist and will be contacted if a place becomes available.";
-    const pendingWithEmail =
-      "Registration received. A confirmation email has been sent to your address.";
-    const pendingWithoutEmail =
-      "Registration received and is pending review. We could not send a confirmation email automatically; the Secretariat will contact you.";
+    const locale = registration.locale in CONFERENCE_TITLE ? registration.locale : "en";
+    const responseMessages: Record<
+      string,
+      { waitlistWithEmail: string; waitlistWithoutEmail: string; pendingWithEmail: string; pendingWithoutEmail: string }
+    > = {
+      zh: {
+        waitlistWithEmail: "感謝您。論壇確認名額已滿，您的報名已列入候補。確認信已寄至您的電郵。",
+        waitlistWithoutEmail:
+          "感謝您。論壇確認名額已滿，您的報名已列入候補。我們未能自動寄出確認信，秘書處將與您聯繫。",
+        pendingWithEmail: "感謝您。您的報名已收到，正在等候審核。確認信已寄至您的電郵。",
+        pendingWithoutEmail:
+          "感謝您。您的報名已收到，正在等候審核。我們未能自動寄出確認信，秘書處將與您聯繫。"
+      },
+      en: {
+        waitlistWithEmail:
+          "Registration received. You have been placed on the waitlist and will be contacted if a place becomes available. A confirmation email has been sent to your address.",
+        waitlistWithoutEmail:
+          "Registration received. You have been placed on the waitlist. We could not send a confirmation email automatically; the Secretariat will contact you.",
+        pendingWithEmail: "Registration received. A confirmation email has been sent to your address.",
+        pendingWithoutEmail:
+          "Registration received and is pending review. We could not send a confirmation email automatically; the Secretariat will contact you."
+      },
+      fr: {
+        waitlistWithEmail:
+          "Inscription reçue. Vous avez été placé(e) sur liste d'attente. Un e-mail de confirmation vous a été envoyé.",
+        waitlistWithoutEmail:
+          "Inscription reçue. Vous avez été placé(e) sur liste d'attente. Nous n'avons pas pu envoyer d'e-mail de confirmation automatiquement ; le Secrétariat vous contactera.",
+        pendingWithEmail: "Inscription reçue. Un e-mail de confirmation vous a été envoyé.",
+        pendingWithoutEmail:
+          "Inscription reçue et en attente d'examen. Nous n'avons pas pu envoyer d'e-mail de confirmation automatiquement ; le Secrétariat vous contactera."
+      }
+    };
+    const copy = responseMessages[locale] || responseMessages.en;
 
     return json({
       ok: true,
@@ -276,11 +303,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       message:
         status === "waitlist"
           ? confirmationEmailSent
-            ? `${waitlistMessage} A confirmation email has been sent to your address.`
-            : waitlistMessage
+            ? copy.waitlistWithEmail
+            : copy.waitlistWithoutEmail
           : confirmationEmailSent
-            ? pendingWithEmail
-            : pendingWithoutEmail
+            ? copy.pendingWithEmail
+            : copy.pendingWithoutEmail
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to complete registration.";

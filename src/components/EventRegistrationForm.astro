@@ -180,9 +180,10 @@ const consentAfterLinkParts = consent.afterLink.split("\n\n");
 
         status.dataset.state = "success";
         status.textContent =
-          result.status === "waitlist"
-            ? form.dataset.successWaitlist || result.message
-            : form.dataset.successPending || result.message;
+          result.message ||
+          (result.status === "waitlist" ? form.dataset.successWaitlist : form.dataset.successPending) ||
+          form.dataset.successPending ||
+          "Registration received.";
         form.reset();
       } catch (error) {
         status.dataset.state = "error";

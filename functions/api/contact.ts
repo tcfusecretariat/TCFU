@@ -46,6 +46,16 @@ const successMessages: Record<string, string> = {
   fr: "Votre message a bien été envoyé. Nous vous répondrons dès que possible."
 };
 
+const notConfiguredMessages: Record<string, string> = {
+  zh: "郵件服務尚未配置，請直接來信 tcfu.secretariat@gmail.com。",
+  en: "Contact delivery is not configured. Please email tcfu.secretariat@gmail.com directly.",
+  fr: "L'envoi du formulaire n'est pas configuré. Veuillez écrire directement à tcfu.secretariat@gmail.com."
+};
+
+function localeMessage(messages: Record<string, string>, locale?: string) {
+  return locale && messages[locale] ? messages[locale] : messages.en;
+}
+
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   return json({
     ok: true,
@@ -103,7 +113,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   return json(
     {
       ok: false,
-      message: "Contact delivery is not configured. Please email tcfu.secretariat@gmail.com directly."
+      message: localeMessage(notConfiguredMessages, submission.locale)
     },
     { status: 503 }
   );

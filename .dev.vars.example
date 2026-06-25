@@ -2,4 +2,8 @@
 # Do not commit .dev.vars.
 
 SANITY_WRITE_TOKEN=
+
+# Required for contact form + registration confirmation emails (Cloudflare Pages secret).
+# Create at https://resend.com/api-keys and verify traditionalculturefoundation.org in Resend.
+# Upload: ./scripts/push-resend-secret.sh
 RESEND_API_KEY=
