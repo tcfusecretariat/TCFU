@@ -27,15 +27,19 @@ const helloAssoUrl = settings.helloAssoUrl || siteSettings.helloAssoUrl;
       <div class="hero-translations" aria-label="Multilingual expression of the core philosophy">
         {home.hero.translations.map((line, index) => {
           const isArabic = index === 2 || /[\u0600-\u06FF]/.test(line);
-          return (
-            <span
-              class={isArabic ? "hero-arabic tk-layaan-arabic" : undefined}
-              dir={isArabic ? "rtl" : undefined}
-              lang={isArabic ? "ar" : undefined}
-            >
-              {line}
-            </span>
-          );
+          if (isArabic) {
+            return (
+              <img
+                class="hero-arabic-tagline"
+                src={siteSettings.heroArabicTagline}
+                alt={siteSettings.heroArabicTaglineAlt}
+                width={1024}
+                height={190}
+                decoding="async"
+              />
+            );
+          }
+          return <span>{line}</span>;
         })}
       </div>
       {home.hero.title && <h1 set:html={home.hero.title} />}

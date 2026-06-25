@@ -15,5 +15,7 @@ export const siteSettings = {
   logo: "/assets/tcf-logo.svg",
   logoMark: "/assets/tcf-logo-mark.png",
   calligraphy: "/assets/calligraphy-original.png",
+  heroArabicTagline: "/assets/hero-arabic-tagline.png",
+  heroArabicTaglineAlt: "أشعل الشرارة في القلب",
   defaultOgImage: "/assets/events/international-peace-conference-2025-poster.jpg"
 };
