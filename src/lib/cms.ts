@@ -352,7 +352,10 @@ export async function getHomeContent(locale: Locale) {
       kicker: doc?.workKicker || fallback.sections.work.kicker,
       title: doc?.workTitle || fallback.sections.work.title,
       pillars: doc?.workPillars?.length
-        ? doc.workPillars.map((pillar) => ({ title: pillar.title || "", subtitle: pillar.subtitle || "" }))
+        ? doc.workPillars.map((pillar) => ({
+            title: pillar.title || "",
+            subtitle: locale === "en" ? "" : pillar.subtitle || ""
+          }))
         : fallback.sections.work.pillars
     },
     projects: {

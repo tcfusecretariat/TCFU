@@ -71,7 +71,7 @@ const helloAssoUrl = settings.helloAssoUrl || siteSettings.helloAssoUrl;
           <article>
             <span>{String(index + 1).padStart(2, "0")}</span>
             <h3>{pillar.title}</h3>
-            <p>{pillar.subtitle}</p>
+            {pillar.subtitle && <p>{pillar.subtitle}</p>}
           </article>
         ))}
       </div>
