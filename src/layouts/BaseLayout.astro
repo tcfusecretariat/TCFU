@@ -84,43 +84,60 @@ const analyticsScript = cloudflareAnalyticsToken
       });
 
       document.querySelectorAll("form.contact-form").forEach((form) => {
-        form.addEventListener("submit", (event) => {
+        form.addEventListener("submit", async (event) => {
           event.preventDefault();
           const status = form.querySelector("[data-form-status]");
-          const success = form.dataset.success || "Message ready in your email app.";
-          const error = form.dataset.error || "Unable to open your email app.";
-          const email = form.dataset.email || "office@tcfunesco.org";
-          if (status) status.dataset.state = "";
+          const submitButton = form.querySelector('button[type="submit"]');
+          const success = form.dataset.success || "Message sent.";
+          const error = form.dataset.error || "Unable to send your message.";
+          const sending = form.dataset.sending || "Sending…";
+          const endpoint = form.dataset.endpoint || "/api/contact";
+
+          if (status) {
+            status.textContent = sending;
+            status.dataset.state = "";
+          }
+          if (submitButton) submitButton.disabled = true;
 
           const formData = new FormData(form);
           const name = String(formData.get("name") || "").trim();
           const fromEmail = String(formData.get("email") || "").trim();
-          const subject = String(formData.get("subject") || "").trim();
           const message = String(formData.get("message") || "").trim();
+          const consent = formData.get("gdpr-consent");
 
-          if (!name || !fromEmail || !message) {
+          if (!name || !fromEmail || !message || !consent) {
             if (status) {
               status.textContent = error;
               status.dataset.state = "error";
             }
+            if (submitButton) submitButton.disabled = false;
             return;
           }
 
-          const mailSubject = subject || `Website enquiry from ${name}`;
-          const mailBody = `${message}\n\n—\n${name}\n${fromEmail}`;
-          const mailto = `mailto:${email}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
-
           try {
-            window.location.href = mailto;
+            const response = await fetch(endpoint, {
+              method: "POST",
+              body: formData,
+              headers: { Accept: "application/json" }
+            });
+            const result = await response.json().catch(() => ({}));
+
+            if (!response.ok || !result.ok) {
+              throw new Error(result.message || error);
+            }
+
             if (status) {
-              status.textContent = success;
+              status.textContent = result.message || success;
               status.dataset.state = "success";
             }
-          } catch {
+            form.reset();
+          } catch (submitError) {
             if (status) {
-              status.textContent = error;
+              status.textContent = submitError instanceof Error ? submitError.message : error;
               status.dataset.state = "error";
             }
+          } finally {
+            if (submitButton) submitButton.disabled = false;
           }
         });
       });
