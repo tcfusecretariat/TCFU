@@ -162,19 +162,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   try {
-    const duplicate = await sanityQuery<{ _id: string } | null>(
-      env,
-      `*[_type == "eventRegistration" && eventKey == $eventKey && lower(email) == lower($email)][0]{ _id }`,
-      { eventKey: registration.eventKey || SYMPOSIUM_EVENT_KEY, email: registration.email }
-    );
-
-    if (duplicate?._id) {
-      return json(
-        { ok: false, message: "A registration with this email address already exists for this event." },
-        { status: 409 }
-      );
-    }
-
     const status = "confirmed";
     const submittedAt = new Date().toISOString();
     const documentId = crypto.randomUUID();
