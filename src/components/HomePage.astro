@@ -110,12 +110,14 @@ const helloAssoUrl = settings.helloAssoUrl || siteSettings.helloAssoUrl;
       <div class="library-copy">
         <p class="section-kicker">{home.library.kicker}</p>
         <h2>{home.library.title}</h2>
-        <p>{home.library.description}</p>
+        <p class="library-description">
+          {home.library.description}{" "}
+          <a class="text-link library-more" href={`/${locale}/library/`}>{learnMore}</a>
+        </p>
       </div>
       <div class="language-shelf" aria-label="Available language editions">
         {home.library.languages.map((language) => <span>{language}</span>)}
       </div>
-      <a class="text-link section-more" href={`/${locale}/library/`}>{learnMore}</a>
     </section>
   )}
 
