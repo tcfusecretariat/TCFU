@@ -70,7 +70,7 @@ export const content: Record<Locale, HomeContent> = {
     sections: {
       philosophy: {
         kicker: "核心理念",
-        title: "真正的和平<br />始於人心",
+        title: "真正的和平<br />始於真心",
         paragraphs: [
           "我們相信，每個人都擁有推動自身成長、家庭和諧、社會進步與世界和平的內在力量。",
           "基金會透過教育、文化與文明對話，啟發並培養這份核心原動力，讓傳統智慧在當代世界成為清明、溫柔而堅定的公共力量。"
@@ -118,8 +118,8 @@ export const content: Record<Locale, HomeContent> = {
       consent: "我同意基金會依隱私政策使用此表單資料，以回覆我的詢問。",
       submit: "送出訊息",
       sending: "處理中…",
-      success: "已為您開啟郵件程式，請確認後寄出即可完成聯絡。",
-      error: "無法開啟郵件程式，請直接來信 office@tcfunesco.org。"
+      success: "訊息已成功送出，我們會盡快回覆您。",
+      error: "無法送出訊息，請稍後再試或直接來信 tcfu.secretariat@gmail.com。"
     }
   },
   en: {
@@ -160,8 +160,8 @@ export const content: Record<Locale, HomeContent> = {
       consent: "I agree that the Foundation may use this form data to respond to my inquiry according to the Privacy Policy.",
       submit: "Send Message",
       sending: "Working…",
-      success: "We've opened your email app — please review and send to reach us.",
-      error: "Couldn't open your email app. Please email office@tcfunesco.org directly."
+      success: "Your message has been sent. We will get back to you as soon as possible.",
+      error: "We couldn't send your message. Please try again or email tcfu.secretariat@gmail.com directly."
     }
   },
   fr: {
@@ -202,8 +202,8 @@ export const content: Record<Locale, HomeContent> = {
       consent: "J’accepte que la Fondation utilise les données de ce formulaire pour répondre à ma demande conformément à la politique de confidentialité.",
       submit: "Envoyer",
       sending: "En cours…",
-      success: "Votre application e-mail s’est ouverte — vérifiez puis envoyez pour nous contacter.",
-      error: "Impossible d’ouvrir votre application e-mail. Écrivez directement à office@tcfunesco.org."
+      success: "Votre message a bien été envoyé. Nous vous répondrons dès que possible.",
+      error: "Impossible d’envoyer votre message. Réessayez ou écrivez à tcfu.secretariat@gmail.com."
     }
   }
 };
