@@ -284,7 +284,7 @@ blockquote {
 .hero-arabic-tagline {
   display: block;
   margin: 0 auto;
-  height: clamp(26px, 3.05vw, 40px);
+  height: clamp(30px, 3.45vw, 46px);
   width: auto;
   max-width: min(680px, 92vw);
   object-fit: contain;
@@ -1805,7 +1805,7 @@ textarea:focus-visible {
   }
 
   .hero-arabic-tagline {
-    height: clamp(20px, 4.9vw, 28px);
+    height: clamp(24px, 5.2vw, 32px);
   }
 
   .pillar-grid,
