@@ -787,14 +787,59 @@ export const privacyPolicyContent: Record<Locale, PrivacyPolicyDoc> = {
   fr: privacyPolicyEn
 };
 
-/** Short notice displayed above the event registration form. */
+/** Notice displayed above the event registration form. */
 export const registrationPrivacyNotice: Record<Locale, string> = {
-  en:
-    "Please complete this form to register for the event. The information collected will be used only for event registration, participant verification, venue access management, safety communication, volunteer coordination, and necessary administrative arrangements.\n\nUpon submission, your registration will be confirmed and a confirmation email will be sent to your address.",
-  zh:
-    "請填寫本表單以報名參加活動。所收集的資訊僅用於活動報名、參加者核實、場地進出管理、安全聯絡、志工協調及必要的行政安排。\n\n提交後您的報名將立即確認，確認信會寄至您的電郵。",
-  fr:
-    "Veuillez remplir ce formulaire pour vous inscrire à l'événement. Les informations collectées seront utilisées uniquement pour l'inscription, la vérification des participants, la gestion des accès, la communication de sécurité, la coordination des bénévoles et les arrangements administratifs nécessaires.\n\nVotre inscription sera confirmée dès l'envoi et un e-mail de confirmation vous sera adressé."
+  en: `Dear Participant,
+
+Welcome to register for the International Peace Conference on Traditional Culture Education for Youth: Ignite the Vital Spark of the Heart.
+
+The event will take place on 1–2 October 2026 at Room IV, UNESCO Headquarters (125 Avenue de Suffren, 75007 Paris). Check-in will begin at 8:00 a.m. on the day of the event.
+
+Please complete this form to register. The information you provide will be used only for event registration, participant verification, venue access management, safety communication, volunteer coordination, and necessary administrative arrangements. Upon submission, your registration will be confirmed immediately and a confirmation email will be sent automatically to the email address you provide. Please ensure your email address is correct.
+
+To comply with security and access procedures at UNESCO Headquarters, please bring your passport with you for check-in and verification on the day of the event.
+
+If you have any questions, please contact:
+Phone: +33 (0)7 45 19 68 58
+Email: ${FOUNDATION_EMAIL}
+
+Kind regards,
+Traditional Culture Foundation at UNESCO
+The Secretariat`,
+  zh: `尊敬的參會者：
+
+歡迎您報名參加 「世界和平論壇——傳統文化教育啟動青少年核心源動力」。
+
+本次活動將於 2026年10月1日至2日 在 聯合國教科文組織總部 Room IV（125 Avenue de Suffren, 75007 Paris） 舉行，活動當日將於 上午8:00開始簽到入場。
+
+請填寫本表單以完成活動報名。您所提供的資訊將僅用於活動報名、參加者核實、場地進出管理、安全聯絡、志工協調及必要的行政安排。提交表單後，您的報名將即時確認，系統將自動寄送確認信至您填寫的電子郵箱，請務必確認電郵地址準確無誤。
+
+為配合聯合國教科文組織總部的安保及入場管理工作，請您於活動當日簽到入場時攜帶本人護照，以便現場核驗。
+
+如有任何疑問，請聯繫：
+電話：+33 (0)7 45 19 68 58
+郵箱：${FOUNDATION_EMAIL}
+
+謹致問候，
+聯合國教科文組織傳統文化基金會
+秘書處`,
+  fr: `Madame, Monsieur,
+
+Nous vous invitons à vous inscrire à la Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse : Ignite the Vital Spark of the Heart.
+
+L'événement se tiendra les 1er et 2 octobre 2026 à la Salle IV, Siège de l'UNESCO (125 Avenue de Suffren, 75007 Paris). L'accueil et l'enregistrement commenceront à 8h00 le jour de l'événement.
+
+Veuillez remplir ce formulaire pour finaliser votre inscription. Les informations que vous fournissez seront utilisées uniquement pour l'inscription, la vérification des participants, la gestion des accès, la communication de sécurité, la coordination des bénévoles et les arrangements administratifs nécessaires. Dès l'envoi du formulaire, votre inscription sera confirmée immédiatement et un e-mail de confirmation sera adressé automatiquement à l'adresse électronique indiquée. Veuillez vérifier que votre adresse e-mail est exacte.
+
+Afin de respecter les procédures de sécurité du Siège de l'UNESCO, nous vous remercions de vous munir de votre passeport lors de l'accueil et de l'enregistrement le jour de l'événement.
+
+Pour toute question, veuillez contacter :
+Téléphone : +33 (0)7 45 19 68 58
+E-mail : ${FOUNDATION_EMAIL}
+
+Bien cordialement,
+Traditional Culture Foundation at UNESCO
+Le Secrétariat`
 };
 
 export type RegistrationConsentCopy = {

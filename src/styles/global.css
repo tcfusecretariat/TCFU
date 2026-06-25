@@ -1257,6 +1257,7 @@ textarea:focus-visible {
 
 .registration-privacy-notice p {
   margin: 0 0 14px;
+  white-space: pre-line;
 }
 
 .registration-privacy-notice p:last-child {
