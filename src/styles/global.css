@@ -282,16 +282,13 @@ blockquote {
 }
 
 .hero-translations .hero-arabic,
-.hero-translations .tk-layaan-arabic,
 .hero-translations [lang="ar"] {
-  font-family: "layaan-arabic", sans-serif;
-  font-size: clamp(30px, 3.6vw, 46px);
+  font-family: var(--font-ar);
+  font-size: 1.08em;
   font-weight: 400;
   font-style: normal;
   font-synthesis: none;
-  line-height: 1.45;
-  letter-spacing: 0;
-  text-rendering: optimizeLegibility;
+  line-height: 1.35;
 }
 
 @media (prefers-reduced-motion: reduce) {
