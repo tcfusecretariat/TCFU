@@ -4,7 +4,7 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import CookieBanner from "@components/CookieBanner.astro";
 import ContactDialog from "@components/ContactDialog.astro";
-import { languages, siteSettings, type Locale } from "@data/site";
+import { languages, siteSettings, defaultLocale, type Locale } from "@data/site";
 import { hreflangLinks } from "@lib/seo";
 
 type Props = {
@@ -23,7 +23,7 @@ const alternateLinks = hreflangLinks(path).map((link) => ({
   lang: link.lang,
   href: new URL(link.href, `${siteUrl}/`).toString()
 }));
-const xDefaultHref = new URL(`/zh/${path}`.replace(/\/{2,}/g, "/"), `${siteUrl}/`).toString();
+const xDefaultHref = new URL(`/${defaultLocale}/${path}`.replace(/\/{2,}/g, "/"), `${siteUrl}/`).toString();
 const cloudflareAnalyticsToken = import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
 const adobeFontsKit = import.meta.env.PUBLIC_ADOBE_FONTS_KIT_ID;
 const adobeFontsCss =

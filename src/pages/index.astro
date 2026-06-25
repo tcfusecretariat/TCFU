@@ -1,12 +1,3 @@
 ---
-import HomePage from "@components/HomePage.astro";
-import BaseLayout from "@layouts/BaseLayout.astro";
-import { content } from "@data/content";
-
-const locale = "zh";
-const t = content[locale];
+return Astro.redirect("/en/");
 ---
-
-<BaseLayout locale={locale} title={t.metaTitle} description={t.metaDescription}>
-  <HomePage locale={locale} />
-</BaseLayout>

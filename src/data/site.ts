@@ -1,12 +1,12 @@
 export const languages = {
-  zh: { label: "正體中文", path: "/zh/", lang: "zh-Hant" },
   en: { label: "English", path: "/en/", lang: "en" },
+  zh: { label: "正體中文", path: "/zh/", lang: "zh-Hant" },
   fr: { label: "Français", path: "/fr/", lang: "fr" }
 } as const;
 
 export type Locale = keyof typeof languages;
 
-export const defaultLocale: Locale = "zh";
+export const defaultLocale: Locale = "en";
 
 export const siteSettings = {
   name: "Traditional Culture Foundation at UNESCO",

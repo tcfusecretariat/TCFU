@@ -1,14 +1,14 @@
 ---
 import { placeholderText } from "@data/content";
-import type { Locale } from "@data/site";
+import { defaultLocale, type Locale } from "@data/site";
 
-const { title, kicker = title, locale = "zh", message } = Astro.props as {
+const { title, kicker = title, locale = defaultLocale, message } = Astro.props as {
   title: string;
   kicker?: string;
   locale?: Locale;
   message?: string;
 };
-const resolvedMessage = message || placeholderText[locale] || placeholderText.zh;
+const resolvedMessage = message || placeholderText[locale] || placeholderText.en;
 ---
 
 <main class="placeholder-page">

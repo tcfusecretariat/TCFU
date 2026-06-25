@@ -1,6 +1,6 @@
 import { fallbackResources } from "@data/resources";
 import { content } from "@data/content";
-import { siteSettings as fallbackSiteSettings, type Locale } from "@data/site";
+import { siteSettings as fallbackSiteSettings, defaultLocale, type Locale } from "@data/site";
 import { fetchOptional, imageUrl, sanityApiUrl } from "@lib/sanity";
 import { resourcesSummaryQuery } from "@lib/sanity-queries";
 
@@ -149,7 +149,7 @@ export async function getPartners() {
   );
 }
 
-export async function getSiteSettings(locale: Locale = "zh"): Promise<ResolvedSiteSettings> {
+export async function getSiteSettings(locale: Locale = defaultLocale): Promise<ResolvedSiteSettings> {
   const data = await fetchOptional<{
     logoUrl?: string;
     logoAlt?: string;
