@@ -5,7 +5,8 @@ import { getSiteSettings } from "@lib/cms";
 
 const { locale } = Astro.props as { locale: Locale };
 const t = content[locale];
-const settings = await getSiteSettings();
+const settings = await getSiteSettings(locale);
+const helloAssoUrl = settings.helloAssoUrl;
 ---
 
 <footer class="site-footer">
@@ -15,7 +16,7 @@ const settings = await getSiteSettings();
   {settings.footer && <p class="footer-note">{settings.footer}</p>}
   <div class="footer-links">
     <button class="footer-link contact-trigger" type="button">{t.footer.contact}</button>
-    <a href={`/${locale}/support/`}>{t.footer.donate}</a>
+    <a href={helloAssoUrl} target="_blank" rel="noopener">{t.footer.donate}</a>
     <a href={`/${locale}/privacy-policy/`}>{t.footer.privacy}</a>
   </div>
   <div class="footer-social" aria-label="Social media">

@@ -5,7 +5,8 @@ import { getSiteSettings } from "@lib/cms";
 
 const { locale } = Astro.props as { locale: Locale };
 const t = content[locale];
-const settings = await getSiteSettings();
+const settings = await getSiteSettings(locale);
+const helloAssoUrl = settings.helloAssoUrl;
 ---
 
 <header class="site-header">
@@ -22,7 +23,13 @@ const settings = await getSiteSettings();
       <span></span><span></span><span></span>
     </button>
     <div class="nav-links" id="main-menu">
-      {t.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      {t.nav.map((item) =>
+        item.href.endsWith("/support/") ? (
+          <a href={helloAssoUrl} target="_blank" rel="noopener">{item.label}</a>
+        ) : (
+          <a href={item.href}>{item.label}</a>
+        )
+      )}
       <form class="site-search" role="search" action={`${languages[locale].path}search/`}>
         <label class="sr-only" for={`site-search-${locale}`}>{t.search}</label>
         <input id={`site-search-${locale}`} name="q" type="search" placeholder={t.search} autocomplete="off" />
