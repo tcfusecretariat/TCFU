@@ -28,7 +28,11 @@ const helloAssoUrl = settings.helloAssoUrl || siteSettings.helloAssoUrl;
         {home.hero.translations.map((line, index) => {
           const isArabic = index === 2 || /[\u0600-\u06FF]/.test(line);
           return (
-            <span dir={isArabic ? "rtl" : undefined} lang={isArabic ? "ar" : undefined}>
+            <span
+              class={isArabic ? "hero-arabic tk-layaan-arabic" : undefined}
+              dir={isArabic ? "rtl" : undefined}
+              lang={isArabic ? "ar" : undefined}
+            >
               {line}
             </span>
           );

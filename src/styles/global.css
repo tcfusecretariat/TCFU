@@ -11,7 +11,7 @@
   --serif-en: Baskerville, "Libre Baskerville", "Times New Roman", serif;
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
   --kai-zh: Baskerville, "Libre Baskerville", "Kaiti TC", "DFKai-SB", "BiauKai", "標楷體", "TW-Kai", "AR PL UKai TW", KaiTi, STKaiti, serif;
-  --font-ar: layaan-arabic, sans-serif;
+  --font-ar: "layaan-arabic", sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -281,11 +281,13 @@ blockquote {
   text-align: center;
 }
 
+.hero-translations .hero-arabic,
 .hero-translations [lang="ar"] {
   font-family: var(--font-ar);
   font-size: 1.08em;
   font-weight: 400;
   font-style: normal;
+  font-synthesis: none;
   line-height: 1.35;
 }
 
