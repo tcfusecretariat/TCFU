@@ -210,7 +210,7 @@ export const content: Record<Locale, HomeContent> = {
 
 export const projects = [
   { href: "project-peace-conference", eyebrow: "International Peace Conference on Education for Well-being", zh: "世界和平論壇", en: "World Peace Forum", fr: "Forum mondial pour la paix" },
-  { href: "project-translation", eyebrow: "Global Translation Project", zh: "群書治要全球翻譯計劃", en: "THE GOVERNING PRINCIPLES OF ANCIENT CHINA", fr: "Les Principes de Gouvernance de la Chine Ancienne" },
+  { href: "project-translation", eyebrow: "Global Translation Project", zh: "群書治要全球翻譯項目", en: "THE GOVERNING PRINCIPLES OF ANCIENT CHINA", fr: "Les Principes de Gouvernance de la Chine Ancienne" },
   { href: "project-youth-peace", eyebrow: "Youth Peace Ambassador Programme", zh: "青少年和平大使計劃", en: "Youth Peace Ambassadors", fr: "Jeunes ambassadeurs de la paix" }
 ];
 
