@@ -70,6 +70,10 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
       "Register for the International Peace Conference on Traditional Culture Education for Youth at UNESCO Headquarters, Paris.",
     kicker: "Event Registration",
     title: CONFERENCE_TITLE.en,
+    titleLines: [
+      "International Peace Conference on Traditional Culture Education for Youth:",
+      "Ignite the Vital Spark of the Heart"
+    ],
     subtitle: "Registration Form",
     date: "1–2 October 2026",
     venue: "UNESCO Headquarters, Paris",
@@ -178,6 +182,10 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
       "Inscrivez-vous à la Conférence internationale pour la paix sur l'éducation à la culture traditionnelle pour la jeunesse, au siège de l'UNESCO à Paris.",
     kicker: "Inscription",
     title: CONFERENCE_TITLE.fr,
+    titleLines: [
+      "Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse :",
+      "Ignite the Vital Spark of the Heart"
+    ],
     subtitle: CONFERENCE_TITLE.en,
     date: "1–2 octobre 2026",
     venue: "Siège de l'UNESCO, Paris",
