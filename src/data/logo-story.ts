@@ -96,7 +96,7 @@ const logoStoryEn: LogoStoryContent = {
 const logoStoryZh: LogoStoryContent = {
   sectionTitle: "活態傳統的象徵",
   sectionSubtitle:
-    "我們的徽識匯聚音樂、建築、文學、書法、飲食文化、表演與禮儀藝術等多元傳統文化表達，形成人類智慧共有的圓環。",
+    "基金會徽識匯聚音樂、建築、文學、書法、飲食文化、表演藝術與禮儀藝術等多元傳統文化形態，寓意人類智慧在傳承、交流與互鑒中凝結為一個共同的文明圓環。",
   steps: logoStoryEn.steps.map((step) => ({ ...step })),
 };
 
