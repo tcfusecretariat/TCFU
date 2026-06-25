@@ -12,12 +12,6 @@ export const CONFIRMATION_EMAIL_SUBJECT = {
   fr: "Confirmation d'inscription | Conférence internationale pour la paix"
 };
 
-export const WAITLIST_EMAIL_SUBJECT = {
-  en: "Registration received — waitlist | International Peace Conference on Traditional Culture Education for Youth",
-  zh: "報名收到——候補名單 | 世界和平論壇——傳統文化教育啟動青少年核心源動力",
-  fr: "Inscription reçue — liste d'attente | Conférence internationale pour la paix"
-};
-
 const CONFIRMATION_EMAIL_BODY = {
   en: `Dear Participant,
 
@@ -75,30 +69,13 @@ Le Secrétariat
 Traditional Culture Foundation at UNESCO`
 };
 
-const WAITLIST_EMAIL_INTRO = {
-  en: "Thank you for registering. The conference has reached its confirmed capacity, so your registration has been placed on the waitlist. The Secretariat will contact you if a place becomes available.",
-  zh: "感謝您報名。論壇確認名額已滿，您的報名已列入候補名單。如有名額釋出，秘書處將與您聯繫。",
-  fr: "Merci pour votre inscription. La conférence a atteint sa capacité confirmée ; votre inscription a été placée sur liste d'attente. Le Secrétariat vous contactera si une place se libère."
-};
-
-const CONFIRMATION_EMAIL_CONFIRMED_LINE = {
-  en: "Your registration has been successfully confirmed. We look forward to welcoming you to the conference.",
-  zh: "您的報名已成功確認。我們期待於大會現場歡迎您的到來。",
-  fr: "Votre inscription est confirmée avec succès. Nous nous réjouissons de vous accueillir à la conférence."
-};
-
-/** @param {string} locale @param {"pending"|"waitlist"} status */
-export function buildParticipantConfirmationEmail(locale, status) {
+/** @param {string} locale */
+export function buildParticipantConfirmationEmail(locale) {
   const key = locale in CONFIRMATION_EMAIL_BODY ? locale : "en";
-  const subject =
-    status === "waitlist" ? WAITLIST_EMAIL_SUBJECT[key] : CONFIRMATION_EMAIL_SUBJECT[key];
-  let body = CONFIRMATION_EMAIL_BODY[key];
-
-  if (status === "waitlist") {
-    body = body.replace(CONFIRMATION_EMAIL_CONFIRMED_LINE[key], WAITLIST_EMAIL_INTRO[key]);
-  }
-
-  return { subject, text: body };
+  return {
+    subject: CONFIRMATION_EMAIL_SUBJECT[key],
+    text: CONFIRMATION_EMAIL_BODY[key]
+  };
 }
 
 export const PARTICIPANT_CATEGORIES = [

@@ -14,10 +14,7 @@ type Env = {
   RESEND_API_KEY?: string;
   REGISTRATION_FROM_EMAIL?: string;
   SECRETARIAT_EMAIL?: string;
-  EVENT_REGISTRATION_CAPACITY?: string;
 };
-
-const DEFAULT_CAPACITY = 500;
 
 function json(data: unknown, init: ResponseInit = {}) {
   return new Response(JSON.stringify(data), {
@@ -178,14 +175,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       );
     }
 
-    const confirmedCount = await sanityQuery<number>(
-      env,
-      `count(*[_type == "eventRegistration" && eventKey == $eventKey && status == "confirmed"])`,
-      { eventKey: registration.eventKey || SYMPOSIUM_EVENT_KEY }
-    );
-
-    const capacity = Number(env.EVENT_REGISTRATION_CAPACITY || DEFAULT_CAPACITY);
-    const status = confirmedCount >= capacity ? "waitlist" : "pending";
+    const status = "confirmed";
     const submittedAt = new Date().toISOString();
     const documentId = crypto.randomUUID();
     const document = toSanityDocument(registration, {
@@ -199,7 +189,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     let confirmationEmailSent = false;
     const fullName = `${registration.givenName} ${registration.familyName}`.trim();
     const emailLocale = registration.locale in CONFERENCE_TITLE ? registration.locale : "en";
-    const participantEmail = buildParticipantConfirmationEmail(emailLocale, status);
+    const participantEmail = buildParticipantConfirmationEmail(emailLocale);
 
     try {
       await sendResendEmail(env, {
@@ -244,34 +234,19 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     }
 
     const locale = registration.locale in CONFERENCE_TITLE ? registration.locale : "en";
-    const responseMessages: Record<
-      string,
-      { waitlistWithEmail: string; waitlistWithoutEmail: string; pendingWithEmail: string; pendingWithoutEmail: string }
-    > = {
+    const responseMessages: Record<string, { withEmail: string; withoutEmail: string }> = {
       zh: {
-        waitlistWithEmail: "感謝您。論壇確認名額已滿，您的報名已列入候補。確認信已寄至您的電郵。",
-        waitlistWithoutEmail:
-          "感謝您。論壇確認名額已滿，您的報名已列入候補。我們未能自動寄出確認信，秘書處將與您聯繫。",
-        pendingWithEmail: "感謝您。您的報名已成功確認。確認信已寄至您的電郵。",
-        pendingWithoutEmail:
-          "感謝您。您的報名已成功確認。我們未能自動寄出確認信，秘書處將與您聯繫。"
+        withEmail: "感謝您。您的報名已成功確認。確認信已寄至您的電郵。",
+        withoutEmail: "感謝您。您的報名已成功確認。我們未能自動寄出確認信，秘書處將與您聯繫。"
       },
       en: {
-        waitlistWithEmail:
-          "Registration received. You have been placed on the waitlist and will be contacted if a place becomes available. A confirmation email has been sent to your address.",
-        waitlistWithoutEmail:
-          "Registration received. You have been placed on the waitlist. We could not send a confirmation email automatically; the Secretariat will contact you.",
-        pendingWithEmail: "Registration confirmed. A confirmation email has been sent to your address.",
-        pendingWithoutEmail:
+        withEmail: "Registration confirmed. A confirmation email has been sent to your address.",
+        withoutEmail:
           "Registration confirmed. We could not send a confirmation email automatically; the Secretariat will contact you."
       },
       fr: {
-        waitlistWithEmail:
-          "Inscription reçue. Vous avez été placé(e) sur liste d'attente. Un e-mail de confirmation vous a été envoyé.",
-        waitlistWithoutEmail:
-          "Inscription reçue. Vous avez été placé(e) sur liste d'attente. Nous n'avons pas pu envoyer d'e-mail de confirmation automatiquement ; le Secrétariat vous contactera.",
-        pendingWithEmail: "Inscription confirmée. Un e-mail de confirmation vous a été envoyé.",
-        pendingWithoutEmail:
+        withEmail: "Inscription confirmée. Un e-mail de confirmation vous a été envoyé.",
+        withoutEmail:
           "Inscription confirmée. Nous n'avons pas pu envoyer d'e-mail de confirmation automatiquement ; le Secrétariat vous contactera."
       }
     };
@@ -281,14 +256,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       ok: true,
       status,
       emailSent: confirmationEmailSent,
-      message:
-        status === "waitlist"
-          ? confirmationEmailSent
-            ? copy.waitlistWithEmail
-            : copy.waitlistWithoutEmail
-          : confirmationEmailSent
-            ? copy.pendingWithEmail
-            : copy.pendingWithoutEmail
+      message: confirmationEmailSent ? copy.withEmail : copy.withoutEmail
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to complete registration.";

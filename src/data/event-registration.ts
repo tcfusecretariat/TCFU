@@ -59,8 +59,7 @@ export type RegistrationCopy = {
   privacyConsentRequired: string;
   submit: string;
   sending: string;
-  successPending: string;
-  successWaitlist: string;
+  successConfirmed: string;
   error: string;
 };
 
@@ -75,7 +74,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     date: "1–2 October 2026",
     venue: "UNESCO Headquarters, Paris",
     intro:
-      "Please complete all required fields. The Secretariat will review your registration and contact you regarding confirmation and access arrangements.",
+      "Please complete all required fields. Upon submission, your registration will be confirmed and a confirmation email will be sent to your address.",
     sections: {
       personal: "Personal Information",
       contact: "Contact Information",
@@ -116,10 +115,8 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     privacyConsentRequired: "You must read and accept the Privacy Policy before submitting.",
     submit: "Submit Registration",
     sending: "Submitting…",
-    successPending:
+    successConfirmed:
       "Thank you. Your registration has been successfully confirmed. A confirmation email has been sent to your address.",
-    successWaitlist:
-      "Thank you. The conference has reached confirmed capacity, so your registration has been placed on the waitlist. A confirmation email has been sent to your address.",
     error: "We could not submit your registration. Please review the form and try again."
   },
   zh: {
@@ -131,7 +128,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     subtitle: CONFERENCE_TITLE.en,
     date: "2026 年 10 月 1–2 日",
     venue: "巴黎 UNESCO 總部",
-    intro: "請填寫所有必填欄位。秘書處將審核您的報名，並就確認及入場安排與您聯繫。",
+    intro: "請填寫所有必填欄位。提交後您的報名將立即確認，確認信會寄至您的電郵。",
     sections: {
       personal: "個人資料",
       contact: "聯絡資料",
@@ -172,8 +169,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     privacyConsentRequired: "提交前請先閱讀並同意私隱政策。",
     submit: "提交報名",
     sending: "提交中…",
-    successPending: "感謝您。您的報名已成功確認。確認信已寄至您的電郵。",
-    successWaitlist: "感謝您。論壇確認名額已滿，您的報名已列入候補。確認信已寄至您的電郵。",
+    successConfirmed: "感謝您。您的報名已成功確認。確認信已寄至您的電郵。",
     error: "無法提交報名，請檢查表格後再試。"
   },
   fr: {
@@ -186,7 +182,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     date: "1–2 octobre 2026",
     venue: "Siège de l'UNESCO, Paris",
     intro:
-      "Veuillez remplir tous les champs obligatoires. Le Secrétariat examinera votre inscription et vous contactera concernant la confirmation et les modalités d'accès.",
+      "Veuillez remplir tous les champs obligatoires. Votre inscription sera confirmée dès l'envoi et un e-mail de confirmation vous sera adressé.",
     sections: {
       personal: "Informations personnelles",
       contact: "Coordonnées",
@@ -227,10 +223,8 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     privacyConsentRequired: "Vous devez lire et accepter la politique de confidentialité avant l’envoi.",
     submit: "Envoyer l'inscription",
     sending: "Envoi en cours…",
-    successPending:
+    successConfirmed:
       "Merci. Votre inscription est confirmée avec succès. Un e-mail de confirmation vous a été envoyé.",
-    successWaitlist:
-      "Merci. La conférence a atteint sa capacité confirmée ; votre inscription a été placée sur liste d'attente. Un e-mail de confirmation vous a été envoyé.",
     error: "Impossible d'envoyer votre inscription. Veuillez vérifier le formulaire et réessayer."
   }
 };

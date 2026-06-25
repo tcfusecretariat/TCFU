@@ -158,14 +158,13 @@ export const eventRegistration = defineType({
       group: "admin",
       options: {
         list: [
-          { title: "Pending 待審", value: "pending" },
           { title: "Confirmed 已確認", value: "confirmed" },
           { title: "Waitlist 候補", value: "waitlist" },
           { title: "Rejected 已拒絕", value: "rejected" }
         ],
         layout: "radio"
       },
-      initialValue: "pending",
+      initialValue: "confirmed",
       validation: (Rule) => Rule.required()
     }),
     defineField({

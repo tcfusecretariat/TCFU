@@ -15,8 +15,7 @@ const consentAfterLinkParts = consent.afterLink.split("\n\n");
   action="/api/event-registration"
   method="post"
   data-event-key={SYMPOSIUM_EVENT_KEY}
-  data-success-pending={t.successPending}
-  data-success-waitlist={t.successWaitlist}
+  data-success-confirmed={t.successConfirmed}
   data-error={t.error}
   data-sending={t.sending}
   data-privacy-consent-required={t.privacyConsentRequired}
@@ -180,10 +179,7 @@ const consentAfterLinkParts = consent.afterLink.split("\n\n");
 
         status.dataset.state = "success";
         status.textContent =
-          result.message ||
-          (result.status === "waitlist" ? form.dataset.successWaitlist : form.dataset.successPending) ||
-          form.dataset.successPending ||
-          "Registration received.";
+          result.message || form.dataset.successConfirmed || "Registration confirmed.";
         form.reset();
       } catch (error) {
         status.dataset.state = "error";

@@ -790,11 +790,11 @@ export const privacyPolicyContent: Record<Locale, PrivacyPolicyDoc> = {
 /** Short notice displayed above the event registration form. */
 export const registrationPrivacyNotice: Record<Locale, string> = {
   en:
-    "Please complete this form to register for the event. The information collected will be used only for event registration, participant verification, venue access management, safety communication, volunteer coordination, and necessary administrative arrangements.\n\nDue to venue access and security requirements, registration is subject to review and confirmation by the Organizing Committee.",
+    "Please complete this form to register for the event. The information collected will be used only for event registration, participant verification, venue access management, safety communication, volunteer coordination, and necessary administrative arrangements.\n\nUpon submission, your registration will be confirmed and a confirmation email will be sent to your address.",
   zh:
-    "請填寫本表單以報名參加活動。所收集的資訊僅用於活動報名、參加者核實、場地進出管理、安全聯絡、志工協調及必要的行政安排。\n\n基於場地進出與安全要求，報名須經籌委會審核及確認。",
+    "請填寫本表單以報名參加活動。所收集的資訊僅用於活動報名、參加者核實、場地進出管理、安全聯絡、志工協調及必要的行政安排。\n\n提交後您的報名將立即確認，確認信會寄至您的電郵。",
   fr:
-    "Please complete this form to register for the event. The information collected will be used only for event registration, participant verification, venue access management, safety communication, volunteer coordination, and necessary administrative arrangements.\n\nDue to venue access and security requirements, registration is subject to review and confirmation by the Organizing Committee."
+    "Veuillez remplir ce formulaire pour vous inscrire à l'événement. Les informations collectées seront utilisées uniquement pour l'inscription, la vérification des participants, la gestion des accès, la communication de sécurité, la coordination des bénévoles et les arrangements administratifs nécessaires.\n\nVotre inscription sera confirmée dès l'envoi et un e-mail de confirmation vous sera adressé."
 };
 
 export type RegistrationConsentCopy = {
