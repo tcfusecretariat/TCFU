@@ -1,4 +1,5 @@
 import {
+  buildParticipantConfirmationEmail,
   CONFERENCE_TITLE,
   createEventRegistration,
   SYMPOSIUM_EVENT_KEY,
@@ -197,34 +198,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
     let confirmationEmailSent = false;
     const fullName = `${registration.givenName} ${registration.familyName}`.trim();
-    const participantSubject =
-      status === "waitlist"
-        ? "Registration received — waitlist | World Peace Forum 2026"
-        : "Registration received | World Peace Forum 2026";
-    const participantIntro =
-      status === "waitlist"
-        ? "Thank you for registering. The conference has reached its confirmed capacity, so your registration has been placed on the waitlist. The Secretariat will contact you if a place becomes available."
-        : `Thank you for registering for ${CONFERENCE_TITLE.en}. Your registration has been received and is pending review by the Secretariat.`;
+    const emailLocale = registration.locale in CONFERENCE_TITLE ? registration.locale : "en";
+    const participantEmail = buildParticipantConfirmationEmail(emailLocale, status);
 
     try {
       await sendResendEmail(env, {
         to: registration.email,
-        subject: participantSubject,
-        text: [
-          `Dear ${fullName},`,
-          "",
-          participantIntro,
-          "",
-          "Event details",
-          eventTitleForLocale(registration.locale),
-          "Dates: 1–2 October 2026",
-          "Venue: UNESCO Headquarters, Paris",
-          "",
-          formatRegistrationSummary(registration, status),
-          "",
-          "Traditional Culture Foundation at UNESCO",
-          "tcfu.secretariat@gmail.com"
-        ].join("\n"),
+        subject: participantEmail.subject,
+        text: participantEmail.text,
         replyTo: env.SECRETARIAT_EMAIL
       });
       confirmationEmailSent = true;
@@ -271,27 +252,27 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         waitlistWithEmail: "感謝您。論壇確認名額已滿，您的報名已列入候補。確認信已寄至您的電郵。",
         waitlistWithoutEmail:
           "感謝您。論壇確認名額已滿，您的報名已列入候補。我們未能自動寄出確認信，秘書處將與您聯繫。",
-        pendingWithEmail: "感謝您。您的報名已收到，正在等候審核。確認信已寄至您的電郵。",
+        pendingWithEmail: "感謝您。您的報名已成功確認。確認信已寄至您的電郵。",
         pendingWithoutEmail:
-          "感謝您。您的報名已收到，正在等候審核。我們未能自動寄出確認信，秘書處將與您聯繫。"
+          "感謝您。您的報名已成功確認。我們未能自動寄出確認信，秘書處將與您聯繫。"
       },
       en: {
         waitlistWithEmail:
           "Registration received. You have been placed on the waitlist and will be contacted if a place becomes available. A confirmation email has been sent to your address.",
         waitlistWithoutEmail:
           "Registration received. You have been placed on the waitlist. We could not send a confirmation email automatically; the Secretariat will contact you.",
-        pendingWithEmail: "Registration received. A confirmation email has been sent to your address.",
+        pendingWithEmail: "Registration confirmed. A confirmation email has been sent to your address.",
         pendingWithoutEmail:
-          "Registration received and is pending review. We could not send a confirmation email automatically; the Secretariat will contact you."
+          "Registration confirmed. We could not send a confirmation email automatically; the Secretariat will contact you."
       },
       fr: {
         waitlistWithEmail:
           "Inscription reçue. Vous avez été placé(e) sur liste d'attente. Un e-mail de confirmation vous a été envoyé.",
         waitlistWithoutEmail:
           "Inscription reçue. Vous avez été placé(e) sur liste d'attente. Nous n'avons pas pu envoyer d'e-mail de confirmation automatiquement ; le Secrétariat vous contactera.",
-        pendingWithEmail: "Inscription reçue. Un e-mail de confirmation vous a été envoyé.",
+        pendingWithEmail: "Inscription confirmée. Un e-mail de confirmation vous a été envoyé.",
         pendingWithoutEmail:
-          "Inscription reçue et en attente d'examen. Nous n'avons pas pu envoyer d'e-mail de confirmation automatiquement ; le Secrétariat vous contactera."
+          "Inscription confirmée. Nous n'avons pas pu envoyer d'e-mail de confirmation automatiquement ; le Secrétariat vous contactera."
       }
     };
     const copy = responseMessages[locale] || responseMessages.en;

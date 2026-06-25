@@ -6,8 +6,8 @@ export const SYMPOSIUM_PAGE_SLUG = "international-symposium-youth-wellbeing-peac
 /** Official conference titles (2026, UNESCO Paris) */
 export const CONFERENCE_TITLE = {
   en: "International Peace Conference on Traditional Culture Education for Youth: Ignite the Vital Spark of the Heart",
-  zh: "世界和平論壇 傳統文化教育啟動青少年核心源動力",
-  fr: "Conférence internationale pour la paix sur l'éducation à la culture traditionnelle pour la jeunesse : Réveiller l'élan vital du cœur"
+  zh: "世界和平論壇——傳統文化教育啟動青少年核心源動力",
+  fr: "Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse : Ignite the Vital Spark of the Heart"
 } as const;
 
 export const PARTICIPANT_CATEGORY_KEYS = [
@@ -117,7 +117,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     submit: "Submit Registration",
     sending: "Submitting…",
     successPending:
-      "Thank you. Your registration has been received and is pending review. A confirmation email has been sent to your address.",
+      "Thank you. Your registration has been successfully confirmed. A confirmation email has been sent to your address.",
     successWaitlist:
       "Thank you. The conference has reached confirmed capacity, so your registration has been placed on the waitlist. A confirmation email has been sent to your address.",
     error: "We could not submit your registration. Please review the form and try again."
@@ -172,7 +172,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     privacyConsentRequired: "提交前請先閱讀並同意私隱政策。",
     submit: "提交報名",
     sending: "提交中…",
-    successPending: "感謝您。您的報名已收到，正在等候審核。確認信已寄至您的電郵。",
+    successPending: "感謝您。您的報名已成功確認。確認信已寄至您的電郵。",
     successWaitlist: "感謝您。論壇確認名額已滿，您的報名已列入候補。確認信已寄至您的電郵。",
     error: "無法提交報名，請檢查表格後再試。"
   },
@@ -228,7 +228,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     submit: "Envoyer l'inscription",
     sending: "Envoi en cours…",
     successPending:
-      "Merci. Votre inscription a bien été reçue et est en attente d'examen. Un e-mail de confirmation vous a été envoyé.",
+      "Merci. Votre inscription est confirmée avec succès. Un e-mail de confirmation vous a été envoyé.",
     successWaitlist:
       "Merci. La conférence a atteint sa capacité confirmée ; votre inscription a été placée sur liste d'attente. Un e-mail de confirmation vous a été envoyé.",
     error: "Impossible d'envoyer votre inscription. Veuillez vérifier le formulaire et réessayer."
