@@ -1977,11 +1977,47 @@ textarea:focus-visible {
 }
 
 .logo-story-category {
-  max-width: 42rem;
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 11rem) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+  align-items: center;
+  max-width: 72rem;
   margin: 0 auto;
 }
 
-.logo-story-category h3 {
+.logo-story-category-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-story-category-image {
+  display: block;
+  width: 100%;
+  max-width: 11rem;
+  height: auto;
+  opacity: 0;
+  transform: translateY(0.35rem);
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.logo-story-category.is-visible .logo-story-category-image {
+  opacity: 0.55;
+  transform: translateY(0);
+}
+
+.logo-story-category.is-active .logo-story-category-image {
+  animation: logo-story-image-fade 4.8s ease-in-out infinite;
+  animation-delay: var(--logo-story-fade-delay, 0s);
+}
+
+.logo-story-category-copy {
+  max-width: 42rem;
+}
+
+.logo-story-category-copy h3 {
   margin: 0 0 0.5rem;
   font-size: clamp(1.15rem, 2vw, 1.35rem);
   font-weight: 500;
@@ -1996,8 +2032,39 @@ textarea:focus-visible {
   text-wrap: pretty;
 }
 
-.logo-story-category p:last-child {
+.logo-story-category-copy p:last-child {
   margin: 0;
   color: var(--ls-text-body);
   text-wrap: pretty;
+}
+
+@keyframes logo-story-image-fade {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .logo-story-category {
+    grid-template-columns: minmax(5.5rem, 7rem) minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .logo-story-category-image {
+    max-width: 7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-story-category-image {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
 }

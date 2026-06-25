@@ -12,15 +12,77 @@ const story = getLogoStory(locale);
     <p class="logo-story-lead">{story.sectionSubtitle}</p>
   </div>
 
-  <div class="logo-story-categories">
+  <div class="logo-story-categories" data-logo-story-categories>
     {
-      story.steps.map((step) => (
-        <article class="logo-story-category" id={`logo-story-${step.id}`}>
-          <h3>{step.title}</h3>
-          <p class="logo-story-step-subtitle">{step.subtitle}</p>
-          <p>{step.text}</p>
+      story.steps.map((step, index) => (
+        <article
+          class="logo-story-category"
+          data-logo-story-category
+          style={`--logo-story-fade-delay: ${index * 0.35}s`}
+          id={`logo-story-${step.id}`}
+        >
+          <div class="logo-story-category-visual">
+            <img
+              class="logo-story-category-image"
+              src={step.image}
+              alt=""
+              width="320"
+              height="320"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="logo-story-category-copy">
+            <h3>{step.title}</h3>
+            <p class="logo-story-step-subtitle">{step.subtitle}</p>
+            <p>{step.text}</p>
+          </div>
         </article>
       ))
     }
   </div>
 </section>
+
+<script>
+  function initLogoStoryCategories(root: HTMLElement) {
+    const categories = Array.from(root.querySelectorAll<HTMLElement>("[data-logo-story-category]"));
+    if (!categories.length) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const reveal = (entry: IntersectionObserverEntry) => {
+      const target = entry.target as HTMLElement;
+      target.classList.toggle("is-visible", entry.isIntersecting);
+      target.classList.toggle("is-active", entry.isIntersecting && entry.intersectionRatio >= 0.45);
+    };
+
+    if (reducedMotion.matches) {
+      categories.forEach((category) => {
+        category.classList.add("is-visible", "is-active");
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(reveal),
+      {
+        root: null,
+        threshold: [0, 0.25, 0.45, 0.65],
+        rootMargin: "-10% 0px -10% 0px",
+      },
+    );
+
+    categories.forEach((category) => observer.observe(category));
+
+    reducedMotion.addEventListener("change", () => {
+      if (reducedMotion.matches) {
+        observer.disconnect();
+        categories.forEach((category) => category.classList.add("is-visible", "is-active"));
+      }
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-logo-story-categories]").forEach((root) => {
+    initLogoStoryCategories(root);
+  });
+</script>
