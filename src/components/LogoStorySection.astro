@@ -1,7 +1,6 @@
 ---
 import { getLogoStory } from "@data/logo-story";
 import type { Locale } from "@data/site";
-import emblemStorySvg from "../../public/assets/emblem-story.svg?raw";
 
 const { locale } = Astro.props as { locale: Locale };
 const story = getLogoStory(locale);
@@ -13,125 +12,15 @@ const story = getLogoStory(locale);
     <p class="logo-story-lead">{story.sectionSubtitle}</p>
   </div>
 
-  <div class="logo-story-layout" data-logo-story>
-    <div class="logo-story-visual" aria-hidden="true">
-      <div class="logo-story-visual-inner">
-        <Fragment set:html={emblemStorySvg.replace(/<\?xml.*?\?>\s*/u, "")} />
-      </div>
-    </div>
-
-    <div class="logo-story-steps">
-      {
-        story.steps.map((step, index) => (
-          <article
-            class:list={["logo-story-step", { "is-active": index === 0 }]}
-            data-logo-target={step.id}
-            id={`logo-story-${step.id}`}
-          >
-            <h3>{step.title}</h3>
-            <p class="logo-story-step-subtitle">{step.subtitle}</p>
-            <p>{step.text}</p>
-          </article>
-        ))
-      }
-    </div>
+  <div class="logo-story-categories">
+    {
+      story.steps.map((step) => (
+        <article class="logo-story-category" id={`logo-story-${step.id}`}>
+          <h3>{step.title}</h3>
+          <p class="logo-story-step-subtitle">{step.subtitle}</p>
+          <p>{step.text}</p>
+        </article>
+      ))
+    }
   </div>
 </section>
-
-<script>
-  // Rotation (degrees) applied to the whole emblem so the active cultural
-  // element turns toward the upper-right, facing the text on the right.
-  // Values are continuous (no wrap-around) so the wheel always turns in the
-  // same direction for a calm, museum-style narration. Derived from the real
-  // SVG geometry (each element sits ~40deg apart around the ring).
-  const rotationMap: Record<string, number> = {
-    "main-ring": 0,
-    opera: -95,
-    "dance-literature": -128,
-    music: -168,
-    architecture: -207,
-    "culinary-culture": -226,
-    penmanship: -276,
-    "ritual-arts": -393,
-    complete: -360,
-  };
-
-  function initLogoStory(root: HTMLElement) {
-    const svg = root.querySelector(".logo-story-visual-inner svg");
-    const layer = svg?.querySelector<SVGGElement>(".logo-rotating-layer") ?? null;
-    const steps = Array.from(root.querySelectorAll<HTMLElement>("[data-logo-target]"));
-    const parts = svg ? Array.from(svg.querySelectorAll<SVGElement>(".logo-part")) : [];
-    if (!steps.length || !parts.length) return;
-
-    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    // On narrow screens the logo sits above the text, so a gentler turn reads
-    // better and avoids drawing attention away from reading.
-    const compactQuery = window.matchMedia("(max-width: 860px)");
-
-    const applyRotation = (target: string) => {
-      if (!layer) return;
-      if (reducedMotionQuery.matches) {
-        layer.style.transform = "";
-        return;
-      }
-      const base = rotationMap[target] ?? 0;
-      const deg = compactQuery.matches ? base * 0.4 : base;
-      layer.style.transform = `rotate(${deg}deg)`;
-    };
-
-    const setActive = (target: string) => {
-      steps.forEach((step) => {
-        step.classList.toggle("is-active", step.dataset.logoTarget === target);
-      });
-
-      if (target === "complete") {
-        parts.forEach((part) => {
-          part.classList.remove("is-active", "is-dimmed");
-          part.classList.add("is-complete");
-        });
-      } else {
-        parts.forEach((part) => {
-          part.classList.remove("is-complete");
-          const isActive = part.id === target;
-          part.classList.toggle("is-active", isActive);
-          part.classList.toggle("is-dimmed", !isActive);
-        });
-      }
-
-      applyRotation(target);
-    };
-
-    let current = steps[0]?.dataset.logoTarget ?? "main-ring";
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-        const best = visible[0]?.target as HTMLElement | undefined;
-        if (best?.dataset.logoTarget) {
-          current = best.dataset.logoTarget;
-          setActive(current);
-        }
-      },
-      {
-        root: null,
-        threshold: [0.2, 0.35, 0.5, 0.65],
-        rootMargin: "-35% 0px -35% 0px",
-      },
-    );
-
-    steps.forEach((step) => observer.observe(step));
-    setActive(current);
-
-    // Re-evaluate rotation when motion preference or layout breakpoint changes.
-    const refresh = () => applyRotation(current);
-    reducedMotionQuery.addEventListener("change", refresh);
-    compactQuery.addEventListener("change", refresh);
-  }
-
-  document.querySelectorAll<HTMLElement>("[data-logo-story]").forEach((root) => {
-    initLogoStory(root);
-  });
-</script>
