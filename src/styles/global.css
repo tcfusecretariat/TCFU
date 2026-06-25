@@ -282,13 +282,16 @@ blockquote {
 }
 
 .hero-translations .hero-arabic,
+.hero-translations .tk-layaan-arabic,
 .hero-translations [lang="ar"] {
-  font-family: var(--font-ar);
-  font-size: 1.08em;
+  font-family: "layaan-arabic", sans-serif;
+  font-size: clamp(30px, 3.6vw, 46px);
   font-weight: 400;
   font-style: normal;
   font-synthesis: none;
-  line-height: 1.35;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-rendering: optimizeLegibility;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -909,14 +912,6 @@ h3 {
     linear-gradient(90deg, rgba(140, 112, 78, 0.18), transparent 8%, transparent 92%, rgba(140, 112, 78, 0.12)),
     rgba(255, 255, 255, 0.62);
   box-shadow: 0 28px 80px rgba(23, 20, 18, 0.16);
-}
-
-.book-reader::before {
-  content: "";
-  position: absolute;
-  inset: 20px auto 20px 50%;
-  width: 1px;
-  background: linear-gradient(transparent, rgba(140, 112, 78, 0.34), transparent);
 }
 
 .book-toolbar {

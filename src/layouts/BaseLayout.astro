@@ -29,6 +29,8 @@ const adobeFontsKit = import.meta.env.PUBLIC_ADOBE_FONTS_KIT_ID;
 const adobeFontsCss =
   import.meta.env.PUBLIC_ADOBE_FONTS_CSS ||
   (adobeFontsKit ? `https://use.typekit.net/${adobeFontsKit}.css` : "https://use.typekit.net/utx6cie.css");
+const layaanArabicWoff2 =
+  "https://use.typekit.net/af/bad23f/00000000000000007750ff1f/31/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3";
 const cloudflareBeacon = JSON.stringify({ token: cloudflareAnalyticsToken });
 const analyticsScript = cloudflareAnalyticsToken
   ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='${cloudflareBeacon}'></script>`
@@ -58,6 +60,7 @@ const analyticsScript = cloudflareAnalyticsToken
       <>
         <link rel="preconnect" href="https://use.typekit.net" crossorigin />
         <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+        <link rel="preload" href={layaanArabicWoff2} as="font" type="font/woff2" crossorigin />
         <link rel="stylesheet" href={adobeFontsCss} />
       </>
     )}
