@@ -10,9 +10,17 @@
   --line: rgba(23, 20, 18, 0.14);
   --serif-en: Baskerville, "Libre Baskerville", "Times New Roman", serif;
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
-  --kai-zh: Baskerville, "Libre Baskerville", "Kaiti TC", "DFKai-SB", "BiauKai", "標楷體", "TW-Kai", "AR PL UKai TW", KaiTi, STKaiti, serif;
+  --kai-zh: "cwTeXKai", "Kaiti TC", "DFKai-SB", "BiauKai", "標楷體", "TW-Kai", "AR PL UKai TW", KaiTi, STKaiti, serif;
   --font-ar: "layaan-arabic", sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@font-face {
+  font-family: "cwTeXKai";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/cwTeXKai-zhonly.woff2") format("woff2");
 }
 
 html {
