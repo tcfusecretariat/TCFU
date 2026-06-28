@@ -2,6 +2,7 @@ import type { Locale } from "./site";
 
 export const FOUNDATION_NAME = "TRADITIONAL CULTURE FOUNDATION AT UNESCO";
 export const FOUNDATION_NAME_ZH = "聯合國教科文組織傳統文化基金會";
+export const FOUNDATION_NAME_FR = "Fondation pour la culture traditionnelle à l'UNESCO";
 export const FOUNDATION_ADDRESS = "1 RUE MIOLLIS, 75015 PARIS, France";
 export const FOUNDATION_EMAIL = "tcfu.secretariat@gmail.com";
 
@@ -781,15 +782,383 @@ const privacyPolicyZh: PrivacyPolicyDoc = {
   ]
 };
 
+const privacyPolicyFr: PrivacyPolicyDoc = {
+  title: "Politique de confidentialité",
+  pageTitle: "Protection des données personnelles",
+  kicker: "Mentions légales",
+  lastUpdatedLabel: "Dernière mise à jour",
+  lastUpdated: "23/06/2026",
+  privacyPolicyLinkLabel: "Politique de confidentialité",
+  navAriaLabel: "Sections de la politique de confidentialité",
+  tabs: [
+    {
+      id: "protection",
+      navLabel: "Protection des données",
+      heading: "1. Protection des données personnelles",
+      blocks: [
+        {
+          paragraphs: [
+            `La présente Politique de confidentialité explique comment ${FOUNDATION_NAME_FR} (« nous », « notre » ou « la Fondation ») collecte, utilise, conserve et protège les données personnelles via ce site web, notamment par le biais des formulaires de contact, des formulaires d'inscription aux événements et des autres services en ligne proposés sur le site.`,
+            "Nous nous engageons à respecter la vie privée et les droits à la protection des données personnelles de tous les visiteurs, participants, bénévoles, partenaires et autres personnes interagissant avec notre site web et nos activités.",
+            "La présente Politique de confidentialité vise à respecter les principes du Règlement général sur la protection des données (UE) 2016/679 (« RGPD ») et les règles françaises et européennes applicables en matière de protection des données."
+          ]
+        },
+        {
+          heading: "Modifications de la présente Politique de confidentialité",
+          paragraphs: [
+            "Nous pouvons mettre à jour la présente Politique de confidentialité de temps à autre afin de refléter l'évolution de notre site web, de nos activités, de nos obligations légales ou de nos pratiques de traitement des données.",
+            "La version mise à jour sera publiée sur cette page avec une date de « Dernière mise à jour » révisée."
+          ]
+        }
+      ]
+    },
+    {
+      id: "controller",
+      navLabel: "Responsable du traitement",
+      heading: "2. Responsable du traitement",
+      blocks: [
+        {
+          paragraphs: [
+            "Le responsable du traitement des données personnelles collectées via ce site web est :",
+            `${FOUNDATION_NAME_FR}\n${FOUNDATION_ADDRESS}`,
+            `E-mail : ${FOUNDATION_EMAIL}`,
+            "Pour toute question relative à la présente Politique de confidentialité ou au traitement de vos données personnelles, vous pouvez contacter le Secrétariat de la Fondation à l'adresse :",
+            FOUNDATION_EMAIL
+          ]
+        }
+      ]
+    },
+    {
+      id: "data-collected",
+      navLabel: "Données collectées",
+      heading: "3. Données personnelles que nous collectons",
+      blocks: [
+        {
+          paragraphs: [
+            "Nous pouvons collecter et traiter différentes catégories de données personnelles selon la manière dont vous interagissez avec notre site web."
+          ],
+          subsections: [
+            {
+              heading: "Formulaires de contact",
+              paragraphs: ["Lorsque vous nous contactez via le site web, nous pouvons collecter :"],
+              list: [
+                "Nom",
+                "Adresse e-mail",
+                "Organisation ou affiliation",
+                "Contenu du message",
+                "Toute autre information que vous choisissez de fournir"
+              ]
+            },
+            {
+              heading: "Formulaires d'inscription aux événements",
+              paragraphs: ["Lorsque vous vous inscrivez à un événement, nous pouvons collecter :"],
+              list: [
+                "Nom",
+                "Prénom",
+                "Numéro de passeport, numéro de titre de séjour ou numéro de carte d'identité française, lorsque requis pour l'accès au lieu ou la gestion de la sécurité",
+                "Nationalité",
+                "Numéro de téléphone",
+                "Adresse e-mail",
+                "Nom du contact d'urgence",
+                "Téléphone du contact d'urgence",
+                "Date(s) de participation",
+                "Volontariat (oui/non)",
+                "Tranche d'âge (facultatif)",
+                "Genre (facultatif)",
+                "Remarques (facultatif)",
+                "Statut d'inscription",
+                "Notes administratives internes liées à votre inscription",
+                "Date et heure de soumission"
+              ]
+            },
+            {
+              heading: "Données techniques",
+              paragraphs: [
+                "Lorsque vous consultez notre site web, certaines informations techniques peuvent être traitées automatiquement, telles que :"
+              ],
+              list: [
+                "Adresse IP",
+                "Type et version du navigateur",
+                "Type d'appareil",
+                "Pages consultées",
+                "Date et heure de la visite",
+                "Journaux de sécurité et de serveur"
+              ]
+            }
+          ],
+          paragraphsAfter: [
+            "Si nécessaire pour un événement donné, nous pouvons également collecter une photo ou un document téléversé pour la vérification des participants, la gestion des accès ou la préparation de badges.",
+            "Ces informations techniques sont utilisées pour la sécurité du site web, la maintenance technique, les performances, la protection contre le spam et la prévention des accès non autorisés."
+          ]
+        },
+        {
+          heading: "Inscription aux événements et accès au lieu",
+          paragraphs: [
+            "Pour les événements organisés dans des lieux institutionnels ou internationaux, y compris le Siège de l'UNESCO ou des lieux similaires, certaines données personnelles peuvent être nécessaires à l'inscription, à la gestion des accès, à la vérification de sécurité et à la coordination administrative.",
+            "Cela peut inclure le nom, la nationalité, le numéro de pièce d'identité, les coordonnées et la ou les date(s) de participation.",
+            "Lorsque cela est strictement nécessaire pour l'accès au lieu ou la gestion de la sécurité, des informations limitées sur les participants peuvent être partagées avec les services compétents d'accès, de sécurité ou administratifs du lieu.",
+            "Seules les informations nécessaires à ces finalités seront partagées."
+          ]
+        },
+        {
+          heading: "Numéro de pièce d'identité et informations d'identité",
+          paragraphs: [
+            "Le numéro de passeport, de titre de séjour ou de carte d'identité française, ainsi que la nationalité, ne sont collectés que lorsque cela est nécessaire à la vérification des participants, à l'accès au lieu institutionnel, aux exigences de sécurité ou à la coordination administrative.",
+            "Ces informations ne seront pas utilisées à des fins non liées et ne seront pas conservées plus longtemps que nécessaire.",
+            "Sauf obligation légale, de sécurité ou administrative imposant une durée de conservation plus longue, les numéros de pièce d'identité sont normalement supprimés ou anonymisés dans les trois mois suivant la fin de l'événement concerné."
+          ]
+        },
+        {
+          heading: "Informations de contact d'urgence",
+          paragraphs: [
+            "Les informations de contact d'urgence sont collectées uniquement à des fins liées à la sécurité et ne sont utilisées que lorsque cela est nécessaire en lien avec l'événement.",
+            "Les coordonnées d'urgence ne seront pas utilisées pour des communications sans rapport avec la sécurité des participants.",
+            "Sauf obligation légale ou administrative imposant une durée de conservation plus longue, les informations de contact d'urgence sont normalement supprimées ou anonymisées dans les trois mois suivant la fin de l'événement concerné."
+          ]
+        },
+        {
+          heading: "Remarques et besoins particuliers",
+          paragraphs: [
+            "Les participants peuvent nous informer volontairement de besoins particuliers, tels que des besoins d'accessibilité, d'interprétation ou des restrictions alimentaires, dans le champ « Remarques » ou par tout autre moyen approprié.",
+            "Veuillez ne fournir que les informations nécessaires pour nous permettre de soutenir votre participation.",
+            "Ces informations ne seront utilisées que pour la préparation de l'événement et le soutien aux participants. L'accès à ces informations sera limité aux membres autorisés du comité d'organisation ou aux prestataires concernés, lorsque cela est nécessaire."
+          ]
+        },
+        {
+          heading: "Enfants et jeunes participants",
+          paragraphs: [
+            "Nos événements ou programmes peuvent impliquer de jeunes participants. Lorsque des données personnelles de mineurs sont collectées, nous faisons preuve d'une vigilance accrue et, lorsque requis, demandons l'autorisation d'un parent, d'un tuteur légal, d'un établissement scolaire ou d'un représentant autorisé.",
+            "Nous ne collectons pas sciemment de données personnelles de mineurs sans l'autorisation appropriée lorsque celle-ci est requise."
+          ]
+        }
+      ]
+    },
+    {
+      id: "purposes",
+      navLabel: "Finalités du traitement",
+      heading: "4. Finalités du traitement",
+      blocks: [
+        {
+          paragraphs: [
+            "Nous collectons et traitons les données personnelles uniquement à des fins déterminées, explicites et légitimes.",
+            "Vos données personnelles peuvent être utilisées aux fins suivantes :"
+          ],
+          list: [
+            "Gérer l'inscription aux événements",
+            "Vérifier l'identité des participants lorsque cela est requis pour l'accès au lieu",
+            "Communiquer avec les participants inscrits",
+            "Envoyer des e-mails de confirmation ou d'informations pratiques",
+            "Organiser l'accès au lieu de l'événement",
+            "Préparer, le cas échéant, des listes de participants, badges ou documents d'accès",
+            "Gérer la participation des bénévoles",
+            "Répondre aux remarques ou besoins particuliers communiqués volontairement par les participants",
+            "Contacter une personne d'urgence lorsque cela est strictement nécessaire",
+            "Assurer la sûreté et la sécurité de l'événement",
+            "Respecter les exigences administratives, légales ou liées au lieu",
+            "Répondre aux demandes envoyées via le site web",
+            "Maintenir la sécurité et le bon fonctionnement du site web"
+          ],
+          paragraphsAfter: [
+            "Nous ne vendons pas vos données personnelles.",
+            "Nous n'utilisons pas les données d'inscription aux événements à des fins de marketing commercial."
+          ]
+        }
+      ]
+    },
+    {
+      id: "legal-bases",
+      navLabel: "Bases juridiques",
+      heading: "5. Bases juridiques",
+      blocks: [
+        {
+          paragraphs: [
+            "Selon le contexte, nous traitons les données personnelles sur l'une ou plusieurs des bases juridiques suivantes au titre du RGPD :"
+          ],
+          list: [
+            "Consentement : lorsque vous soumettez volontairement un formulaire, fournissez des remarques ou besoins particuliers, téléversez une photo ou un document, ou acceptez le traitement de vos données aux fins d'inscription à un événement.",
+            "Intérêt légitime : lorsque le traitement est nécessaire pour organiser des événements, assurer l'accès au lieu, maintenir la sécurité, prévenir les abus et gérer les communications avec les participants.",
+            "Mesures précontractuelles ou organisationnelles : lorsque le traitement est nécessaire pour traiter votre demande d'inscription ou de participation.",
+            "Obligation légale ou administrative : lorsque nous sommes tenus de conserver ou de fournir certaines informations pour des raisons légales, administratives ou liées à la sécurité du lieu.",
+            "Intérêts vitaux : lorsque les informations de contact d'urgence doivent être utilisées dans une situation grave et urgente."
+          ],
+          paragraphsAfter: [
+            "Lorsque des remarques révèlent des informations sensibles, telles que des informations relatives à la santé, à l'accessibilité, à la religion ou à l'alimentation, ces informations sont fournies volontairement et ne seront traitées que pour soutenir votre participation à l'événement."
+          ]
+        }
+      ]
+    },
+    {
+      id: "photos",
+      navLabel: "Photos et documents",
+      heading: "6. Photos et documents téléversés",
+      blocks: [
+        {
+          paragraphs: [
+            "Lorsque le téléversement de photos est activé, des photos peuvent être collectées pour la vérification des participants, la préparation de badges ou la gestion de l'accès à l'événement.",
+            "Les photos et documents téléversés ne seront pas utilisés à des fins promotionnelles ou de communication publique sans consentement distinct.",
+            "Sauf obligation légale, de sécurité ou administrative imposant une durée de conservation plus longue, les photos et documents téléversés sont normalement supprimés ou anonymisés dans les trois mois suivant la fin de l'événement concerné."
+          ]
+        }
+      ]
+    },
+    {
+      id: "recipients",
+      navLabel: "Destinataires et prestataires",
+      heading: "7. Destinataires et prestataires de services",
+      blocks: [
+        {
+          heading: "Destinataires des données personnelles",
+          paragraphs: [
+            "Les données personnelles ne peuvent être consultées que par des personnes autorisées qui en ont besoin aux fins décrites dans la présente Politique de confidentialité.",
+            "Les destinataires peuvent inclure :"
+          ],
+          list: [
+            "Membres du comité d'organisation",
+            "Équipes d'inscription et du Secrétariat",
+            "Équipes de coordination de l'accès ou de la sécurité de l'événement",
+            "Prestataires techniques prenant en charge le site web, la base de données, l'envoi d'e-mails, l'hébergement ou la sécurité",
+            "Services compétents d'accès ou de sécurité du lieu, lorsque cela est strictement nécessaire"
+          ],
+          paragraphsAfter: [
+            "Nous prenons des mesures raisonnables pour garantir que les données personnelles ne sont consultées que par des personnes autorisées et uniquement à des fins légitimes."
+          ]
+        },
+        {
+          heading: "Prestataires de services tiers",
+          paragraphs: [
+            "Pour exploiter notre site web et notre système d'inscription, nous pouvons recourir à des prestataires de services tiers de confiance, notamment :"
+          ],
+          list: [
+            "Sanity pour la gestion de contenu et le stockage des données d'inscription",
+            "Cloudflare pour l'hébergement du site web, la sécurité, les performances et la protection anti-spam",
+            "Resend ou un autre prestataire de services e-mail pour l'envoi automatique d'e-mails d'inscription",
+            "GitHub pour la gestion des versions du code du site web"
+          ],
+          paragraphsAfter: [
+            "Les données personnelles ne doivent pas être stockées directement dans des dépôts de code publics.",
+            "Ces prestataires ne peuvent traiter les données personnelles que dans la mesure nécessaire à la fourniture de leurs services et conformément à leurs propres obligations en matière de sécurité et de protection des données."
+          ]
+        },
+        {
+          heading: "Transferts internationaux",
+          paragraphs: [
+            "Certains prestataires utilisés pour l'hébergement du site web, le stockage des données, la sécurité ou l'envoi d'e-mails peuvent traiter des données en dehors de l'Espace économique européen.",
+            "Lorsque de tels transferts ont lieu, nous nous efforçons de nous appuyer sur des garanties appropriées au titre du RGPD, telles que des décisions d'adéquation, des clauses contractuelles types ou d'autres mécanismes de transfert licites, le cas échéant."
+          ]
+        }
+      ]
+    },
+    {
+      id: "retention",
+      navLabel: "Conservation des données",
+      heading: "8. Conservation des données",
+      blocks: [
+        {
+          paragraphs: [
+            "Nous conservons les données personnelles uniquement pendant la durée nécessaire aux finalités pour lesquelles elles ont été collectées.",
+            "Sauf exigence contraire de la loi ou de besoins administratifs légitimes, les durées de conservation suivantes s'appliquent généralement :"
+          ],
+          list: [
+            "Messages des formulaires de contact : jusqu'à 12 mois",
+            "Données d'inscription aux événements : jusqu'à 12 mois après l'événement",
+            "Numéros de pièce d'identité : normalement supprimés ou anonymisés dans les trois mois suivant l'événement",
+            "Informations de contact d'urgence : normalement supprimées ou anonymisées dans les trois mois suivant l'événement",
+            "Photos ou documents téléversés : normalement supprimés ou anonymisés dans les trois mois suivant l'événement",
+            "Informations relatives aux bénévoles : jusqu'à 24 mois, lorsque la personne accepte d'être contactée pour de futures opportunités de bénévolat",
+            "Journaux techniques et de sécurité : conservés pendant une durée limitée nécessaire à la sécurité et à la maintenance du site web"
+          ],
+          paragraphsAfter: [
+            "À l'issue de la durée de conservation pertinente, les données personnelles seront supprimées, anonymisées ou archivées de manière sécurisée, le cas échéant."
+          ]
+        }
+      ]
+    },
+    {
+      id: "security",
+      navLabel: "Sécurité des données",
+      heading: "9. Sécurité des données",
+      blocks: [
+        {
+          paragraphs: [
+            "Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger les données personnelles contre l'accès non autorisé, la perte, l'utilisation abusive, l'altération ou la divulgation.",
+            "Ces mesures peuvent inclure :"
+          ],
+          list: [
+            "Restriction d'accès au personnel autorisé",
+            "Hébergement sécurisé du site web",
+            "Protection anti-spam et mesures de sécurité",
+            "Stockage sécurisé des données d'inscription",
+            "Accès limité aux informations sensibles",
+            "Examen régulier de l'accès aux données et de leur conservation",
+            "Éviter le stockage de données personnelles dans des dépôts de code publics"
+          ],
+          paragraphsAfter: [
+            "Toutefois, aucun système ne peut garantir une sécurité absolue. Nous encourageons donc les utilisateurs à ne pas soumettre d'informations sensibles inutiles via les formulaires en ligne."
+          ]
+        }
+      ]
+    },
+    {
+      id: "cookies",
+      navLabel: "Cookies",
+      heading: "10. Cookies",
+      blocks: [
+        {
+          paragraphs: [
+            "Notre site web peut utiliser des cookies ou des technologies similaires à des fins techniques, de sécurité, statistiques ou fonctionnelles.",
+            "Des cookies strictement nécessaires peuvent être utilisés pour assurer le bon fonctionnement et la sécurité du site web.",
+            "Lorsque des cookies non essentiels sont utilisés, tels que des cookies d'analyse, de médias intégrés ou de marketing, nous demanderons votre consentement lorsque la loi applicable l'exige.",
+            "Vous trouverez de plus amples informations dans notre Politique relative aux cookies."
+          ]
+        }
+      ]
+    },
+    {
+      id: "rights",
+      navLabel: "Vos droits",
+      heading: "11. Vos droits",
+      blocks: [
+        {
+          paragraphs: ["Au titre du RGPD, vous pouvez disposer des droits suivants concernant vos données personnelles :"],
+          list: [
+            "Le droit d'accéder à vos données personnelles",
+            "Le droit de demander la rectification de données inexactes ou incomplètes",
+            "Le droit de demander l'effacement de vos données",
+            "Le droit de demander la limitation du traitement",
+            "Le droit de vous opposer au traitement",
+            "Le droit de retirer votre consentement à tout moment, lorsque le traitement est fondé sur le consentement",
+            "Le droit à la portabilité des données, le cas échéant",
+            "Le droit d'introduire une réclamation auprès d'une autorité de protection des données compétente"
+          ],
+          paragraphsAfter: [
+            `Pour exercer vos droits, veuillez contacter le Secrétariat de la Fondation à l'adresse :\n\n${FOUNDATION_EMAIL}`,
+            "Nous pouvons être amenés à vérifier votre identité avant de répondre à votre demande.",
+            "Si vous êtes situé(e) en France, vous avez également le droit de contacter la CNIL, l'autorité française de protection des données."
+          ]
+        }
+      ]
+    },
+    {
+      id: "contact",
+      navLabel: "Contact",
+      heading: "12. Contact",
+      blocks: [
+        {
+          paragraphs: [
+            "Pour toute question relative à la présente Politique de confidentialité ou au traitement de vos données personnelles, veuillez contacter :",
+            `${FOUNDATION_NAME_FR}\n${FOUNDATION_ADDRESS}`,
+            `E-mail : ${FOUNDATION_EMAIL}`
+          ]
+        }
+      ]
+    }
+  ]
+};
+
 export const privacyPolicyContent: Record<Locale, PrivacyPolicyDoc> = {
   en: privacyPolicyEn,
   zh: privacyPolicyZh,
-  fr: {
-    ...privacyPolicyEn,
-    title: "Politique de confidentialité",
-    privacyPolicyLinkLabel: "Politique de confidentialité",
-    navAriaLabel: "Sections de la politique de confidentialité"
-  }
+  fr: privacyPolicyFr
 };
 
 /** Notice displayed above the event registration form. */
