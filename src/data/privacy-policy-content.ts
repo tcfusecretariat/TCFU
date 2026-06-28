@@ -784,7 +784,12 @@ const privacyPolicyZh: PrivacyPolicyDoc = {
 export const privacyPolicyContent: Record<Locale, PrivacyPolicyDoc> = {
   en: privacyPolicyEn,
   zh: privacyPolicyZh,
-  fr: privacyPolicyEn
+  fr: {
+    ...privacyPolicyEn,
+    title: "Politique de confidentialité",
+    privacyPolicyLinkLabel: "Politique de confidentialité",
+    navAriaLabel: "Sections de la politique de confidentialité"
+  }
 };
 
 /** Notice displayed above the event registration form. */
@@ -793,11 +798,11 @@ export const registrationPrivacyNotice: Record<Locale, string> = {
 
 Welcome to register for the International Peace Conference on Traditional Culture Education for Youth: Ignite the Vital Spark of the Heart.
 
-The event will take place on 1–2 October 2026 at Room IV, UNESCO Headquarters (125 Avenue de Suffren, 75007 Paris). Check-in will begin at 8:00 a.m. on the day of the event.
+The event will take place on 1–2 October 2026 at Room IV, UNESCO Headquarters (125 Avenue de Suffren, 75007 Paris). Check-in will begin at 8:30 a.m. on the day of the event.
 
 Please complete this form to register. The information you provide will be used only for event registration, participant verification, venue access management, safety communication, volunteer coordination, and necessary administrative arrangements. Upon submission, your registration will be confirmed immediately and a confirmation email will be sent automatically to the email address you provide. Please ensure your email address is correct.
 
-To comply with security and access procedures at UNESCO Headquarters, please bring your passport with you for check-in and verification on the day of the event.
+To comply with security and access procedures at UNESCO Headquarters, please bring the valid identity document used for registration for check-in and verification on the day of the event.
 
 If you have any questions, please contact:
 Phone: +33 (0)7 45 19 68 58
@@ -810,11 +815,11 @@ The Secretariat`,
 
 歡迎您報名參加 「世界和平論壇——傳統文化教育啟動青少年核心源動力」。
 
-本次活動將於 2026年10月1日至2日 在 聯合國教科文組織總部 Room IV（125 Avenue de Suffren, 75007 Paris） 舉行，活動當日將於 上午8:00開始簽到入場。
+本次活動將於 2026 年 10 月 1 日至 2 日 在 聯合國教科文組織總部 Room IV（125 Avenue de Suffren, 75007 Paris） 舉行，活動當日將於 上午 8:30 開始簽到入場。
 
 請填寫本表單以完成活動報名。您所提供的資訊將僅用於活動報名、參加者核實、場地進出管理、安全聯絡、志工協調及必要的行政安排。提交表單後，您的報名將即時確認，系統將自動寄送確認信至您填寫的電子郵箱，請務必確認電郵地址準確無誤。
 
-為配合聯合國教科文組織總部的安保及入場管理工作，請您於活動當日簽到入場時攜帶本人護照，以便現場核驗。
+為配合聯合國教科文組織總部的安保及入場管理工作，請您於活動當日簽到入場時攜帶報名時所使用的有效證件，以便現場核驗。
 
 如有任何疑問，請聯繫：
 電話：+33 (0)7 45 19 68 58
@@ -825,20 +830,20 @@ The Secretariat`,
 秘書處`,
   fr: `Madame, Monsieur,
 
-Nous vous invitons à vous inscrire à la Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse : Ignite the Vital Spark of the Heart.
+Nous vous invitons à vous inscrire à la Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse : Réveiller l'élan vital du cœur.
 
-L'événement se tiendra les 1er et 2 octobre 2026 à la Salle IV, Siège de l'UNESCO (125 Avenue de Suffren, 75007 Paris). L'accueil et l'enregistrement commenceront à 8h00 le jour de l'événement.
+L'événement se tiendra les 1er et 2 octobre 2026 à la Salle IV, Siège de l'UNESCO (125 Avenue de Suffren, 75007 Paris). L'accueil et l'enregistrement commenceront à 8h30 le jour de l'événement.
 
 Veuillez remplir ce formulaire pour finaliser votre inscription. Les informations que vous fournissez seront utilisées uniquement pour l'inscription, la vérification des participants, la gestion des accès, la communication de sécurité, la coordination des bénévoles et les arrangements administratifs nécessaires. Dès l'envoi du formulaire, votre inscription sera confirmée immédiatement et un e-mail de confirmation sera adressé automatiquement à l'adresse électronique indiquée. Veuillez vérifier que votre adresse e-mail est exacte.
 
-Afin de respecter les procédures de sécurité du Siège de l'UNESCO, nous vous remercions de vous munir de votre passeport lors de l'accueil et de l'enregistrement le jour de l'événement.
+Afin de respecter les procédures de sécurité du Siège de l'UNESCO, veuillez vous munir de la pièce d'identité valide utilisée lors de votre inscription lors de l'accueil et de l'enregistrement le jour de l'événement.
 
 Pour toute question, veuillez contacter :
 Téléphone : +33 (0)7 45 19 68 58
 E-mail : ${FOUNDATION_EMAIL}
 
 Bien cordialement,
-Traditional Culture Foundation at UNESCO
+Fondation pour la culture traditionnelle à l'UNESCO
 Le Secrétariat`
 };
 
@@ -870,10 +875,11 @@ export const registrationConsentCopy: Record<Locale, RegistrationConsentCopy> = 
     secretariatTrailing: "。"
   },
   fr: {
-    privacyPolicyLinkLabel: "Privacy Policy",
-    intro: "I have read and understood the ",
-    afterLink: `. I consent to the collection and processing of the personal data provided in this form by ${FOUNDATION_NAME} for the purposes of event registration, participant verification, access management, safety communication, volunteer coordination, and necessary administrative arrangements.\n\nI understand that, where strictly necessary for venue access or security management, limited participant information may be shared with the relevant venue access or security services.`,
-    secretariatLine: "To exercise my data protection rights, I may contact the Foundation Secretariat at ",
+    privacyPolicyLinkLabel: "Politique de confidentialité",
+    intro: "J'ai lu et compris la ",
+    afterLink: `. J'accepte la collecte et le traitement des données personnelles fournies dans ce formulaire par ${FOUNDATION_NAME} aux fins d'inscription à l'événement, de vérification des participants, de gestion des accès, de communication de sécurité, de coordination des bénévoles et des arrangements administratifs nécessaires.\n\nJe comprends que, lorsque cela est strictement nécessaire pour l'accès au lieu ou la gestion de la sécurité, des informations limitées sur les participants peuvent être partagées avec les services compétents d'accès ou de sécurité du lieu.`,
+    secretariatLine:
+      "Pour exercer mes droits en matière de protection des données, je peux contacter le Secrétariat de la Fondation à l'adresse ",
     secretariatTrailing: "."
   }
 };

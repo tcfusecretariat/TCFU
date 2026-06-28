@@ -191,7 +191,7 @@ export const content: Record<Locale, HomeContent> = {
       news: { kicker: "Actualités", title: "Forums activités et publications sélectionnés" },
       support: { kicker: "Nous soutenir", title: "Votre soutien aide l’éducation à la paix<br />et la traduction des classiques", items: ["Éducation à la paix", "Projets jeunesse", "Forums internationaux", "Traduction des classiques"], cta: "Soutenir la Fondation" }
     },
-    footer: { contact: "Nous contacter", donate: "Soutenir", privacy: "Confidentialité" },
+    footer: { contact: "Nous contacter", donate: "Soutenir", privacy: "Politique de confidentialité" },
     contact: {
       title: "Nous contacter",
       intro: "Laissez votre message et nous vous répondrons dès que possible.",

@@ -1215,6 +1215,17 @@ textarea:focus-visible {
   text-wrap: balance;
 }
 
+.registration-page--en .registration-header h1,
+.registration-page--fr .registration-header h1 {
+  font-family: var(--serif-en);
+  font-size: clamp(17px, 2.4vw, 29px);
+}
+
+.registration-page--zh .registration-header h1 {
+  font-family: var(--kai-zh);
+  font-size: clamp(17px, 2.4vw, 29px);
+}
+
 .registration-title-line {
   display: block;
 }
@@ -1508,6 +1519,14 @@ textarea:focus-visible {
   display: grid;
   gap: 7px;
   color: var(--champagne-deep);
+}
+
+.registration-field-help {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(14px, 1.35vw, 16px);
+  line-height: 1.65;
+  text-wrap: pretty;
 }
 
 .registration-form input,

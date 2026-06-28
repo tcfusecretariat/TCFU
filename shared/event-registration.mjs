@@ -3,7 +3,7 @@ export const SYMPOSIUM_EVENT_KEY = "international-symposium-youth-wellbeing-peac
 export const CONFERENCE_TITLE = {
   en: "International Peace Conference on Traditional Culture Education for Youth: Ignite the Vital Spark of the Heart",
   zh: "世界和平論壇——傳統文化教育啟動青少年核心源動力",
-  fr: "Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse : Ignite the Vital Spark of the Heart"
+  fr: "Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse : Réveiller l'élan vital du cœur"
 };
 
 export const CONFIRMATION_EMAIL_SUBJECT = {
@@ -19,12 +19,12 @@ Thank you for registering for the International Peace Conference on Traditional 
 
 Your registration has been successfully confirmed. We look forward to welcoming you to the conference.
 
-To comply with the security procedures of UNESCO Headquarters, please kindly bring your passport with you when you come for check-in and access to the venue.
+Please bring the valid identity document used for registration when you come for check-in and access to the venue.
 
 Event Details
 Event: International Peace Conference on Traditional Culture Education for Youth: Ignite the Vital Spark of the Heart
 Dates: 1–2 October 2026
-Check-in: From 8:00 a.m.
+Check-in: From 8:30 a.m.
 Venue: Room IV, UNESCO Headquarters, 125 Avenue de Suffren, 75007 Paris
 Contact: +33 (0)7 45 19 68 58
 
@@ -33,40 +33,40 @@ The Secretariat
 Traditional Culture Foundation at UNESCO`,
   zh: `尊敬的參會者：
 
-感謝您報名參加 世界和平論壇——傳統文化教育啟動青少年核心源動力。
+感謝您報名參加世界和平論壇——傳統文化教育啟動青少年核心源動力。
 
 您的報名已成功確認。我們期待於大會現場歡迎您的到來。
 
-為配合聯合國教科文組織總部的安保及入場管理工作，請您於活動當日簽到入場時攜帶本人護照。
+請於活動當日簽到入場時攜帶報名時所使用的有效證件。
 
 活動資訊
-活動名稱： 世界和平論壇——傳統文化教育啟動青少年核心源動力
-日期： 2026年10月1日至2日
-簽到入場： 上午8:00開始
-地點： 聯合國教科文組織總部 Room IV，125 Avenue de Suffren, 75007 Paris
-聯繫電話： +33 (0)7 45 19 68 58
+活動名稱：世界和平論壇——傳統文化教育啟動青少年核心源動力
+日期：2026 年 10 月 1 日至 2 日
+簽到入場：上午 8:30 開始
+地點：聯合國教科文組織總部 Room IV，125 Avenue de Suffren, 75007 Paris
+聯繫電話：+33 (0)7 45 19 68 58
 
 謹致問候，
 秘書處
 聯合國教科文組織傳統文化基金會`,
   fr: `Madame, Monsieur,
 
-Nous vous remercions pour votre inscription à la Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse : Ignite the Vital Spark of the Heart.
+Nous vous remercions pour votre inscription à la Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse : Réveiller l'élan vital du cœur.
 
-Votre inscription est confirmée avec succès. Nous nous réjouissons de vous accueillir à la conférence.
+Votre inscription a été confirmée avec succès. Nous nous réjouissons de vous accueillir à la conférence.
 
-Afin de respecter les procédures de sécurité du Siège de l'UNESCO, nous vous remercions de bien vouloir vous munir de votre passeport lors de l'accueil et de l'enregistrement à l'entrée du lieu de l'événement.
+Veuillez vous munir de la pièce d'identité valide utilisée lors de votre inscription lors de l'accueil et de l'enregistrement le jour de l'événement.
 
 Informations sur l'événement
-Événement : Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse : Ignite the Vital Spark of the Heart
+Événement : Conférence internationale pour la paix sur l'éducation à la culture traditionnelle en faveur de la jeunesse : Réveiller l'élan vital du cœur
 Dates : 1er–2 octobre 2026
-Accueil et enregistrement : à partir de 8h00
+Accueil et enregistrement : à partir de 8h30
 Lieu : Salle IV, Siège de l'UNESCO, 125 Avenue de Suffren, 75007 Paris
 Contact : +33 (0)7 45 19 68 58
 
-Bien Cordialement,
+Bien cordialement,
 Le Secrétariat
-Traditional Culture Foundation at UNESCO`
+Fondation pour la culture traditionnelle à l'UNESCO`
 };
 
 /** @param {string} locale */
@@ -91,6 +91,17 @@ export const PARTICIPANT_CATEGORIES = [
 
 export const ATTENDANCE_OPTIONS = ["oct1", "oct2", "both"];
 
+export const AGE_GROUP_OPTIONS = [
+  "under18",
+  "18-24",
+  "25-30",
+  "31-40",
+  "41-50",
+  "51-70",
+  "71plus",
+  "prefer-not"
+];
+
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function clean(value) {
@@ -111,6 +122,12 @@ export function createEventRegistration(payload) {
         ? false
         : null;
 
+  const ageGroup = clean(payload.ageGroup);
+  const gender = clean(payload.gender);
+  const remarks =
+    clean(payload.remarks) ||
+    [clean(payload.specialRequirements), clean(payload.messageToCommittee)].filter(Boolean).join("\n\n");
+
   const registration = {
     eventKey: clean(payload.eventKey) || SYMPOSIUM_EVENT_KEY,
     familyName: clean(payload.familyName),
@@ -124,8 +141,9 @@ export function createEventRegistration(payload) {
     participantCategory: clean(payload.participantCategory),
     volunteer,
     attendanceDates: clean(payload.attendanceDates),
-    specialRequirements: clean(payload.specialRequirements),
-    messageToCommittee: clean(payload.messageToCommittee),
+    ageGroup: ageGroup || undefined,
+    gender: gender || undefined,
+    remarks: remarks || undefined,
     privacyConsent: bool(payload.privacyConsent),
     locale: clean(payload.locale) || "en"
   };
@@ -169,6 +187,10 @@ export function createEventRegistration(payload) {
     throw new Error("Invalid attendance date selection.");
   }
 
+  if (ageGroup && !AGE_GROUP_OPTIONS.includes(ageGroup)) {
+    throw new Error("Invalid age group selection.");
+  }
+
   return registration;
 }
 
@@ -188,8 +210,9 @@ export function toSanityDocument(registration, { status, submittedAt, confirmati
     participantCategory: registration.participantCategory,
     volunteer: registration.volunteer,
     attendanceDates: registration.attendanceDates,
-    specialRequirements: registration.specialRequirements || undefined,
-    messageToCommittee: registration.messageToCommittee || undefined,
+    ageGroup: registration.ageGroup,
+    gender: registration.gender,
+    remarks: registration.remarks,
     locale: registration.locale,
     privacyConsentAccepted: registration.privacyConsent,
     submittedAt,

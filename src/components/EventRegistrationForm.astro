@@ -1,5 +1,5 @@
 ---
-import { PARTICIPANT_CATEGORY_KEYS, registrationCopy, SYMPOSIUM_EVENT_KEY } from "@data/event-registration";
+import { AGE_GROUP_KEYS, PARTICIPANT_CATEGORY_KEYS, registrationCopy, SYMPOSIUM_EVENT_KEY } from "@data/event-registration";
 import { FOUNDATION_EMAIL, registrationConsentCopy } from "@data/privacy-policy-content";
 import type { Locale } from "@data/site";
 
@@ -113,12 +113,25 @@ const consentAfterLinkParts = consent.afterLink.split("\n\n");
     </fieldset>
 
     <label>
-      <span>{t.fields.specialRequirements}</span>
-      <textarea name="specialRequirements" rows="3"></textarea>
+      <span>{t.fields.ageGroup}</span>
+      <select name="ageGroup">
+        <option value="" selected></option>
+        {AGE_GROUP_KEYS.map((value) => (
+          <option value={value}>{t.ageGroupOptions[value]}</option>
+        ))}
+      </select>
+      <p class="registration-field-help">{t.optionalFieldHelp}</p>
     </label>
+
     <label>
-      <span>{t.fields.messageToCommittee}</span>
-      <textarea name="messageToCommittee" rows="4"></textarea>
+      <span>{t.fields.gender}</span>
+      <input name="gender" type="text" autocomplete="off" />
+      <p class="registration-field-help">{t.optionalFieldHelp}</p>
+    </label>
+
+    <label>
+      <span>{t.fields.remarks}</span>
+      <textarea name="remarks" rows="4"></textarea>
     </label>
   </fieldset>
 

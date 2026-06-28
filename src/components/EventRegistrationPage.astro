@@ -10,7 +10,7 @@ const noticeParagraphs = registrationPrivacyNotice[locale].split("\n\n");
 const privacyPolicyLinkLabel = privacyPolicyContent[locale].privacyPolicyLinkLabel;
 ---
 
-<main class="registration-page detail-page editorial-reveal">
+<main class={`registration-page registration-page--${locale} detail-page editorial-reveal`}>
   <article class="registration-shell detail-article">
     <header class="registration-header">
       <p class="section-kicker">{t.kicker}</p>

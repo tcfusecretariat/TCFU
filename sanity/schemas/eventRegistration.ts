@@ -36,7 +36,7 @@ export const eventRegistration = defineType({
     }),
     defineField({
       name: "passportNumber",
-      title: "Passport Number 護照號碼",
+      title: "ID Number 證件號碼",
       type: "string",
       group: "participant",
       readOnly: true,
@@ -113,8 +113,30 @@ export const eventRegistration = defineType({
       validation: (Rule) => Rule.required()
     }),
     defineField({
+      name: "ageGroup",
+      title: "Age Group 年齡段（選填）",
+      type: "string",
+      group: "participant",
+      readOnly: true
+    }),
+    defineField({
+      name: "gender",
+      title: "Gender 性別（選填）",
+      type: "string",
+      group: "participant",
+      readOnly: true
+    }),
+    defineField({
+      name: "remarks",
+      title: "Remarks 備註（選填）",
+      type: "text",
+      rows: 4,
+      group: "participant",
+      readOnly: true
+    }),
+    defineField({
       name: "specialRequirements",
-      title: "Special Requirements 特殊需求（選填）",
+      title: "Special Requirements 特殊需求（舊欄位）",
       type: "text",
       rows: 3,
       group: "participant",
@@ -122,7 +144,7 @@ export const eventRegistration = defineType({
     }),
     defineField({
       name: "messageToCommittee",
-      title: "Message to Organizing Committee 給籌委會的訊息（選填）",
+      title: "Message to Organizing Committee 給籌委會的訊息（舊欄位）",
       type: "text",
       rows: 4,
       group: "participant",
@@ -137,7 +159,7 @@ export const eventRegistration = defineType({
     }),
     defineField({
       name: "privacyConsentAccepted",
-      title: "Privacy Consent Accepted 已同意私隱政策",
+      title: "Privacy Consent Accepted 已同意隱私政策",
       type: "boolean",
       group: "participant",
       readOnly: true,

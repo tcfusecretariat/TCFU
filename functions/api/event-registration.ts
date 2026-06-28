@@ -135,14 +135,15 @@ function formatRegistrationSummary(registration: ReturnType<typeof createEventRe
     `Name: ${fullName}`,
     `Email: ${registration.email}`,
     `Phone: ${registration.phone}`,
-    `Passport: ${registration.passportNumber}`,
+    `Passport / ID: ${registration.passportNumber}`,
     `Nationality: ${registration.nationality}`,
     `Category: ${registration.participantCategory}`,
     `Volunteer: ${registration.volunteer ? "Yes" : "No"}`,
     `Attendance: ${registration.attendanceDates}`,
     `Emergency contact: ${registration.emergencyContactName} (${registration.emergencyContactPhone})`,
-    registration.specialRequirements ? `Special requirements: ${registration.specialRequirements}` : "",
-    registration.messageToCommittee ? `Message: ${registration.messageToCommittee}` : ""
+    registration.ageGroup ? `Age group: ${registration.ageGroup}` : "",
+    registration.gender ? `Gender: ${registration.gender}` : "",
+    registration.remarks ? `Remarks: ${registration.remarks}` : ""
   ]
     .filter(Boolean)
     .join("\n");
@@ -227,14 +228,16 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         withoutEmail: "感謝您。您的報名已成功確認。我們未能自動寄出確認信，秘書處將與您聯繫。"
       },
       en: {
-        withEmail: "Registration confirmed. A confirmation email has been sent to your address.",
+        withEmail:
+          "Thank you. Your registration has been successfully confirmed. A confirmation email has been sent to your address.",
         withoutEmail:
-          "Registration confirmed. We could not send a confirmation email automatically; the Secretariat will contact you."
+          "Thank you. Your registration has been successfully confirmed. We could not send a confirmation email automatically; the Secretariat will contact you."
       },
       fr: {
-        withEmail: "Inscription confirmée. Un e-mail de confirmation vous a été envoyé.",
+        withEmail:
+          "Merci. Votre inscription a été confirmée avec succès. Un e-mail de confirmation vous a été envoyé.",
         withoutEmail:
-          "Inscription confirmée. Nous n'avons pas pu envoyer d'e-mail de confirmation automatiquement ; le Secrétariat vous contactera."
+          "Merci. Votre inscription a été confirmée avec succès. Nous n'avons pas pu envoyer d'e-mail de confirmation automatiquement ; le Secrétariat vous contactera."
       }
     };
     const copy = responseMessages[locale] || responseMessages.en;

@@ -12,6 +12,9 @@ export type RegistrationRow = {
   participantCategory?: string;
   volunteer?: boolean;
   attendanceDates?: string;
+  ageGroup?: string;
+  gender?: string;
+  remarks?: string;
   specialRequirements?: string;
   messageToCommittee?: string;
   locale?: string;
@@ -36,6 +39,9 @@ export const REGISTRATION_EXPORT_QUERY = `*[_type == "eventRegistration"] | orde
   participantCategory,
   volunteer,
   attendanceDates,
+  ageGroup,
+  gender,
+  remarks,
   specialRequirements,
   messageToCommittee,
   locale,
@@ -83,7 +89,7 @@ const EXPORT_COLUMNS: Array<{ header: string; value: (row: RegistrationRow) => s
   { header: "Given Name 名", value: (row) => row.givenName || "" },
   { header: "Email 電郵", value: (row) => row.email || "" },
   { header: "Phone 電話", value: (row) => row.phone || "" },
-  { header: "Passport Number 護照號碼", value: (row) => row.passportNumber || "" },
+  { header: "Passport / ID Number 證件號碼", value: (row) => row.passportNumber || "" },
   { header: "Nationality 國籍", value: (row) => row.nationality || "" },
   {
     header: "Emergency Contact Name 緊急聯絡人姓名",
@@ -106,16 +112,20 @@ const EXPORT_COLUMNS: Array<{ header: string; value: (row: RegistrationRow) => s
     value: (row) => ATTENDANCE_LABELS[row.attendanceDates || ""] || row.attendanceDates || ""
   },
   {
-    header: "Special Requirements 特殊需求",
-    value: (row) => row.specialRequirements || ""
+    header: "Age Group 年齡段",
+    value: (row) => row.ageGroup || ""
   },
   {
-    header: "Message to Committee 給籌委會的訊息",
-    value: (row) => row.messageToCommittee || ""
+    header: "Gender 性別",
+    value: (row) => row.gender || ""
+  },
+  {
+    header: "Remarks 備註",
+    value: (row) => row.remarks || row.messageToCommittee || row.specialRequirements || ""
   },
   { header: "Form Language 表單語言", value: (row) => LOCALE_LABELS[row.locale || ""] || row.locale || "" },
   {
-    header: "Privacy Consent Accepted 已同意私隱政策",
+    header: "Privacy Consent Accepted 已同意隱私政策",
     value: (row) => (row.privacyConsentAccepted ? "Yes 是" : "No 否")
   },
   {
