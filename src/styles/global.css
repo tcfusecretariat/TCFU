@@ -169,6 +169,10 @@ blockquote {
   transform: translateY(-1px);
 }
 
+html[lang="zh-Hant"] .nav-links {
+  font-size: 19px;
+}
+
 .site-search {
   display: flex;
   gap: 8px;
@@ -1233,6 +1237,10 @@ textarea:focus-visible {
 
 .registration-page .registration-header h1 {
   font-size: clamp(17px, 2.4vw, 29px);
+}
+
+html[lang="zh-Hant"] .registration-page .registration-header h1 {
+  font-size: clamp(23px, 3.3vw, 35px);
 }
 
 .registration-title-line {
