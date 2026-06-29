@@ -28,7 +28,7 @@ html {
 }
 
 html[lang="zh-Hant"] {
-  --locale-font: var(--kai-zh);
+  --locale-font: var(--serif-en), var(--kai-zh);
 }
 
 * {
