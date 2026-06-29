@@ -51,7 +51,7 @@ export const placeholderText: Record<Locale, string> = {
 export const content: Record<Locale, HomeContent> = {
   zh: {
     metaTitle: "Traditional Culture Foundation at UNESCO",
-    metaDescription: "以和平教育、青少年身心健康、文明對話與傳統智慧促進世界和平與人類共同福祉。",
+    metaDescription: "以愛的教育、青少年身心健康、文明對話與傳統智慧促進世界和平與人類共同福祉。",
     nav: [
       { label: "認識我們", href: "/zh/about/" },
       { label: "核心工作", href: "/zh/work/" },
@@ -63,7 +63,7 @@ export const content: Record<Locale, HomeContent> = {
     search: "網站搜索",
     hero: {
       translations: ["Ignite the vital spark of the heart", "Réveiller l’élan vital du cœur", "أشعل الشرارة الحيوية في القلب"],
-      description: "透過傳統智慧、和平教育與文明對話，培養面向未來世代的品格、福祉與和平。",
+      description: "透過傳統智慧、愛的教育與文明對話，培養面向未來世代的品格、福祉與和平。",
       primaryCta: "認識基金會",
       secondaryCta: "探索資源中心"
     },
@@ -80,7 +80,7 @@ export const content: Record<Locale, HomeContent> = {
         kicker: "我們的工作",
         title: "四大主軸<br />連結人的內在成長與世界和平",
         pillars: [
-          { title: "和平教育", subtitle: "Peace Education" },
+          { title: "愛的教育", subtitle: "Peace Education" },
           { title: "青少年身心健康", subtitle: "Youth Well-being" },
           { title: "文明對話", subtitle: "Intercultural Dialogue" },
           { title: "傳統智慧", subtitle: "Traditional Wisdom" }
@@ -102,8 +102,8 @@ export const content: Record<Locale, HomeContent> = {
       news: { kicker: "最新動態", title: "精選論壇 活動與出版物" },
       support: {
         kicker: "支持我們",
-        title: "您的支持<br />將成為和平教育與經典翻譯的下一份力量",
-        items: ["和平教育", "青少年項目", "國際論壇", "經典翻譯"],
+        title: "您的支持<br />將成為愛的教育與經典翻譯的下一份力量",
+        items: ["愛的教育", "青少年項目", "國際論壇", "經典翻譯"],
         cta: "支持基金會"
       }
     },

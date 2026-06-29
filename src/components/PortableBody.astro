@@ -1,5 +1,7 @@
 ---
 import { imageSrc } from "@lib/cms";
+import type { Locale } from "@data/site";
+import { normalizeZhCopy } from "@lib/zh-copy";
 
 type SpanChild = {
   _type?: string;
@@ -25,7 +27,11 @@ type Block = {
   alt?: string;
 };
 
-const { value = [] } = Astro.props as { value?: Block[] };
+const { value = [], locale } = Astro.props as { value?: Block[]; locale?: Locale };
+
+function displayText(text: string) {
+  return locale === "zh" ? normalizeZhCopy(text) : text;
+}
 
 function escapeHtml(input: string) {
   return input
@@ -39,7 +45,7 @@ function renderSpans(block: Block) {
   const markDefs = block.markDefs || [];
   return (block.children || [])
     .map((child) => {
-      let html = escapeHtml(child.text || "");
+      let html = escapeHtml(displayText(child.text || ""));
       if (!html) return "";
       for (const mark of child.marks || []) {
         if (mark === "strong") {

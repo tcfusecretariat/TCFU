@@ -20,7 +20,7 @@ const { article, locale, slug } = Astro.props as {
       <div>
         {article.publishDate && <p><time datetime={article.publishDate}>{new Date(article.publishDate).toLocaleDateString()}</time></p>}
         {article.summary && <p>{article.summary}</p>}
-        {article.body && <PortableBody value={article.body} />}
+        {article.body && <PortableBody value={article.body} locale={locale} />}
         {article.videoUrl && <p><a class="text-link" href={article.videoUrl}>Video</a></p>}
         {article.pdfUrl && <p><a class="text-link" href={article.pdfUrl}>PDF</a></p>}
       </div>

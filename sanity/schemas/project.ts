@@ -20,7 +20,7 @@ export const project = defineType({
       name: "category",
       title: "分類",
       type: "string",
-      options: { list: ["和平教育", "青少年身心健康", "文明對話", "經典翻譯"] }
+      options: { list: ["愛的教育", "青少年身心健康", "文明對話", "經典翻譯"] }
     }),
     defineField({ name: "summary", title: "摘要", type: "text", rows: 4 }),
     imageWithAlt("coverImage", "封面圖"),

@@ -51,7 +51,7 @@ const registrationOpen = item?.registrationUrl && item?.isRegistrationOpen !== f
       {(item.summary || item.description) && <p class="detail-summary">{item.summary || item.description}</p>}
       {registrationOpen && <p><a class="button primary" href={item.registrationUrl} target="_blank" rel="noopener">{registerLabel}</a></p>}
       {item.programmePdfUrl && <p><a class="button secondary" href={item.programmePdfUrl} target="_blank" rel="noopener">{programmeLabel}</a></p>}
-      {item.body && <PortableBody value={item.body} />}
+      {item.body && <PortableBody value={item.body} locale={locale} />}
       {kind === "resource" && item.fileUrl && (
         <section class="resource-reader detail-reader">
           <div class="resource-copy">

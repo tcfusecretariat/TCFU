@@ -10,17 +10,9 @@
   --line: rgba(23, 20, 18, 0.14);
   --serif-en: Baskerville, "Libre Baskerville", "Times New Roman", serif;
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
-  --kai-zh: "TW-Kai", "TW-MOE-Std-Kai", "教育部標準楷書", serif;
+  --kai-zh: "adobe-kaiti-std", "Adobe Kaiti Std", "KaiTi", "楷体", "STKaiti", "华文楷体", serif;
   --font-ar: "layaan-arabic", sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@font-face {
-  font-family: "TW-Kai";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/assets/fonts/edukai.woff2") format("woff2");
 }
 
 html {
@@ -1500,6 +1492,28 @@ html[lang="zh-Hant"] .registration-page .registration-header h1 {
     border-left-color: transparent;
     border-bottom-color: var(--soft-gold);
   }
+}
+
+html[lang="zh-Hant"] .privacy-policy-page .privacy-policy-header h1 {
+  font-size: clamp(18px, 2.5vw, 31px);
+}
+
+html[lang="zh-Hant"] .privacy-policy-page .privacy-panel-title,
+html[lang="zh-Hant"] .privacy-policy-page .privacy-block > h3,
+html[lang="zh-Hant"] .privacy-policy-page .privacy-policy-subsection h4 {
+  text-align: center;
+}
+
+html[lang="zh-Hant"] .privacy-policy-page .privacy-panel-title {
+  font-size: clamp(12px, 1.3vw, 16px);
+}
+
+html[lang="zh-Hant"] .privacy-policy-page .privacy-block > h3 {
+  font-size: clamp(9.5px, 1vw, 12px);
+}
+
+html[lang="zh-Hant"] .privacy-policy-page .privacy-policy-subsection h4 {
+  font-size: clamp(8px, 0.75vw, 9.5px);
 }
 
 .registration-form {

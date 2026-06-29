@@ -25,7 +25,7 @@ const cover = page ? imageSrc(page.coverImage, 1400) : "";
       {kicker && <p class="section-kicker">{kicker}</p>}
       <h1>{heading}</h1>
       {cover && <img class="detail-cover" src={cover} alt={page?.coverImage?.alt || heading} />}
-      <PortableBody value={page?.body as unknown[]} />
+      <PortableBody value={page?.body as unknown[]} locale={locale} />
       {slug === "about" && <LogoStorySection locale={locale} />}
     </article>
   </main>

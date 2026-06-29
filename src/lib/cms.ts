@@ -3,6 +3,11 @@ import { content } from "@data/content";
 import { siteSettings as fallbackSiteSettings, defaultLocale, type Locale } from "@data/site";
 import { fetchOptional, imageUrl, sanityApiUrl } from "@lib/sanity";
 import { resourcesSummaryQuery } from "@lib/sanity-queries";
+import { normalizeZhCopy } from "@lib/zh-copy";
+
+function zhText(locale: Locale, text: string): string {
+  return locale === "zh" ? normalizeZhCopy(text) : text;
+}
 
 type ImageValue = {
   alt?: string;
@@ -338,8 +343,8 @@ export async function getHomeContent(locale: Locale) {
 
   return {
     hero: {
-      title: doc?.heroTitle || undefined,
-      description: doc?.heroSubtitle || fallback.hero.description,
+      title: doc?.heroTitle ? zhText(locale, doc.heroTitle) : undefined,
+      description: zhText(locale, doc?.heroSubtitle || fallback.hero.description),
       primaryCta: doc?.heroPrimaryCtaText || fallback.hero.primaryCta,
       primaryCtaUrl: doc?.heroPrimaryCtaUrl || `/${locale}/#about`,
       secondaryCta: doc?.heroSecondaryCtaText || fallback.hero.secondaryCta,
@@ -347,46 +352,50 @@ export async function getHomeContent(locale: Locale) {
       translations: fallback.hero.translations
     },
     philosophy: {
-      kicker: doc?.philosophyKicker || fallback.sections.philosophy.kicker,
-      title: doc?.philosophyTitle || fallback.sections.philosophy.title,
-      paragraphs: doc?.philosophyParagraphs?.length ? doc.philosophyParagraphs : fallback.sections.philosophy.paragraphs
+      kicker: zhText(locale, doc?.philosophyKicker || fallback.sections.philosophy.kicker),
+      title: zhText(locale, doc?.philosophyTitle || fallback.sections.philosophy.title),
+      paragraphs: doc?.philosophyParagraphs?.length
+        ? doc.philosophyParagraphs.map((paragraph) => zhText(locale, paragraph))
+        : fallback.sections.philosophy.paragraphs
     },
     work: {
-      kicker: doc?.workKicker || fallback.sections.work.kicker,
-      title: doc?.workTitle || fallback.sections.work.title,
+      kicker: zhText(locale, doc?.workKicker || fallback.sections.work.kicker),
+      title: zhText(locale, doc?.workTitle || fallback.sections.work.title),
       pillars: doc?.workPillars?.length
         ? doc.workPillars.map((pillar) => ({
-            title: pillar.title || "",
+            title: zhText(locale, pillar.title || ""),
             subtitle: locale === "en" ? "" : pillar.subtitle || ""
           }))
         : fallback.sections.work.pillars
     },
     projects: {
-      kicker: doc?.projectsKicker || fallback.sections.projects.kicker,
-      title: doc?.projectsTitle || fallback.sections.projects.title
+      kicker: zhText(locale, doc?.projectsKicker || fallback.sections.projects.kicker),
+      title: zhText(locale, doc?.projectsTitle || fallback.sections.projects.title)
     },
     library: {
-      kicker: doc?.libraryKicker || fallback.sections.library.kicker,
-      title: doc?.libraryTitle || fallback.sections.library.title,
-      description: doc?.libraryDescription || fallback.sections.library.description,
+      kicker: zhText(locale, doc?.libraryKicker || fallback.sections.library.kicker),
+      title: zhText(locale, doc?.libraryTitle || fallback.sections.library.title),
+      description: zhText(locale, doc?.libraryDescription || fallback.sections.library.description),
       languages: doc?.libraryLanguages?.length ? doc.libraryLanguages : fallback.sections.library.languages
     },
     event: {
-      kicker: doc?.eventKicker || fallback.sections.event.kicker,
-      title: doc?.eventTitle || fallback.sections.event.title,
-      description: doc?.eventDescription || fallback.sections.event.description,
-      link: doc?.eventLinkText || fallback.sections.event.link,
+      kicker: zhText(locale, doc?.eventKicker || fallback.sections.event.kicker),
+      title: zhText(locale, doc?.eventTitle || fallback.sections.event.title),
+      description: zhText(locale, doc?.eventDescription || fallback.sections.event.description),
+      link: zhText(locale, doc?.eventLinkText || fallback.sections.event.link),
       linkUrl: doc?.eventLinkUrl || "/assets/events/international-peace-conference-2025-programme.pdf"
     },
     news: {
-      kicker: doc?.newsKicker || fallback.sections.news.kicker,
-      title: doc?.newsTitle || fallback.sections.news.title
+      kicker: zhText(locale, doc?.newsKicker || fallback.sections.news.kicker),
+      title: zhText(locale, doc?.newsTitle || fallback.sections.news.title)
     },
     support: {
-      kicker: doc?.supportKicker || fallback.sections.support.kicker,
-      title: doc?.supportTitle || fallback.sections.support.title,
-      items: doc?.supportItems?.length ? doc.supportItems : fallback.sections.support.items,
-      cta: doc?.supportCtaText || fallback.sections.support.cta
+      kicker: zhText(locale, doc?.supportKicker || fallback.sections.support.kicker),
+      title: zhText(locale, doc?.supportTitle || fallback.sections.support.title),
+      items: doc?.supportItems?.length
+        ? doc.supportItems.map((item) => zhText(locale, item))
+        : fallback.sections.support.items,
+      cta: zhText(locale, doc?.supportCtaText || fallback.sections.support.cta)
     },
     show: {
       philosophy: showDefault(doc?.showPhilosophy),

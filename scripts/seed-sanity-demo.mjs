@@ -46,7 +46,7 @@ const docs = [
     language: "zh",
     category: "論壇",
     publishDate: "2025-06-18T09:00:00.000Z",
-    summary: "基金會共同推動以青少年福祉、和平教育與文明對話為核心的國際和平論壇。",
+    summary: "基金會共同推動以青少年福祉、愛的教育與文明對話為核心的國際和平論壇。",
     body: [
       {
         _type: "block",
@@ -109,7 +109,7 @@ const docs = [
     title: "青少年和平大使計劃",
     slug: { _type: "slug", current: "youth-peace-ambassador-programme" },
     language: "zh",
-    summary: "以和平教育與青少年身心健康為核心的示範項目。",
+    summary: "以愛的教育與青少年身心健康為核心的示範項目。",
     body: [
       {
         _type: "block",
