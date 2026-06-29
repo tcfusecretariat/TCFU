@@ -1,0 +1,25 @@
+---
+import { governanceContent } from "@data/governance-content";
+import type { Locale } from "@data/site";
+
+const { locale } = Astro.props as { locale: Locale };
+const doc = governanceContent[locale];
+---
+
+<main class="content-page detail-page editorial-reveal governance-page">
+  <article class="detail-article">
+    <p class="section-kicker">{doc.kicker}</p>
+    <h1>{doc.title}</h1>
+    <div class="governance-copy">
+      <p>{doc.intro}</p>
+      <p>
+        <strong>{doc.presidentLabel}</strong> {doc.president}
+      </p>
+      <p>
+        <strong>{doc.vicePresidentLabel}</strong> {doc.vicePresident}
+        {locale === "zh" && doc.vicePresidentNote && <>（{doc.vicePresidentNote}）</>}
+      </p>
+      {locale !== "zh" && doc.vicePresidentNote && <p class="governance-note">{doc.vicePresidentNote}</p>}
+    </div>
+  </article>
+</main>

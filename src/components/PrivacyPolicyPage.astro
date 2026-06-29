@@ -15,6 +15,22 @@ const doc = privacyPolicyContent[locale];
     </header>
 
     <div class="privacy-tabs" data-privacy-tabs>
+      <label class="privacy-tabs-select-label" for={`privacy-section-select-${locale}`}>
+        {doc.navAriaLabel}
+      </label>
+      <select
+        class="privacy-tabs-select"
+        id={`privacy-section-select-${locale}`}
+        aria-label={doc.navAriaLabel}
+        data-privacy-select
+      >
+        {doc.tabs.map((tab, index) => (
+          <option value={tab.id} selected={index === 0}>
+            {tab.navLabel}
+          </option>
+        ))}
+      </select>
+
       <nav class="privacy-tabs-nav" role="tablist" aria-label={doc.navAriaLabel}>
         {
           doc.tabs.map((tab, index) => (
@@ -96,6 +112,7 @@ const doc = privacyPolicyContent[locale];
   function initPrivacyTabs(root: HTMLElement) {
     const tabs = Array.from(root.querySelectorAll<HTMLElement>("[data-privacy-tab]"));
     const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-privacy-panel]"));
+    const select = root.querySelector<HTMLSelectElement>("[data-privacy-select]");
     if (!tabs.length || !panels.length) return;
 
     const activate = (id: string, focusTab: boolean) => {
@@ -111,10 +128,16 @@ const doc = privacyPolicyContent[locale];
         panel.classList.toggle("is-active", active);
         panel.hidden = !active;
       });
-      // Keep the chosen tab visible within the scrollable mobile tab strip.
+      if (select && select.value !== id) {
+        select.value = id;
+      }
       const activeTab = tabs.find((tab) => tab.dataset.privacyTab === id);
       activeTab?.scrollIntoView({ block: "nearest", inline: "nearest" });
     };
+
+    select?.addEventListener("change", () => {
+      if (select.value) activate(select.value, false);
+    });
 
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {

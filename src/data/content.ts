@@ -54,6 +54,7 @@ export const content: Record<Locale, HomeContent> = {
     metaDescription: "以愛的教育、青少年身心健康、文明對話與傳統智慧促進世界和平與人類共同福祉。",
     nav: [
       { label: "認識我們", href: "/zh/about/" },
+      { label: "組織治理", href: "/zh/governance/" },
       { label: "核心工作", href: "/zh/work/" },
       { label: "最新動態", href: "/zh/news/" },
       { label: "活動報名", href: `/zh/register/${SYMPOSIUM_PAGE_SLUG}/` },
@@ -127,6 +128,7 @@ export const content: Record<Locale, HomeContent> = {
     metaDescription: "An international cultural foundation advancing peace education, youth well-being, intercultural dialogue, and traditional wisdom.",
     nav: [
       { label: "About Us", href: "/en/about/" },
+      { label: "Governance", href: "/en/governance/" },
       { label: "Core Work", href: "/en/work/" },
       { label: "Latest News", href: "/en/news/" },
       { label: "Register", href: `/en/register/${SYMPOSIUM_PAGE_SLUG}/` },
@@ -169,6 +171,7 @@ export const content: Record<Locale, HomeContent> = {
     metaDescription: "Fondation culturelle internationale dédiée à l’éducation à la paix, au bien-être des jeunes, au dialogue interculturel et à la sagesse traditionnelle.",
     nav: [
       { label: "Nous connaître", href: "/fr/about/" },
+      { label: "Gouvernance", href: "/fr/governance/" },
       { label: "Axes de travail", href: "/fr/work/" },
       { label: "Actualités", href: "/fr/news/" },
       { label: "Inscription", href: `/fr/register/${SYMPOSIUM_PAGE_SLUG}/` },
@@ -223,6 +226,7 @@ export const legalPages = [
 export const staticPages = {
   zh: [
     { slug: "about", title: "認識我們" },
+    { slug: "governance", title: "組織治理" },
     { slug: "work", title: "核心工作" },
     { slug: "contact", title: "聯繫我們" },
     { slug: "support", title: "支持我們" },
@@ -232,6 +236,7 @@ export const staticPages = {
   ],
   en: [
     { slug: "about", title: "About Us" },
+    { slug: "governance", title: "Governance" },
     { slug: "work", title: "Core Work" },
     { slug: "contact", title: "Contact" },
     { slug: "support", title: "Support Us" },
@@ -241,6 +246,7 @@ export const staticPages = {
   ],
   fr: [
     { slug: "about", title: "Nous connaître" },
+    { slug: "governance", title: "Gouvernance" },
     { slug: "work", title: "Axes de travail" },
     { slug: "contact", title: "Contact" },
     { slug: "support", title: "Nous soutenir" },
