@@ -63,7 +63,7 @@ export const content: Record<Locale, HomeContent> = {
     search: "網站搜索",
     hero: {
       translations: ["Ignite the vital spark of the heart", "Réveiller l’élan vital du cœur", "أشعل الشرارة الحيوية في القلب"],
-      description: "透過傳統智慧、愛的教育與文明對話，培養面向未來世代的品格、福祉與和平。",
+      description: "透過傳統智慧、愛的教育與對話，培養面向未來世代的品格、福祉與和平。",
       primaryCta: "認識基金會",
       secondaryCta: "探索資源中心"
     },
