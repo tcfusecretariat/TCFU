@@ -201,13 +201,16 @@ export async function getSiteSettings(locale: Locale = defaultLocale): Promise<R
   const siteTitle =
     locale === "en" ? data?.siteTitleEn : locale === "fr" ? data?.siteTitleFr : data?.siteTitleZh;
 
+  const footer =
+    data?.footer && !/教育部標準楷書|本網站中文頁面字體/.test(data.footer) ? data.footer : undefined;
+
   return {
     ...fallbackSiteSettings,
     logo: data?.logoUrl || fallbackSiteSettings.logo,
     name: data?.foundationName || data?.logoAlt || fallbackSiteSettings.name,
     email: data?.contactEmail || fallbackSiteSettings.email,
     helloAssoUrl: data?.helloAssoUrl || fallbackSiteSettings.helloAssoUrl,
-    footer: data?.footer,
+    footer,
     phone: data?.phone,
     address: data?.address,
     googleMapUrl: data?.googleMapUrl,

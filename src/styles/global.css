@@ -1089,6 +1089,10 @@ h3 {
   color: var(--muted);
 }
 
+.footer-font-attribution {
+  display: none !important;
+}
+
 .footer-social {
   display: flex;
   justify-content: center;
