@@ -16,9 +16,9 @@ export const governanceContent: Record<Locale, GovernanceCopy> = {
     title: "組織治理",
     kicker: "基金會",
     intro: "聯合國教科文組織傳統文化基金會由來自教育、外交、文化及國際合作領域的專業人士共同推動。",
-    presidentLabel: "主席（President）：",
+    presidentLabel: "主席：",
     president: "和為貴 女士",
-    vicePresidentLabel: "副主席（Vice President）：",
+    vicePresidentLabel: "副主席：",
     vicePresident: "Ny Toky Andriamanjato 先生",
     vicePresidentNote: "前馬達加斯加常駐聯合國教科文組織代表"
   },
