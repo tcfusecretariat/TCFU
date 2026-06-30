@@ -87,7 +87,7 @@ export const content: Record<Locale, HomeContent> = {
           { title: "傳統智慧", subtitle: "Traditional Wisdom" }
         ]
       },
-      projects: { kicker: "旗艦項目", title: "以教育 經典與國際論壇<br />建立面向未來的和平平台" },
+      projects: { kicker: "旗艦項目", title: "以教育、經典與國際論壇<br />建立面向未來的和平平台" },
       library: {
         kicker: "資源中心",
         title: "傳統智慧 · 世界共享",
@@ -145,7 +145,7 @@ export const content: Record<Locale, HomeContent> = {
     sections: {
       philosophy: { kicker: "Core Philosophy", title: "True peace begins<br />within the human heart", paragraphs: ["We believe every person carries an inner force capable of nurturing personal growth, family harmony, social progress, and world peace.", "The Foundation works through education, culture, and dialogue among civilizations to awaken and cultivate this inner driving force."] },
       work: { kicker: "Core Work", title: "Four pillars connecting inner growth<br />with peace in the world", pillars: [{ title: "Love Education", subtitle: "" }, { title: "Youth Well-being", subtitle: "" }, { title: "Intercultural Dialogue", subtitle: "" }, { title: "Traditional Wisdom", subtitle: "" }] },
-      projects: { kicker: "Flagship Projects", title: "Building a future-facing platform for peace<br />through education classics and forums" },
+      projects: { kicker: "Flagship Projects", title: "Building a future-facing platform for peace<br />through education, classics and forums" },
       library: { kicker: "Resource Center", title: "Traditional Wisdom · Shared with the World", description: "THE GOVERNING PRINCIPLES OF ANCIENT CHINA is a flagship translation and publishing initiative for sharing classical wisdom globally.", languages: ["中文", "English", "Français", "Deutsch", "Русский", "Español", "العربية", "日本語"] },
       event: { kicker: "Latest Forum", title: "2025 International Peace Conference held at UNESCO", description: "The Foundation co-organized the International Peace Conference on Education for Well-being 2025, focusing on youth well-being, education, and intercultural dialogue.", link: "View Programme" },
       news: { kicker: "Latest News", title: "Selected forums activities and publications" },
@@ -188,7 +188,7 @@ export const content: Record<Locale, HomeContent> = {
     sections: {
       philosophy: { kicker: "Idée fondatrice", title: "La paix véritable commence<br />dans le cœur humain", paragraphs: ["Nous croyons que chaque personne porte en elle une force capable de nourrir sa croissance, l’harmonie familiale, le progrès social et la paix mondiale.", "La Fondation agit par l’éducation, la culture et le dialogue entre les civilisations afin d’éveiller et de cultiver cette force intérieure."] },
       work: { kicker: "Axes de travail", title: "Quatre axes reliant la croissance intérieure<br />à la paix dans le monde", pillars: [{ title: "Éducation à la paix", subtitle: "Love Education" }, { title: "Bien-être des jeunes", subtitle: "Youth Well-being" }, { title: "Dialogue interculturel", subtitle: "Intercultural Dialogue" }, { title: "Sagesse traditionnelle", subtitle: "Traditional Wisdom" }] },
-      projects: { kicker: "Projets phares", title: "Construire une plateforme de paix<br />par l’éducation les classiques et les forums" },
+      projects: { kicker: "Projets phares", title: "Construire une plateforme de paix<br />par l’éducation, les classiques et les forums" },
       library: { kicker: "Ressources", title: "Sagesse traditionnelle · Partagée avec le monde", description: "Les Principes de Gouvernance de la Chine Ancienne constituent un projet phare de traduction et d’édition pour partager la sagesse classique à l’échelle mondiale.", languages: ["中文", "English", "Français", "Deutsch", "Русский", "Español", "العربية", "日本語"] },
       event: { kicker: "Dernier forum", title: "La conférence internationale pour la paix 2025 s’est tenue à l’UNESCO", description: "La Fondation a coorganisé l’International Peace Conference on Education for Well-being 2025, consacrée au bien-être des jeunes, à l’éducation et au dialogue interculturel.", link: "Voir le programme" },
       news: { kicker: "Actualités", title: "Forums activités et publications sélectionnés" },
