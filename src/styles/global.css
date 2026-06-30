@@ -13,16 +13,17 @@
   --kai-zh: adobe-kaiti-std, "Kaiti TC", "STKaiti", "KaiTi", serif;
   --font-ar: "layaan-arabic", sans-serif;
   --zh-latin-font: var(--serif-en), "Times New Roman", serif;
-  --zh-locale-font: "TCF Zh Locale", var(--zh-latin-font), var(--kai-zh);
+  /* Latin composite first; CJK skips it via unicode-range and hits Typekit Kai. */
+  --zh-locale-font: "TCF Zh Latin", var(--kai-zh);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /*
- * zh-Hant composite font: Latin → Baskerville, CJK → Kai.
- * unicode-range splits glyphs so mixed content picks the right face.
+ * zh-Hant Latin-only composite: English/French/Cyrillic/Greek → Baskerville.
+ * CJK glyphs skip this face (unicode-range) and use adobe-kaiti-std from Typekit.
  */
 @font-face {
-  font-family: "TCF Zh Locale";
+  font-family: "TCF Zh Latin";
   src: local("Baskerville"), local("Libre Baskerville"), local("Times New Roman");
   font-weight: 400 700;
   font-style: normal italic;
@@ -55,24 +56,6 @@
     U+2215,
     U+FEFF,
     U+FFFD;
-}
-
-@font-face {
-  font-family: "TCF Zh Locale";
-  /* adobe-kaiti-std comes from Typekit via --kai-zh fallback (local() skips web fonts). */
-  src: local("Kaiti TC"), local("STKaiti"), local("KaiTi");
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-  unicode-range:
-    U+2E80-2EFF,
-    U+3000-303F,
-    U+3100-312F,
-    U+31A0-31BF,
-    U+3400-4DBF,
-    U+4E00-9FFF,
-    U+F900-FAFF,
-    U+FF00-FFEF;
 }
 
 html {

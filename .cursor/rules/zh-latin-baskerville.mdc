@@ -18,13 +18,12 @@ pages are unchanged (all Baskerville).
 ## Implementation
 
 - CSS lives in `src/styles/global.css`.
-- On `html[lang="zh-Hant"]`, `--locale-font` uses the composite `"TCF Zh Locale"`
+- On `html[lang="zh-Hant"]`, `--locale-font` uses the composite `"TCF Zh Latin"`
   family built from `@font-face` blocks with `unicode-range`:
   - Latin / Latin-extended / Cyrillic / Greek ranges → Baskerville stack (`--zh-latin-font`)
   - CJK ranges → Kai stack (`--kai-zh`, loaded via Adobe Typekit kit `utx6cie` on zh pages)
-- Fallback stack: `"TCF Zh Locale", var(--zh-latin-font), var(--kai-zh)` where
-  `--zh-latin-font` is `var(--serif-en), "Times New Roman", serif` (Times New Roman
-  covers Cyrillic before Kai is tried).
+- Fallback stack: `"TCF Zh Latin", var(--kai-zh)` where
+  `--kai-zh` is `adobe-kaiti-std, "Kaiti TC", "STKaiti", "KaiTi", serif` (Typekit Kai first).
 - Typekit loader lives in `src/layouts/BaseLayout.astro` (JS loader, zh pages only).
 - Do **not** set a single Kai-only `font-family` on zh pages — that forces Latin
   snippets (hero translations, nav labels, mixed content) into Kai.
