@@ -156,7 +156,6 @@ export async function getPartners() {
 
 export async function getSiteSettings(locale: Locale = defaultLocale): Promise<ResolvedSiteSettings> {
   const data = await fetchOptional<{
-    logoUrl?: string;
     logoAlt?: string;
     foundationName?: string;
     siteTitleZh?: string;
@@ -172,7 +171,6 @@ export async function getSiteSettings(locale: Locale = defaultLocale): Promise<R
     helloAssoUrl?: string;
   } | null>(
     `*[_type == "siteSettings"][0]{
-      "logoUrl": logo.asset->url,
       "logoAlt": logo.alt,
       foundationName,
       siteTitleZh,
@@ -216,8 +214,7 @@ export async function getSiteSettings(locale: Locale = defaultLocale): Promise<R
 
   return {
     ...fallbackSiteSettings,
-    // Always use the versioned local SVG — Sanity Studio may still reference a
-    // legacy upload with an opaque black background until it is re-uploaded.
+    // Logo is always the versioned local SVG (see npm run build:logo).
     logo: fallbackSiteSettings.logo,
     name: data?.foundationName || data?.logoAlt || fallbackSiteSettings.name,
     email: data?.contactEmail || fallbackSiteSettings.email,

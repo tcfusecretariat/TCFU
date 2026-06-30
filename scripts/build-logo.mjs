@@ -70,6 +70,8 @@ function buildLogoSvg(raw) {
       .replace(/pagecolor="#ffffff"/, 'pagecolor="none"')
       .replace(/<g clip-path="url\(#clip_1\)">/, "<g>")
       .replace(/<clipPath id="clip_1">[\s\S]*?<\/clipPath>\s*/m, "")
+      // Modern browsers expect href; keep xlink for older SVG viewers
+      .replace(/xlink:href="/g, 'href="')
   );
 }
 
