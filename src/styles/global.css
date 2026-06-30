@@ -1180,6 +1180,7 @@ h3 {
 }
 
 .site-footer {
+  --footer-brand-width: min(561.6px, 98.8vw);
   display: grid;
   place-items: center;
   gap: 30px;
@@ -1191,11 +1192,11 @@ h3 {
 .footer-brand {
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: var(--footer-brand-width);
 }
 
 .site-footer img {
-  width: min(561.6px, 98.8vw);
+  width: 100%;
   margin-inline: auto;
   display: block;
   background: transparent;
@@ -1203,9 +1204,10 @@ h3 {
 
 .footer-links {
   display: flex;
-  justify-content: center;
-  gap: 24px 48px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: var(--footer-brand-width);
+  gap: 12px;
 }
 
 .footer-link {
@@ -2240,10 +2242,6 @@ html[lang="zh-Hant"] .governance-role {
 
   .resource-reader {
     padding: 22px 16px;
-  }
-
-  .footer-links {
-    gap: 12px 22px;
   }
 }
 
