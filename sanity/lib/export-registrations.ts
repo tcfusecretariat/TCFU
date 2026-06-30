@@ -1,3 +1,5 @@
+import * as XLSX from "xlsx";
+
 export type RegistrationRow = {
   _id: string;
   eventKey?: string;
@@ -144,31 +146,21 @@ function formatDateTime(value?: string) {
   return date.toISOString();
 }
 
-function escapeCsvCell(value: string) {
-  const safe = /^[=+\-@]/.test(value) ? `'${value}` : value;
-  return `"${safe.replace(/"/g, '""')}"`;
-}
-
-export function buildRegistrationCsv(rows: RegistrationRow[]) {
-  const headerLine = EXPORT_COLUMNS.map((column) => escapeCsvCell(column.header)).join(",");
-  const dataLines = rows.map((row) =>
-    EXPORT_COLUMNS.map((column) => escapeCsvCell(column.value(row))).join(",")
-  );
-  return `\ufeff${[headerLine, ...dataLines].join("\r\n")}`;
+export function buildRegistrationWorkbook(rows: RegistrationRow[]) {
+  const headers = EXPORT_COLUMNS.map((column) => column.header);
+  const data = rows.map((row) => EXPORT_COLUMNS.map((column) => column.value(row)));
+  const worksheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Registrations");
+  return workbook;
 }
 
 export function buildRegistrationFilename(date = new Date()) {
   const stamp = date.toISOString().slice(0, 10);
-  return `event-registrations-${stamp}.csv`;
+  return `event-registrations-${stamp}.xlsx`;
 }
 
-export function downloadRegistrationCsv(rows: RegistrationRow[]) {
-  const csv = buildRegistrationCsv(rows);
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = buildRegistrationFilename();
-  link.click();
-  URL.revokeObjectURL(url);
+export function downloadRegistrationXlsx(rows: RegistrationRow[]) {
+  const workbook = buildRegistrationWorkbook(rows);
+  XLSX.writeFile(workbook, buildRegistrationFilename());
 }

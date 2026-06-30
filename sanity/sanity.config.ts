@@ -1,6 +1,7 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
+import { ExportRegistrationsTool } from "./components/ExportRegistrationsTool";
 import { schemaTypes } from "./schemas";
 
 const singletons = ["homePage", "siteSettings"];
@@ -62,11 +63,27 @@ export default defineConfig({
             S.listItem()
               .id("eventRegistration")
               .title("📝 活動報名（Event Registrations）")
-              .schemaType("eventRegistration")
               .child(
-                S.documentTypeList("eventRegistration")
-                  .title("活動報名 · 由網站表單自動建立；可更新狀態與內部備註")
-                  .defaultOrdering([{ field: "submittedAt", direction: "desc" }])
+                S.list()
+                  .id("eventRegistrationMenu")
+                  .title("活動報名")
+                  .items([
+                    S.listItem()
+                      .id("eventRegistrationList")
+                      .title("查看所有報名")
+                      .schemaType("eventRegistration")
+                      .child(
+                        S.documentTypeList("eventRegistration")
+                          .title("活動報名 · 由網站表單自動建立；可更新狀態與內部備註")
+                          .defaultOrdering([{ field: "submittedAt", direction: "desc" }])
+                      ),
+                    S.listItem()
+                      .id("eventRegistrationExport")
+                      .title("📥 導出 Excel / Export Registrations")
+                      .child(
+                        S.component(ExportRegistrationsTool).title("導出報名 Excel / Export Registrations")
+                      )
+                  ])
               ),
             S.divider(),
             S.listItem()
