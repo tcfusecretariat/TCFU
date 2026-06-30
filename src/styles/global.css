@@ -10,9 +10,21 @@
   --line: rgba(23, 20, 18, 0.14);
   --serif-en: Baskerville, "Libre Baskerville", "Times New Roman", serif;
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
-  --kai-zh: "adobe-kaiti-std", "Adobe Kaiti Std", "KaiTi", "楷体", "STKaiti", "华文楷体", serif;
+  --kai-zh: "TW-Kai", "adobe-kaiti-std", "Adobe Kaiti Std", "KaiTi", "楷体", "STKaiti", "华文楷体", serif;
   --font-ar: "layaan-arabic", sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@font-face {
+  font-family: "TW-Kai";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range:
+    U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3200-32FF, U+3400-4DBF, U+4E00-9FFF,
+    U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F,
+    U+2B820-2CEAF, U+2CEB0-2EBEF, U+2F800-2FA1F;
+  src: url("/assets/fonts/edukai.woff2") format("woff2");
 }
 
 html {
@@ -39,6 +51,23 @@ html[lang="fr"] input,
 html[lang="fr"] textarea,
 html[lang="fr"] select {
   font-family: var(--serif-en);
+}
+
+html[lang="zh-Hant"] body,
+html[lang="zh-Hant"] button,
+html[lang="zh-Hant"] input,
+html[lang="zh-Hant"] textarea,
+html[lang="zh-Hant"] select,
+html[lang="zh-Hant"] h1,
+html[lang="zh-Hant"] h2,
+html[lang="zh-Hant"] h3,
+html[lang="zh-Hant"] p,
+html[lang="zh-Hant"] li,
+html[lang="zh-Hant"] a,
+html[lang="zh-Hant"] label,
+html[lang="zh-Hant"] legend,
+html[lang="zh-Hant"] blockquote {
+  font-family: var(--locale-font);
 }
 
 * {
@@ -1105,7 +1134,8 @@ h3 {
 }
 
 .footer-font-attribution {
-  display: none !important;
+  font-size: 13px;
+  color: var(--muted);
 }
 
 .footer-social {
