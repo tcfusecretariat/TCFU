@@ -4,6 +4,7 @@ dist/
 .env
 .dev.vars
 .data/
+.venv-logo/
 .DS_Store
 
 # Sanity Studio build artifacts (auto-generated)

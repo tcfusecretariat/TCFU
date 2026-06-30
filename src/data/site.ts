@@ -12,7 +12,7 @@ export const siteSettings = {
   name: "Traditional Culture Foundation at UNESCO",
   email: "office@tcfunesco.org",
   helloAssoUrl: "https://www.helloasso.com/associations/traditional-culture-foundation-at-unesco",
-  logo: "/assets/tcf-logo.png?v=4",
+  logo: "/assets/tcf-logo.svg?v=8",
   logoMark: "/assets/tcf-logo-mark.png",
   calligraphy: "/assets/calligraphy-original.png",
   heroArabicTagline: "/assets/hero-arabic-tagline.png",
