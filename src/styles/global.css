@@ -12,7 +12,8 @@
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
   --kai-zh: adobe-kaiti-std, "Kaiti TC", "STKaiti", "KaiTi", serif;
   --font-ar: "layaan-arabic", sans-serif;
-  --zh-locale-font: "TCF Zh Locale", var(--serif-en), var(--kai-zh);
+  --zh-latin-font: var(--serif-en), "Times New Roman", serif;
+  --zh-locale-font: "TCF Zh Locale", var(--zh-latin-font), var(--kai-zh);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -28,6 +29,13 @@
   font-display: swap;
   unicode-range:
     U+0000-00FF,
+    U+0100-017F,
+    U+0180-024F,
+    U+0250-02AF,
+    U+0370-03FF,
+    U+0400-04FF,
+    U+0500-052F,
+    U+1E00-1EFF,
     U+0131,
     U+0152-0153,
     U+02BB-02BC,
@@ -51,7 +59,8 @@
 
 @font-face {
   font-family: "TCF Zh Locale";
-  src: local("adobe-kaiti-std"), local("Kaiti TC"), local("STKaiti"), local("KaiTi");
+  /* adobe-kaiti-std comes from Typekit via --kai-zh fallback (local() skips web fonts). */
+  src: local("Kaiti TC"), local("STKaiti"), local("KaiTi");
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;
@@ -1023,9 +1032,8 @@ h3 {
 
 /*
  * Reader titles and language labels (Русский, 日本語, 群書治要, …).
- * On zh pages --zh-locale-font has no Cyrillic @font-face, so Cyrillic fell
- * through to Kai (full-width per glyph + stretched spacing). Reset tracking
- * and use a stack with Latin/Cyrillic + CJK coverage; allow natural wrapping.
+ * Use the Latin stack (incl. Times New Roman for Cyrillic) before Kai so
+ * non-CJK scripts are not rendered full-width in Kai.
  */
 .resource-library .resource-copy h2 {
   max-width: 100%;
@@ -1038,13 +1046,13 @@ h3 {
   word-break: normal;
   hyphens: none;
   text-wrap: pretty;
-  font-family: var(--serif-en), "Times New Roman", var(--kai-zh), serif;
+  font-family: var(--zh-latin-font), var(--kai-zh);
 }
 
 .resource-copy .section-kicker {
   letter-spacing: normal;
   word-spacing: normal;
-  font-family: var(--serif-en), "Times New Roman", var(--kai-zh), serif;
+  font-family: var(--zh-latin-font), var(--kai-zh);
 }
 
 .resource-copy p:not(.section-kicker) {
