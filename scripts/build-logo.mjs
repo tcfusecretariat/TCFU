@@ -32,8 +32,10 @@ function buildLogoSvg(raw) {
 const rawSvg = readFileSync(svgIn, "utf8");
 const logoSvg = buildLogoSvg(rawSvg);
 
+const PNG_WIDTH = 2048;
+
 const pngBuffer = await sharp(Buffer.from(logoSvg), { density: 300 })
-  .resize({ width: 980 })
+  .resize({ width: PNG_WIDTH })
   .png()
   .toBuffer();
 

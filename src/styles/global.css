@@ -233,6 +233,7 @@ blockquote {
 
 .brand img {
   width: clamp(247px, 22.1vw, 359px);
+  background: var(--ivory);
 }
 
 .nav-links {
@@ -1197,6 +1198,7 @@ h3 {
 
 .site-footer img {
   width: min(468px, 98.8vw);
+  background: var(--ivory);
 }
 
 .footer-links {

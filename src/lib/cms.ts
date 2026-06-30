@@ -216,7 +216,7 @@ export async function getSiteSettings(locale: Locale = defaultLocale): Promise<R
 
   return {
     ...fallbackSiteSettings,
-    // Always use the versioned local PNG — Sanity Studio may still reference a
+    // Always use the versioned local SVG — Sanity Studio may still reference a
     // legacy upload with an opaque black background until it is re-uploaded.
     logo: fallbackSiteSettings.logo,
     name: data?.foundationName || data?.logoAlt || fallbackSiteSettings.name,
