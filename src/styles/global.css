@@ -13,8 +13,8 @@
   --kai-zh: adobe-kaiti-std, "Kaiti TC", "STKaiti", "KaiTi", serif;
   --font-ar: "layaan-arabic", sans-serif;
   --zh-latin-font: var(--serif-en), "Times New Roman", serif;
-  /* Latin composite first; CJK skips it via unicode-range and hits Typekit Kai. */
-  --zh-locale-font: "TCF Zh Latin", var(--kai-zh);
+  /* Typekit Baskerville + Latin composite; CJK skips both and hits adobe-kaiti-std. */
+  --zh-locale-font: baskerville-urw, "TCF Zh Latin", var(--kai-zh);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -69,6 +69,7 @@ html[lang="fr"] {
 
 html[lang="zh-Hant"] {
   --locale-font: var(--zh-locale-font);
+  --zh-latin-font: baskerville-urw, var(--serif-en), "Times New Roman", serif;
 }
 
 html.wf-loading body[data-lang="zh"] {
