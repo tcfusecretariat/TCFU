@@ -25,10 +25,7 @@ const alternateLinks = hreflangLinks(path).map((link) => ({
 }));
 const xDefaultHref = new URL(`/${defaultLocale}/${path}`.replace(/\/{2,}/g, "/"), `${siteUrl}/`).toString();
 const cloudflareAnalyticsToken = import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
-const adobeFontsKit = import.meta.env.PUBLIC_ADOBE_FONTS_KIT_ID;
-const adobeFontsCss =
-  import.meta.env.PUBLIC_ADOBE_FONTS_CSS ||
-  (adobeFontsKit ? `https://use.typekit.net/${adobeFontsKit}.css` : "https://use.typekit.net/utx6cie.css");
+const adobeFontsKitId = import.meta.env.PUBLIC_ADOBE_FONTS_KIT_ID || "utx6cie";
 const cloudflareBeacon = JSON.stringify({ token: cloudflareAnalyticsToken });
 const analyticsScript = cloudflareAnalyticsToken
   ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='${cloudflareBeacon}'></script>`
@@ -54,11 +51,40 @@ const analyticsScript = cloudflareAnalyticsToken
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    {adobeFontsCss && (
+    {locale === "zh" && adobeFontsKitId && (
       <>
         <link rel="preconnect" href="https://use.typekit.net" crossorigin />
         <link rel="preconnect" href="https://p.typekit.net" crossorigin />
-        <link rel="stylesheet" href={adobeFontsCss} />
+        <script is:inline define:vars={{ kitId: adobeFontsKitId }}>
+          (function (d) {
+            var config = {
+                kitId: kitId,
+                scriptTimeout: 3000,
+                async: true
+              },
+              h = d.documentElement,
+              t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+              }, config.scriptTimeout),
+              tk = d.createElement("script"),
+              f = false,
+              s = d.getElementsByTagName("script")[0],
+              a;
+            h.className += " wf-loading";
+            tk.src = "https://use.typekit.net/" + config.kitId + ".js";
+            tk.async = true;
+            tk.onload = tk.onreadystatechange = function () {
+              a = this.readyState;
+              if (f || (a && a != "complete" && a != "loaded")) return;
+              f = true;
+              clearTimeout(t);
+              try {
+                Typekit.load(config);
+              } catch (e) {}
+            };
+            s.parentNode.insertBefore(tk, s);
+          })(document);
+        </script>
       </>
     )}
     <Fragment set:html={analyticsScript} />
