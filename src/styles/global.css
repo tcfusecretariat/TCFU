@@ -38,6 +38,16 @@ body[data-lang="zh"],
   font-weight: 400;
 }
 
+html.wf-loading body[data-lang="zh"] {
+  opacity: 0;
+}
+
+html.wf-active body[data-lang="zh"],
+html.wf-inactive body[data-lang="zh"] {
+  opacity: 1;
+  transition: opacity 0.15s ease-out;
+}
+
 html[lang="en"] body,
 html[lang="en"] button,
 html[lang="en"] input,
@@ -917,14 +927,14 @@ h3 {
 
 .resource-hero .section-kicker {
   text-align: center;
-  font-size: clamp(9px, 0.8vw, 12px);
+  font-size: clamp(11.7px, 1.04vw, 15.6px);
 }
 
 .resource-hero h1 {
   max-width: none;
   margin-left: auto;
   margin-right: auto;
-  font-size: clamp(17px, 2vw, 29px);
+  font-size: clamp(22.1px, 2.6vw, 37.7px);
   text-align: center;
   text-wrap: balance;
 }
@@ -934,7 +944,7 @@ h3 {
   margin-left: auto;
   margin-right: auto;
   color: var(--muted);
-  font-size: clamp(9px, 0.9vw, 12px);
+  font-size: clamp(11.7px, 1.17vw, 15.6px);
   text-align: center;
   text-wrap: pretty;
   overflow-wrap: normal;
@@ -2077,15 +2087,15 @@ html[lang="zh-Hant"] .governance-role {
   }
 
   .resource-hero h1 {
-    font-size: clamp(15px, 4vw, 21px);
+    font-size: clamp(19.5px, 5.2vw, 27.3px);
   }
 
   .resource-hero .section-kicker {
-    font-size: clamp(12px, 2.5vw, 12px);
+    font-size: clamp(15.6px, 3.25vw, 15.6px);
   }
 
   .resource-hero p:not(.section-kicker) {
-    font-size: clamp(12px, 2.8vw, 12px);
+    font-size: clamp(15.6px, 3.64vw, 15.6px);
   }
 
   h1 {
