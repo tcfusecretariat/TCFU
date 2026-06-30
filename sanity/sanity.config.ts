@@ -81,7 +81,9 @@ export default defineConfig({
                       .id("eventRegistrationExport")
                       .title("📥 導出 Excel / Export Registrations")
                       .child(
-                        S.component(ExportRegistrationsTool).title("導出報名 Excel / Export Registrations")
+                        S.component(ExportRegistrationsTool)
+                          .id("eventRegistrationExportTool")
+                          .title("導出報名 Excel / Export Registrations")
                       )
                   ])
               ),
