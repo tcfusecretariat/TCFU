@@ -1204,8 +1204,16 @@ h3 {
   background: rgba(216, 199, 166, 0.26);
 }
 
+.footer-brand {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .site-footer img {
-  width: min(468px, 98.8vw);
+  width: min(561.6px, 98.8vw);
+  margin-inline: auto;
+  display: block;
   background: transparent;
 }
 
