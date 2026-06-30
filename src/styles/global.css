@@ -912,16 +912,34 @@ h3 {
   max-width: 1180px;
   margin: 0 auto;
   padding: clamp(82px, 10vw, 150px) 24px clamp(54px, 7vw, 96px);
+  text-align: center;
+}
+
+.resource-hero .section-kicker {
+  text-align: center;
+  font-size: clamp(9px, 0.8vw, 12px);
 }
 
 .resource-hero h1 {
-  max-width: 780px;
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(17px, 2vw, 29px);
+  text-align: center;
+  text-wrap: balance;
 }
 
 .resource-hero p:not(.section-kicker) {
-  max-width: 760px;
+  max-width: min(760px, 100%);
+  margin-left: auto;
+  margin-right: auto;
   color: var(--muted);
-  font-size: clamp(18px, 1.8vw, 24px);
+  font-size: clamp(9px, 0.9vw, 12px);
+  text-align: center;
+  text-wrap: pretty;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 .resource-library {
@@ -2056,6 +2074,18 @@ html[lang="zh-Hant"] .governance-role {
   .resource-hero,
   .resource-library {
     padding-inline: 18px;
+  }
+
+  .resource-hero h1 {
+    font-size: clamp(15px, 4vw, 21px);
+  }
+
+  .resource-hero .section-kicker {
+    font-size: clamp(12px, 2.5vw, 12px);
+  }
+
+  .resource-hero p:not(.section-kicker) {
+    font-size: clamp(12px, 2.8vw, 12px);
   }
 
   h1 {
