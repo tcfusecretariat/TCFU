@@ -1457,11 +1457,14 @@ html[lang="zh-Hant"] .registration-page .registration-header h1 {
   text-align: center;
 }
 
-.privacy-policy-header h1 {
+.privacy-policy-header h1,
+.privacy-policy-page .detail-article h1,
+.privacy-policy-page .privacy-policy-title {
   max-width: 980px;
   margin: 0 auto 12px;
   font-size: var(--privacy-text-size);
   font-weight: 400;
+  line-height: 1.85;
   text-align: center;
   text-wrap: balance;
 }
@@ -2156,6 +2159,12 @@ html[lang="zh-Hant"] .governance-role {
 
   .detail-article h1 {
     font-size: clamp(32px, 9vw, 46px);
+  }
+
+  .privacy-policy-page .detail-article h1,
+  .privacy-policy-page .privacy-policy-header h1 {
+    font-size: var(--privacy-text-size);
+    line-height: 1.85;
   }
 
   .governance-page .detail-article h1 {
