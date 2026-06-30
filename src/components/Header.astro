@@ -7,6 +7,10 @@ const { locale } = Astro.props as { locale: Locale };
 const t = content[locale];
 const settings = await getSiteSettings(locale);
 const helloAssoUrl = settings.helloAssoUrl;
+const logoAlt =
+  locale === "zh"
+    ? "聯合國教科文組織傳統文化基金會"
+    : "Traditional Culture Foundation at UNESCO";
 ---
 
 <header class="site-header">
@@ -16,8 +20,8 @@ const helloAssoUrl = settings.helloAssoUrl;
     ))}
   </div>
   <nav class="main-nav" aria-label="Main navigation">
-    <a class="brand" href={languages[locale].path} aria-label={`${settings.name} homepage`}>
-      <img src={settings.logo} alt={settings.name} />
+    <a class="brand" href={languages[locale].path} aria-label={`${logoAlt} homepage`}>
+      <img src={settings.logo} alt={logoAlt} />
     </a>
     <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="main-menu" aria-expanded="false">
       <span></span><span></span><span></span>

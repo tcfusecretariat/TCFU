@@ -7,11 +7,15 @@ const { locale } = Astro.props as { locale: Locale };
 const t = content[locale];
 const settings = await getSiteSettings(locale);
 const helloAssoUrl = settings.helloAssoUrl;
+const logoAlt =
+  locale === "zh"
+    ? "聯合國教科文組織傳統文化基金會"
+    : "Traditional Culture Foundation at UNESCO";
 ---
 
 <footer class="site-footer">
   <div class="footer-brand">
-    <img src={settings.logo} alt={settings.name} />
+    <img src={settings.logo} alt={logoAlt} />
   </div>
   {settings.footer && <p class="footer-note">{settings.footer}</p>}
   <div class="footer-links">
@@ -19,9 +23,6 @@ const helloAssoUrl = settings.helloAssoUrl;
     <a href={helloAssoUrl} target="_blank" rel="noopener">{t.footer.donate}</a>
     <a href={`/${locale}/privacy-policy/`}>{t.footer.privacy}</a>
   </div>
-  {locale === "zh" && (
-    <p class="footer-note footer-font-attribution">本網站中文頁面字體：教育部標準楷書（中華民國教育部）</p>
-  )}
   <div class="footer-social" aria-label="Social media">
     {settings.socialLinks.map((link) => (
       <a href={link.url} target="_blank" rel="noopener" aria-label={link.label}>
