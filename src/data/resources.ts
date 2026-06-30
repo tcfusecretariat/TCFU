@@ -17,7 +17,6 @@ export const resourceReaderTitles: Record<string, string> = {
   "qunshu-zhiyao-360-zh": "群書治要",
   "qunshu-zhiyao-es": "Los Principios de Gobierno de la Antigua China",
   "qunshu-zhiyao-ja-vol3": "群書治要",
-  "qunshu-zhiyao-ru-vol1": "Принципы государственного управления в древнем Китае",
   "qunshu-zhiyao-fr-vol1": "Les principes de gouvernance de la Chine ancienne"
 };
 
@@ -47,13 +46,6 @@ export const fallbackResources: Record<Locale, LibraryResource[]> = {
       language: "日本語",
       description: "日文版《群書治要》第三冊，方便日本讀者研讀與分享古典治理智慧。",
       file: "/assets/resources/qunshu-zhiyao-ja-vol3.pdf"
-    },
-    {
-      slug: "qunshu-zhiyao-ru-vol1",
-      title: "《群書治要360》俄文版 第一冊",
-      language: "Русский",
-      description: "俄文版《群書治要360》第一冊，支持國際讀者研習與傳播。",
-      file: "/assets/resources/qunshu-zhiyao-ru-vol1.pdf"
     },
     {
       slug: "qunshu-zhiyao-fr-vol1",
@@ -86,13 +78,6 @@ export const fallbackResources: Record<Locale, LibraryResource[]> = {
       file: "/assets/resources/qunshu-zhiyao-ja-vol3.pdf"
     },
     {
-      slug: "qunshu-zhiyao-ru-vol1",
-      title: "The Governing Principles of Ancient China 360 Russian Edition Volume 1",
-      language: "Русский",
-      description: "Volume 1 of the Russian edition of The Governing Principles of Ancient China 360.",
-      file: "/assets/resources/qunshu-zhiyao-ru-vol1.pdf"
-    },
-    {
       slug: "qunshu-zhiyao-fr-vol1",
       title: "Principes de Gouvernance de la Chine Ancienne Volume 1 (Chinese–French)",
       language: "Français",
@@ -121,13 +106,6 @@ export const fallbackResources: Record<Locale, LibraryResource[]> = {
       language: "日本語",
       description: "Volume 3 de l’édition japonaise pour l’étude et le partage de la sagesse classique de gouvernance.",
       file: "/assets/resources/qunshu-zhiyao-ja-vol3.pdf"
-    },
-    {
-      slug: "qunshu-zhiyao-ru-vol1",
-      title: "Les Principes de Gouvernance de la Chine Ancienne 360 édition russe volume 1",
-      language: "Русский",
-      description: "Volume 1 de l’édition russe des Principes de Gouvernance de la Chine Ancienne 360.",
-      file: "/assets/resources/qunshu-zhiyao-ru-vol1.pdf"
     },
     {
       slug: "qunshu-zhiyao-fr-vol1",
