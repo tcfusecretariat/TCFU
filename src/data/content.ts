@@ -81,7 +81,7 @@ export const content: Record<Locale, HomeContent> = {
         kicker: "我們的工作",
         title: "四大主軸<br />連結人的內在成長與世界和平",
         pillars: [
-          { title: "愛的教育", subtitle: "Peace Education" },
+          { title: "愛的教育", subtitle: "Love Education" },
           { title: "青少年身心健康", subtitle: "Youth Well-being" },
           { title: "文明對話", subtitle: "Intercultural Dialogue" },
           { title: "傳統智慧", subtitle: "Traditional Wisdom" }
@@ -125,7 +125,7 @@ export const content: Record<Locale, HomeContent> = {
   },
   en: {
     metaTitle: "Traditional Culture Foundation at UNESCO",
-    metaDescription: "An international cultural foundation advancing peace education, youth well-being, intercultural dialogue, and traditional wisdom.",
+    metaDescription: "An international cultural foundation advancing love education, youth well-being, intercultural dialogue, and traditional wisdom.",
     nav: [
       { label: "About Us", href: "/en/about/" },
       { label: "Governance", href: "/en/governance/" },
@@ -138,18 +138,18 @@ export const content: Record<Locale, HomeContent> = {
     search: "Site Search",
     hero: {
       translations: ["Ignite the vital spark of the heart", "Réveiller l’élan vital du cœur", "أشعل الشرارة الحيوية في القلب"],
-      description: "Through traditional wisdom, peace education, and intercultural dialogue, we cultivate character, well-being, and peace for future generations.",
+      description: "Through traditional wisdom, love education, and intercultural dialogue, we cultivate character, well-being, and peace for future generations.",
       primaryCta: "About the Foundation",
       secondaryCta: "Explore Resources"
     },
     sections: {
       philosophy: { kicker: "Core Philosophy", title: "True peace begins<br />within the human heart", paragraphs: ["We believe every person carries an inner force capable of nurturing personal growth, family harmony, social progress, and world peace.", "The Foundation works through education, culture, and dialogue among civilizations to awaken and cultivate this inner driving force."] },
-      work: { kicker: "Core Work", title: "Four pillars connecting inner growth<br />with peace in the world", pillars: [{ title: "Peace Education", subtitle: "" }, { title: "Youth Well-being", subtitle: "" }, { title: "Intercultural Dialogue", subtitle: "" }, { title: "Traditional Wisdom", subtitle: "" }] },
+      work: { kicker: "Core Work", title: "Four pillars connecting inner growth<br />with peace in the world", pillars: [{ title: "Love Education", subtitle: "" }, { title: "Youth Well-being", subtitle: "" }, { title: "Intercultural Dialogue", subtitle: "" }, { title: "Traditional Wisdom", subtitle: "" }] },
       projects: { kicker: "Flagship Projects", title: "Building a future-facing platform for peace<br />through education classics and forums" },
       library: { kicker: "Resource Center", title: "Traditional Wisdom · Shared with the World", description: "THE GOVERNING PRINCIPLES OF ANCIENT CHINA is a flagship translation and publishing initiative for sharing classical wisdom globally.", languages: ["中文", "English", "Français", "Deutsch", "Русский", "Español", "العربية", "日本語"] },
       event: { kicker: "Latest Forum", title: "2025 International Peace Conference held at UNESCO", description: "The Foundation co-organized the International Peace Conference on Education for Well-being 2025, focusing on youth well-being, education, and intercultural dialogue.", link: "View Programme" },
       news: { kicker: "Latest News", title: "Selected forums activities and publications" },
-      support: { kicker: "Support Us", title: "Your support helps peace education<br />and classical translation reach the next generation", items: ["Peace education", "Youth projects", "International forums", "Classical translation"], cta: "Support the Foundation" }
+      support: { kicker: "Support Us", title: "Your support helps love education<br />and classical translation reach the next generation", items: ["Love Education", "Youth projects", "International forums", "Classical translation"], cta: "Support the Foundation" }
     },
     footer: { contact: "Contact Us", donate: "Support Us", privacy: "Privacy Policy" },
     contact: {
@@ -187,7 +187,7 @@ export const content: Record<Locale, HomeContent> = {
     },
     sections: {
       philosophy: { kicker: "Idée fondatrice", title: "La paix véritable commence<br />dans le cœur humain", paragraphs: ["Nous croyons que chaque personne porte en elle une force capable de nourrir sa croissance, l’harmonie familiale, le progrès social et la paix mondiale.", "La Fondation agit par l’éducation, la culture et le dialogue entre les civilisations afin d’éveiller et de cultiver cette force intérieure."] },
-      work: { kicker: "Axes de travail", title: "Quatre axes reliant la croissance intérieure<br />à la paix dans le monde", pillars: [{ title: "Éducation à la paix", subtitle: "Peace Education" }, { title: "Bien-être des jeunes", subtitle: "Youth Well-being" }, { title: "Dialogue interculturel", subtitle: "Intercultural Dialogue" }, { title: "Sagesse traditionnelle", subtitle: "Traditional Wisdom" }] },
+      work: { kicker: "Axes de travail", title: "Quatre axes reliant la croissance intérieure<br />à la paix dans le monde", pillars: [{ title: "Éducation à la paix", subtitle: "Love Education" }, { title: "Bien-être des jeunes", subtitle: "Youth Well-being" }, { title: "Dialogue interculturel", subtitle: "Intercultural Dialogue" }, { title: "Sagesse traditionnelle", subtitle: "Traditional Wisdom" }] },
       projects: { kicker: "Projets phares", title: "Construire une plateforme de paix<br />par l’éducation les classiques et les forums" },
       library: { kicker: "Ressources", title: "Sagesse traditionnelle · Partagée avec le monde", description: "Les Principes de Gouvernance de la Chine Ancienne constituent un projet phare de traduction et d’édition pour partager la sagesse classique à l’échelle mondiale.", languages: ["中文", "English", "Français", "Deutsch", "Русский", "Español", "العربية", "日本語"] },
       event: { kicker: "Dernier forum", title: "La conférence internationale pour la paix 2025 s’est tenue à l’UNESCO", description: "La Fondation a coorganisé l’International Peace Conference on Education for Well-being 2025, consacrée au bien-être des jeunes, à l’éducation et au dialogue interculturel.", link: "Voir le programme" },
