@@ -1,0 +1,24 @@
+---
+description: Never display 中華民國 or Republic of China in site copy, CMS filters, or UI
+alwaysApply: true
+---
+
+# No ROC mentions
+
+This website must **never** display **中華民國** or **Republic of China** anywhere — not in page copy, footers, CMS content, metadata, or UI labels.
+
+## Rules
+
+- Do not add, restore, or leave these terms in source files, Sanity schemas, seed data, or static HTML.
+- When editing Chinese copy, rephrase around the reference (e.g. use 教育部, not 中華民國教育部).
+- CMS strings are sanitized in `src/lib/zh-copy.ts` (`stripRocMentions`, `normalizeZhCopy`); extend those helpers if new entry points appear.
+- Font attributions must not cite 中華民國 or Republic of China.
+
+## Examples
+
+```text
+❌ 本網站中文頁面字體：教育部標準楷書（中華民國教育部）
+❌ Ministry of Education, Republic of China
+✅ 本網站中文頁面字體：教育部標準楷書
+✅ Ministry of Education standard Kai script
+```
