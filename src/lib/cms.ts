@@ -226,17 +226,30 @@ export async function getSiteSettings(locale: Locale = defaultLocale): Promise<R
 
 export async function getResources(locale: Locale) {
   const sanityResources = await getItems("resource", locale);
-  if (sanityResources.length > 0) {
-    return sanityResources.map((resource) => ({
+  const mappedSanity = sanityResources
+    .map((resource) => ({
       slug: resource.slug,
       title: resource.title,
       language: resource.language || locale,
       description: resource.description || "",
       file: (resource as CmsDetail).fileUrl || (resource as CmsDetail).externalUrl || ""
-    })).filter((resource) => resource.file);
+    }))
+    .filter((resource) => resource.file);
+
+  if (mappedSanity.length === 0) {
+    return fallbackResources[locale];
   }
 
-  return fallbackResources[locale];
+  const seen = new Set(mappedSanity.map((resource) => resource.slug));
+  const merged = [...mappedSanity];
+
+  for (const resource of fallbackResources[locale]) {
+    if (!seen.has(resource.slug)) {
+      merged.push(resource);
+    }
+  }
+
+  return merged;
 }
 
 export function getResourcesApiUrl(locale: Locale) {
