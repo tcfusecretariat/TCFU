@@ -949,8 +949,8 @@ h3 {
   border-bottom: 1px solid rgba(183, 154, 103, 0.22);
 }
 
-.resource-copy h2 {
-  font-size: clamp(30px, 4vw, 54px);
+.resource-library .resource-copy h2 {
+  font-size: clamp(15px, 2vw, 27px);
 }
 
 .resource-copy p:not(.section-kicker) {

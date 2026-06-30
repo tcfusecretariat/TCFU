@@ -8,6 +8,23 @@ export type LibraryResource = {
   file: string;
 };
 
+export type LibraryResourceWithReader = LibraryResource & {
+  readerTitle: string;
+};
+
+/** Native-language work title shown beside each PDF reader (same on all locales). */
+export const resourceReaderTitles: Record<string, string> = {
+  "qunshu-zhiyao-360-zh": "群書治要",
+  "qunshu-zhiyao-es": "Los Principios de Gobierno de la Antigua China",
+  "qunshu-zhiyao-ja-vol3": "群書治要",
+  "qunshu-zhiyao-ru-vol1": "Принципы государственного управления в древнем Китае",
+  "qunshu-zhiyao-fr-vol1": "Les principes de gouvernance de la Chine ancienne"
+};
+
+export function getResourceReaderTitle(slug: string, fallbackTitle = ""): string {
+  return resourceReaderTitles[slug] ?? fallbackTitle;
+}
+
 export const fallbackResources: Record<Locale, LibraryResource[]> = {
   zh: [
     {

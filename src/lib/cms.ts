@@ -1,9 +1,9 @@
-import { fallbackResources } from "@data/resources";
+import { fallbackResources, getResourceReaderTitle } from "@data/resources";
 import { content } from "@data/content";
 import { siteSettings as fallbackSiteSettings, defaultLocale, type Locale } from "@data/site";
 import { fetchOptional, imageUrl, sanityApiUrl } from "@lib/sanity";
 import { resourcesSummaryQuery } from "@lib/sanity-queries";
-import { normalizeZhCopy } from "@lib/zh-copy";
+import { normalizeZhCopy, stripRocMentions } from "@lib/zh-copy";
 
 function zhText(locale: Locale, text: string): string {
   return locale === "zh" ? normalizeZhCopy(text) : text;
@@ -206,8 +206,13 @@ export async function getSiteSettings(locale: Locale = defaultLocale): Promise<R
   const siteTitle =
     locale === "en" ? data?.siteTitleEn : locale === "fr" ? data?.siteTitleFr : data?.siteTitleZh;
 
+  const footerRaw = data?.footer;
   const footer =
-    data?.footer && !/教育部標準楷書|本網站中文頁面字體/.test(data.footer) ? data.footer : undefined;
+    footerRaw && !/教育部標準楷書|本網站中文頁面字體/.test(footerRaw)
+      ? locale === "zh"
+        ? normalizeZhCopy(footerRaw)
+        : stripRocMentions(footerRaw)
+      : undefined;
 
   return {
     ...fallbackSiteSettings,
@@ -226,6 +231,17 @@ export async function getSiteSettings(locale: Locale = defaultLocale): Promise<R
 
 export async function getResources(locale: Locale) {
   const sanityResources = await getItems("resource", locale);
+  const withReaderTitle = (resource: {
+    slug: string;
+    title: string;
+    language: string;
+    description: string;
+    file: string;
+  }) => ({
+    ...resource,
+    readerTitle: getResourceReaderTitle(resource.slug, resource.title)
+  });
+
   const mappedSanity = sanityResources
     .map((resource) => ({
       slug: resource.slug,
@@ -234,10 +250,11 @@ export async function getResources(locale: Locale) {
       description: resource.description || "",
       file: (resource as CmsDetail).fileUrl || (resource as CmsDetail).externalUrl || ""
     }))
-    .filter((resource) => resource.file);
+    .filter((resource) => resource.file)
+    .map(withReaderTitle);
 
   if (mappedSanity.length === 0) {
-    return fallbackResources[locale];
+    return fallbackResources[locale].map(withReaderTitle);
   }
 
   const seen = new Set(mappedSanity.map((resource) => resource.slug));
@@ -245,7 +262,7 @@ export async function getResources(locale: Locale) {
 
   for (const resource of fallbackResources[locale]) {
     if (!seen.has(resource.slug)) {
-      merged.push(resource);
+      merged.push(withReaderTitle(resource));
     }
   }
 

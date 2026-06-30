@@ -1,4 +1,5 @@
 ---
+import { resourceReaderTitles } from "@data/resources";
 import { getResourcesApiUrl } from "@lib/cms";
 import type { Locale } from "@data/site";
 
@@ -13,7 +14,7 @@ const prev = locale === "zh" ? "上一頁" : locale === "fr" ? "Page précédent
 const next = locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" : "Next";
 ---
 
-<script is:inline define:vars={{ apiUrl, read, download, prev, next }}>
+<script is:inline define:vars={{ apiUrl, read, download, prev, next, resourceReaderTitles }}>
   function escapeHtml(value) {
     return String(value ?? "")
       .replaceAll("&", "&amp;")
@@ -26,7 +27,7 @@ const next = locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" :
     const file = resource.fileUrl || resource.externalUrl || "";
     if (!file) return "";
     const safeFile = escapeHtml(file);
-    const title = escapeHtml(resource.title || "");
+    const readerTitle = escapeHtml(resourceReaderTitles[resource.slug] || resource.title || "");
     const language = escapeHtml(resource.language || "");
     const description = escapeHtml(resource.description || "");
     const slug = escapeHtml(resource.slug || "");
@@ -34,7 +35,7 @@ const next = locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" :
       <article class="resource-reader" id="${slug}">
         <div class="resource-copy">
           <p class="section-kicker">${language}</p>
-          <h2>${title}</h2>
+          <h2>${readerTitle}</h2>
           <p>${description}</p>
           <div class="resource-actions">
             <a class="button primary" href="${safeFile}" target="_blank" rel="noopener">${escapeHtml(read)}</a>
@@ -48,7 +49,7 @@ const next = locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" :
             <button type="button" data-next>${escapeHtml(next)}</button>
           </div>
           <div class="book-stage">
-            <canvas data-canvas aria-label="${title} online reader"></canvas>
+            <canvas data-canvas aria-label="${readerTitle} online reader"></canvas>
             <p class="book-fallback" data-fallback hidden>
               <a class="button secondary" href="${safeFile}" target="_blank" rel="noopener">${escapeHtml(read)}</a>
             </p>
