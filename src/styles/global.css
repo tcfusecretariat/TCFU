@@ -10,17 +10,9 @@
   --line: rgba(23, 20, 18, 0.14);
   --serif-en: Baskerville, "Libre Baskerville", "Times New Roman", serif;
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
-  --kai-zh: "AdobeKaiti", "Kaiti TC", "STKaiti", "KaiTi", serif;
+  --kai-zh: adobe-kaiti-std, "Kaiti TC", "STKaiti", "KaiTi", serif;
   --font-ar: "layaan-arabic", sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@font-face {
-  font-family: "AdobeKaiti";
-  src: url("/fonts/Adobe-Kaiti.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
 }
 
 html {
@@ -41,7 +33,9 @@ html[lang="zh"],
 html[lang="zh-Hant"],
 body[data-lang="zh"],
 .zh-page {
-  font-family: "AdobeKaiti", "Kaiti TC", "STKaiti", "KaiTi", serif;
+  font-family: adobe-kaiti-std, "Kaiti TC", "STKaiti", "KaiTi", serif;
+  font-style: normal;
+  font-weight: 400;
 }
 
 html[lang="en"] body,

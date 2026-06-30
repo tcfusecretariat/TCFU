@@ -61,15 +61,6 @@ const analyticsScript = cloudflareAnalyticsToken
         <link rel="stylesheet" href={adobeFontsCss} />
       </>
     )}
-    {locale === "zh" && (
-      <link
-        rel="preload"
-        href="/fonts/Adobe-Kaiti.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin
-      />
-    )}
     <Fragment set:html={analyticsScript} />
   </head>
   <body data-lang={locale}>
