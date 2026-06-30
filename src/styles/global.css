@@ -10,21 +10,17 @@
   --line: rgba(23, 20, 18, 0.14);
   --serif-en: Baskerville, "Libre Baskerville", "Times New Roman", serif;
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
-  --kai-zh: "TW-Kai", "adobe-kaiti-std", "Adobe Kaiti Std", "KaiTi", "楷体", "STKaiti", "华文楷体", serif;
+  --kai-zh: "AdobeKaiti", "Kaiti TC", "STKaiti", "KaiTi", serif;
   --font-ar: "layaan-arabic", sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @font-face {
-  font-family: "TW-Kai";
-  font-style: normal;
+  font-family: "AdobeKaiti";
+  src: url("/fonts/Adobe-Kaiti.woff2") format("woff2");
   font-weight: 400;
+  font-style: normal;
   font-display: swap;
-  unicode-range:
-    U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3200-32FF, U+3400-4DBF, U+4E00-9FFF,
-    U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F,
-    U+2B820-2CEAF, U+2CEB0-2EBEF, U+2F800-2FA1F;
-  src: url("/assets/fonts/edukai.woff2") format("woff2");
 }
 
 html {
@@ -37,7 +33,15 @@ html[lang="fr"] {
 }
 
 html[lang="zh-Hant"] {
-  --locale-font: var(--serif-en), var(--kai-zh);
+  --locale-font: var(--kai-zh);
+}
+
+:lang(zh),
+html[lang="zh"],
+html[lang="zh-Hant"],
+body[data-lang="zh"],
+.zh-page {
+  font-family: "AdobeKaiti", "Kaiti TC", "STKaiti", "KaiTi", serif;
 }
 
 html[lang="en"] body,
