@@ -12,7 +12,58 @@
   --serif-zh: "Noto Serif TC", "Source Han Serif TC", "Songti TC", serif;
   --kai-zh: adobe-kaiti-std, "Kaiti TC", "STKaiti", "KaiTi", serif;
   --font-ar: "layaan-arabic", sans-serif;
+  --zh-locale-font: "TCF Zh Locale", var(--serif-en), var(--kai-zh);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*
+ * zh-Hant composite font: Latin → Baskerville, CJK → Kai.
+ * unicode-range splits glyphs so mixed content picks the right face.
+ */
+@font-face {
+  font-family: "TCF Zh Locale";
+  src: local("Baskerville"), local("Libre Baskerville"), local("Times New Roman");
+  font-weight: 400 700;
+  font-style: normal italic;
+  font-display: swap;
+  unicode-range:
+    U+0000-00FF,
+    U+0131,
+    U+0152-0153,
+    U+02BB-02BC,
+    U+02C6,
+    U+02DA,
+    U+02DC,
+    U+0304,
+    U+0308,
+    U+0329,
+    U+2000-206F,
+    U+2074,
+    U+20AC,
+    U+2122,
+    U+2191,
+    U+2193,
+    U+2212,
+    U+2215,
+    U+FEFF,
+    U+FFFD;
+}
+
+@font-face {
+  font-family: "TCF Zh Locale";
+  src: local("adobe-kaiti-std"), local("Kaiti TC"), local("STKaiti"), local("KaiTi");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+2E80-2EFF,
+    U+3000-303F,
+    U+3100-312F,
+    U+31A0-31BF,
+    U+3400-4DBF,
+    U+4E00-9FFF,
+    U+F900-FAFF,
+    U+FF00-FFEF;
 }
 
 html {
@@ -25,17 +76,7 @@ html[lang="fr"] {
 }
 
 html[lang="zh-Hant"] {
-  --locale-font: var(--kai-zh);
-}
-
-:lang(zh),
-html[lang="zh"],
-html[lang="zh-Hant"],
-body[data-lang="zh"],
-.zh-page {
-  font-family: adobe-kaiti-std, "Kaiti TC", "STKaiti", "KaiTi", serif;
-  font-style: normal;
-  font-weight: 400;
+  --locale-font: var(--zh-locale-font);
 }
 
 html.wf-loading body[data-lang="zh"] {

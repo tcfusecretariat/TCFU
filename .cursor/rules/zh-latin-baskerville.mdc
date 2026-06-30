@@ -1,0 +1,41 @@
+---
+description: Font policy for Chinese pages — Kai for CJK, Baskerville for Latin text
+alwaysApply: true
+---
+
+# zh-Hant typography — Kai + Baskerville
+
+On Chinese pages, Latin and CJK text use different typefaces. English and French
+pages are unchanged (all Baskerville).
+
+## Rules
+
+| Page locale | Chinese / CJK characters | English / French (Latin) text |
+|-------------|--------------------------|-------------------------------|
+| `zh-Hant`   | Kai (`adobe-kaiti-std`, `--kai-zh`) | Baskerville (`--serif-en`) |
+| `en`, `fr`  | — (N/A)                  | Baskerville (`--serif-en`) for all text |
+
+## Implementation
+
+- CSS lives in `src/styles/global.css`.
+- On `html[lang="zh-Hant"]`, `--locale-font` uses the composite `"TCF Zh Locale"`
+  family built from `@font-face` blocks with `unicode-range`:
+  - Latin ranges → Baskerville stack (`--serif-en`)
+  - CJK ranges → Kai stack (`--kai-zh`, loaded via Adobe Typekit on zh pages)
+- Fallback stack: `"TCF Zh Locale", var(--serif-en), var(--kai-zh)`.
+- Do **not** set a single Kai-only `font-family` on zh pages — that forces Latin
+  snippets (hero translations, nav labels, mixed content) into Kai.
+- `en` / `fr` pages keep `--locale-font: var(--serif-en)` only.
+
+## Mixed content on zh pages
+
+Hero English/French taglines, language switcher labels (`English`, `Français`),
+and any inline Latin in Chinese copy must render in Baskerville automatically via
+the composite font — no per-element overrides unless a component hard-codes Kai.
+
+## Verification
+
+On a zh page in DevTools, inspect:
+
+- A Chinese heading → computed `font-family` includes `adobe-kaiti-std`.
+- An English/French snippet → computed `font-family` includes `Baskerville`.
