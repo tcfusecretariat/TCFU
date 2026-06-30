@@ -1693,6 +1693,18 @@ html[lang="zh-Hant"] .registration-page .registration-header h1 {
   .privacy-tabs-nav {
     display: none;
   }
+
+  .privacy-tabs-panels,
+  .privacy-panel {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  html[lang="zh-Hant"] .privacy-policy-page .privacy-panel p,
+  html[lang="zh-Hant"] .privacy-policy-page .privacy-panel li {
+    text-align: justify;
+    text-wrap: normal;
+  }
 }
 
 .governance-page .detail-article {
@@ -2160,6 +2172,13 @@ html[lang="zh-Hant"] .governance-role {
   .listing-page,
   .detail-page {
     padding: 88px 18px;
+  }
+
+  html[lang="zh-Hant"] .content-page .portable-body p,
+  html[lang="zh-Hant"] .content-page .portable-body li,
+  html[lang="zh-Hant"] .detail-summary {
+    text-align: justify;
+    text-wrap: normal;
   }
 
   .resource-hero,
