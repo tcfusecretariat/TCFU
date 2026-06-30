@@ -12,6 +12,15 @@ export type LibraryResourceWithReader = LibraryResource & {
   readerTitle: string;
 };
 
+/** Slugs hidden site-wide even if present in Sanity CMS. */
+export const EXCLUDED_RESOURCE_SLUGS = ["qunshu-zhiyao-ru-vol1"] as const;
+
+export function isExcludedResource(slug: string): boolean {
+  return (
+    (EXCLUDED_RESOURCE_SLUGS as readonly string[]).includes(slug) || slug.startsWith("qunshu-zhiyao-ru")
+  );
+}
+
 /** Native-language work title shown beside each PDF reader (same on all locales). */
 export const resourceReaderTitles: Record<string, string> = {
   "qunshu-zhiyao-360-zh": "群書治要",

@@ -1,5 +1,5 @@
 ---
-import { resourceReaderTitles } from "@data/resources";
+import { EXCLUDED_RESOURCE_SLUGS, resourceReaderTitles } from "@data/resources";
 import { getResourcesApiUrl } from "@lib/cms";
 import type { Locale } from "@data/site";
 
@@ -14,7 +14,7 @@ const prev = locale === "zh" ? "上一頁" : locale === "fr" ? "Page précédent
 const next = locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" : "Next";
 ---
 
-<script is:inline define:vars={{ apiUrl, read, download, prev, next, resourceReaderTitles }}>
+<script is:inline define:vars={{ apiUrl, read, download, prev, next, resourceReaderTitles, excludedResourceSlugs: EXCLUDED_RESOURCE_SLUGS }}>
   function escapeHtml(value) {
     return String(value ?? "")
       .replaceAll("&", "&amp;")
@@ -58,13 +58,23 @@ const next = locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" :
       </article>`;
   }
 
+  function isExcludedResource(slug) {
+    return (
+      excludedResourceSlugs.includes(slug) ||
+      (typeof slug === "string" && slug.startsWith("qunshu-zhiyao-ru"))
+    );
+  }
+
   async function hydrateSanityResources() {
     try {
       const response = await fetch(apiUrl, { headers: { Accept: "application/json" } });
       if (!response.ok) return;
       const payload = await response.json();
       const items = Array.isArray(payload.result)
-        ? payload.result.filter((resource) => resource.fileUrl || resource.externalUrl)
+        ? payload.result.filter(
+            (resource) =>
+              (resource.fileUrl || resource.externalUrl) && !isExcludedResource(resource.slug)
+          )
         : [];
       if (items.length === 0) return;
 

@@ -1,4 +1,4 @@
-import { fallbackResources, getResourceReaderTitle } from "@data/resources";
+import { fallbackResources, getResourceReaderTitle, isExcludedResource } from "@data/resources";
 import { content } from "@data/content";
 import { siteSettings as fallbackSiteSettings, defaultLocale, type Locale } from "@data/site";
 import { fetchOptional, imageUrl, sanityApiUrl } from "@lib/sanity";
@@ -216,7 +216,7 @@ export async function getSiteSettings(locale: Locale = defaultLocale): Promise<R
 
   return {
     ...fallbackSiteSettings,
-    // Always use the versioned local SVG — Sanity Studio may still reference a
+    // Always use the versioned local PNG — Sanity Studio may still reference a
     // legacy upload with an opaque black background until it is re-uploaded.
     logo: fallbackSiteSettings.logo,
     name: data?.foundationName || data?.logoAlt || fallbackSiteSettings.name,
@@ -252,23 +252,23 @@ export async function getResources(locale: Locale) {
       description: resource.description || "",
       file: (resource as CmsDetail).fileUrl || (resource as CmsDetail).externalUrl || ""
     }))
-    .filter((resource) => resource.file)
+    .filter((resource) => resource.file && !isExcludedResource(resource.slug))
     .map(withReaderTitle);
 
   if (mappedSanity.length === 0) {
-    return fallbackResources[locale].map(withReaderTitle);
+    return fallbackResources[locale].filter((r) => !isExcludedResource(r.slug)).map(withReaderTitle);
   }
 
   const seen = new Set(mappedSanity.map((resource) => resource.slug));
   const merged = [...mappedSanity];
 
   for (const resource of fallbackResources[locale]) {
-    if (!seen.has(resource.slug)) {
+    if (!seen.has(resource.slug) && !isExcludedResource(resource.slug)) {
       merged.push(withReaderTitle(resource));
     }
   }
 
-  return merged;
+  return merged.filter((resource) => !isExcludedResource(resource.slug));
 }
 
 export function getResourcesApiUrl(locale: Locale) {
@@ -276,6 +276,8 @@ export function getResourcesApiUrl(locale: Locale) {
 }
 
 export async function getResourceItem(locale: Locale, slug: string) {
+  if (isExcludedResource(slug)) return null;
+
   const sanityResource = await getItem("resource", locale, slug);
   if (sanityResource) return sanityResource;
 
