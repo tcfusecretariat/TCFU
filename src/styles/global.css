@@ -1580,12 +1580,32 @@ html[lang="zh-Hant"] .registration-page .registration-header h1 {
 }
 
 .governance-copy {
-  max-width: 760px;
+  max-width: none;
   margin: 1.5rem auto 0;
   font-size: clamp(18px, 1.9vw, 22px);
   line-height: 1.85;
   text-align: center;
-  text-wrap: pretty;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.governance-copy p {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+html[lang="zh-Hant"] .governance-line {
+  white-space: nowrap;
+}
+
+.governance-role,
+.governance-note {
+  white-space: nowrap;
+}
+
+.governance-intro {
+  max-width: min(980px, 100%);
 }
 
 .governance-copy p + p {
@@ -2008,6 +2028,20 @@ html[lang="zh-Hant"] .registration-page .registration-header h1 {
 
   .governance-page .detail-article h1 {
     font-size: clamp(16px, 4.5vw, 23px);
+  }
+
+  html[lang="zh-Hant"] .governance-copy {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  html[lang="zh-Hant"] .governance-copy::-webkit-scrollbar {
+    display: none;
+  }
+
+  html[lang="zh-Hant"] .governance-line {
+    font-size: clamp(13px, 3.6vw, 18px);
   }
 
   .cms-card h2 {

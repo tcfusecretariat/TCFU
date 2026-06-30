@@ -11,15 +11,15 @@ const doc = governanceContent[locale];
     <p class="section-kicker">{doc.kicker}</p>
     <h1>{doc.title}</h1>
     <div class="governance-copy">
-      <p>{doc.intro}</p>
-      <p>
+      <p class="governance-line governance-intro">{doc.intro}</p>
+      <p class="governance-line governance-role">
         <strong>{doc.presidentLabel}</strong> {doc.president}
       </p>
-      <p>
+      <p class="governance-line governance-role">
         <strong>{doc.vicePresidentLabel}</strong> {doc.vicePresident}
         {locale === "zh" && doc.vicePresidentNote && <>（{doc.vicePresidentNote}）</>}
       </p>
-      {locale !== "zh" && doc.vicePresidentNote && <p class="governance-note">{doc.vicePresidentNote}</p>}
+      {locale !== "zh" && doc.vicePresidentNote && <p class="governance-line governance-note">{doc.vicePresidentNote}</p>}
     </div>
   </article>
 </main>
