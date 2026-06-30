@@ -1182,7 +1182,7 @@ h3 {
 }
 
 .site-footer {
-  --footer-brand-width: min(561.6px, 98.8vw);
+  --footer-brand-width: min(561.6px, 100%);
   display: grid;
   place-items: center;
   gap: 30px;
@@ -1195,6 +1195,8 @@ h3 {
   display: flex;
   justify-content: center;
   width: var(--footer-brand-width);
+  max-width: 100%;
+  margin-inline: auto;
 }
 
 .site-footer img {
@@ -1209,6 +1211,8 @@ h3 {
   justify-content: space-between;
   align-items: flex-end;
   width: var(--footer-brand-width);
+  max-width: 100%;
+  margin-inline: auto;
   gap: 12px;
 }
 
@@ -2192,6 +2196,34 @@ html[lang="zh-Hant"] .governance-role {
   .book-stage,
   .book-stage iframe {
     min-height: 520px;
+  }
+
+  .site-footer {
+    padding-inline: 18px;
+  }
+
+  .footer-brand,
+  .footer-links {
+    width: 100%;
+    max-width: min(561.6px, 100%);
+    margin-inline: auto;
+  }
+
+  .footer-brand {
+    justify-content: center;
+  }
+
+  .site-footer img {
+    width: 100%;
+    max-width: min(561.6px, 100%);
+    margin-inline: auto;
+  }
+
+  .footer-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    font-size: clamp(14px, 3.6vw, 16px);
   }
 }
 
