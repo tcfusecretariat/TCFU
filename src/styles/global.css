@@ -191,7 +191,7 @@ blockquote {
 }
 
 .brand img {
-  width: clamp(190px, 17vw, 276px);
+  width: clamp(247px, 22.1vw, 359px);
 }
 
 .nav-links {
@@ -1129,7 +1129,7 @@ h3 {
 }
 
 .site-footer img {
-  width: min(360px, 76vw);
+  width: min(468px, 98.8vw);
 }
 
 .footer-links {
@@ -2024,7 +2024,7 @@ html[lang="zh-Hant"] .governance-role {
   }
 
   .brand img {
-    width: 180px;
+    width: 234px;
   }
 
   .hero-sigil {
@@ -2157,7 +2157,7 @@ html[lang="zh-Hant"] .governance-role {
   }
 
   .brand img {
-    width: 150px;
+    width: 195px;
   }
 
   .hero-actions {
