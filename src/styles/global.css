@@ -971,17 +971,19 @@ h3 {
   margin-right: auto;
   font-size: clamp(22.1px, 2.6vw, 37.7px);
   text-align: center;
-  text-wrap: balance;
+  text-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .resource-hero p:not(.section-kicker) {
-  max-width: min(760px, 100%);
+  max-width: none;
   margin-left: auto;
   margin-right: auto;
   color: var(--muted);
   font-size: clamp(11.7px, 1.17vw, 15.6px);
   text-align: center;
-  text-wrap: pretty;
+  text-wrap: nowrap;
+  white-space: nowrap;
   overflow-wrap: normal;
   word-break: normal;
   hyphens: none;
@@ -2139,6 +2141,8 @@ html[lang="zh-Hant"] .governance-role {
 
   .resource-hero h1 {
     font-size: clamp(19.5px, 5.2vw, 27.3px);
+    text-wrap: balance;
+    white-space: normal;
   }
 
   .resource-hero .section-kicker {
@@ -2147,6 +2151,8 @@ html[lang="zh-Hant"] .governance-role {
 
   .resource-hero p:not(.section-kicker) {
     font-size: clamp(15.6px, 3.64vw, 15.6px);
+    text-wrap: pretty;
+    white-space: normal;
   }
 
   h1 {
