@@ -1016,8 +1016,34 @@ h3 {
   border-bottom: 1px solid rgba(183, 154, 103, 0.22);
 }
 
+.resource-copy {
+  min-width: 0;
+}
+
+/*
+ * Reader titles and language labels (Русский, 日本語, 群書治要, …).
+ * On zh pages --zh-locale-font has no Cyrillic @font-face, so Cyrillic fell
+ * through to Kai (full-width per glyph + stretched spacing). Reset tracking
+ * and use a stack with Latin/Cyrillic + CJK coverage; allow natural wrapping.
+ */
 .resource-library .resource-copy h2 {
+  max-width: 100%;
   font-size: clamp(15px, 2vw, 27px);
+  line-height: 1.35;
+  letter-spacing: normal;
+  word-spacing: normal;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: pretty;
+  font-family: var(--serif-en), "Times New Roman", var(--kai-zh), serif;
+}
+
+.resource-copy .section-kicker {
+  letter-spacing: normal;
+  word-spacing: normal;
+  font-family: var(--serif-en), "Times New Roman", var(--kai-zh), serif;
 }
 
 .resource-copy p:not(.section-kicker) {
