@@ -7,3 +7,8 @@ SANITY_WRITE_TOKEN=
 # Create at https://resend.com/api-keys and verify traditionalculturefoundation.org in Resend.
 # Upload: ./scripts/push-resend-secret.sh
 RESEND_API_KEY=
+
+CONTACT_TO_EMAIL=secretariat@traditionalculturefoundation.org
+SECRETARIAT_EMAIL=secretariat@traditionalculturefoundation.org
+CONTACT_FROM_EMAIL=TCFU Secretariat <noreply@traditionalculturefoundation.org>
+REGISTRATION_FROM_EMAIL=TCFU Secretariat <noreply@traditionalculturefoundation.org>
