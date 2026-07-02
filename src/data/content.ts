@@ -1,4 +1,4 @@
-import type { Locale } from "./site";
+import { SECRETARIAT_EMAIL, type Locale } from "./site";
 import { SYMPOSIUM_PAGE_SLUG } from "./event-registration";
 
 export type NavItem = {
@@ -120,7 +120,7 @@ export const content: Record<Locale, HomeContent> = {
       submit: "送出訊息",
       sending: "處理中…",
       success: "訊息已成功送出，我們會盡快回覆您。",
-      error: "無法送出訊息，請稍後再試或直接來信 tcfu.secretariat@gmail.com。"
+      error: `無法送出訊息，請稍後再試或直接來信 ${SECRETARIAT_EMAIL}。`
     }
   },
   en: {
@@ -163,7 +163,7 @@ export const content: Record<Locale, HomeContent> = {
       submit: "Send Message",
       sending: "Working…",
       success: "Your message has been sent. We will get back to you as soon as possible.",
-      error: "We couldn't send your message. Please try again or email tcfu.secretariat@gmail.com directly."
+      error: `We couldn't send your message. Please try again or email ${SECRETARIAT_EMAIL} directly.`
     }
   },
   fr: {
@@ -206,7 +206,7 @@ export const content: Record<Locale, HomeContent> = {
       submit: "Envoyer",
       sending: "En cours…",
       success: "Votre message a bien été envoyé. Nous vous répondrons dès que possible.",
-      error: "Impossible d’envoyer votre message. Réessayez ou écrivez à tcfu.secretariat@gmail.com."
+      error: `Impossible d’envoyer votre message. Réessayez ou écrivez à ${SECRETARIAT_EMAIL}.`
     }
   }
 };

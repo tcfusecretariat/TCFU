@@ -8,9 +8,11 @@ export type Locale = keyof typeof languages;
 
 export const defaultLocale: Locale = "en";
 
+export const SECRETARIAT_EMAIL = "secretariat@traditionalculturefoundation.org";
+
 export const siteSettings = {
   name: "Traditional Culture Foundation at UNESCO",
-  email: "office@tcfunesco.org",
+  email: SECRETARIAT_EMAIL,
   helloAssoUrl: "https://www.helloasso.com/associations/traditional-culture-foundation-at-unesco",
   logo: "/assets/tcf-logo.svg?v=9",
   logoMark: "/assets/tcf-logo-mark.png",

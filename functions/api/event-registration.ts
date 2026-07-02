@@ -5,6 +5,7 @@ import {
   SYMPOSIUM_EVENT_KEY,
   toSanityDocument
 } from "../../shared/event-registration.mjs";
+import { SECRETARIAT_EMAIL } from "../../shared/secretariat-email.mjs";
 
 type Env = {
   SANITY_WRITE_TOKEN?: string;
@@ -15,6 +16,10 @@ type Env = {
   REGISTRATION_FROM_EMAIL?: string;
   SECRETARIAT_EMAIL?: string;
 };
+
+function secretariatEmail(env: Env) {
+  return env.SECRETARIAT_EMAIL || SECRETARIAT_EMAIL;
+}
 
 function json(data: unknown, init: ResponseInit = {}) {
   return new Response(JSON.stringify(data), {
@@ -184,30 +189,28 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         to: registration.email,
         subject: participantEmail.subject,
         text: participantEmail.text,
-        replyTo: env.SECRETARIAT_EMAIL
+        replyTo: secretariatEmail(env)
       });
       confirmationEmailSent = true;
     } catch {
       confirmationEmailSent = false;
     }
 
-    if (env.SECRETARIAT_EMAIL) {
-      try {
-        await sendResendEmail(env, {
-          to: env.SECRETARIAT_EMAIL,
-          subject: `[World Peace Forum Registration] ${status.toUpperCase()} — ${fullName}`,
-          text: [
-            "A new conference registration was submitted.",
-            "",
-            formatRegistrationSummary(registration, status),
-            "",
-            `Sanity document ID: ${documentId}`
-          ].join("\n"),
-          replyTo: registration.email
-        });
-      } catch {
-        // Registration is stored even if the internal alert fails.
-      }
+    try {
+      await sendResendEmail(env, {
+        to: secretariatEmail(env),
+        subject: `[World Peace Forum Registration] ${status.toUpperCase()} — ${fullName}`,
+        text: [
+          "A new conference registration was submitted.",
+          "",
+          formatRegistrationSummary(registration, status),
+          "",
+          `Sanity document ID: ${documentId}`
+        ].join("\n"),
+        replyTo: registration.email
+      });
+    } catch {
+      // Registration is stored even if the internal alert fails.
     }
 
     if (confirmationEmailSent) {

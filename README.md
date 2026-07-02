@@ -265,7 +265,7 @@ The CMS only stores the video URL.
 **Phase 1 (current): mailto.** The contact form does not depend on Cloudflare KV
 or any database. When a visitor submits, the site opens their email app with the
 message pre-filled to the address set in **Site Settings → 聯絡 Email**
-(fallback `office@tcfunesco.org`). This works immediately with zero configuration.
+(fallback `secretariat@traditionalculturefoundation.org`). This works immediately with zero configuration.
 
 **Future (optional) server-side delivery.** `functions/api/contact.ts` is a
 ready-to-use endpoint with no KV dependency. To deliver messages without opening

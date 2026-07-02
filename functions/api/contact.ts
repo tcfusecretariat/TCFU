@@ -1,4 +1,5 @@
 import { createContactSubmission } from "../../shared/contact.mjs";
+import { SECRETARIAT_EMAIL } from "../../shared/secretariat-email.mjs";
 
 type Env = {
   RESEND_API_KEY?: string;
@@ -33,7 +34,7 @@ function contactFromEmail(env: Env) {
 }
 
 function contactToEmail(env: Env) {
-  return env.CONTACT_TO_EMAIL || env.SECRETARIAT_EMAIL;
+  return env.CONTACT_TO_EMAIL || env.SECRETARIAT_EMAIL || SECRETARIAT_EMAIL;
 }
 
 function resendConfigured(env: Env) {
@@ -47,9 +48,9 @@ const successMessages: Record<string, string> = {
 };
 
 const notConfiguredMessages: Record<string, string> = {
-  zh: "郵件服務尚未配置，請直接來信 tcfu.secretariat@gmail.com。",
-  en: "Contact delivery is not configured. Please email tcfu.secretariat@gmail.com directly.",
-  fr: "L'envoi du formulaire n'est pas configuré. Veuillez écrire directement à tcfu.secretariat@gmail.com."
+  zh: `郵件服務尚未配置，請直接來信 ${SECRETARIAT_EMAIL}。`,
+  en: `Contact delivery is not configured. Please email ${SECRETARIAT_EMAIL} directly.`,
+  fr: `L'envoi du formulaire n'est pas configuré. Veuillez écrire directement à ${SECRETARIAT_EMAIL}.`
 };
 
 function localeMessage(messages: Record<string, string>, locale?: string) {

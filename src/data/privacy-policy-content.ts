@@ -1,10 +1,10 @@
-import type { Locale } from "./site";
+import { SECRETARIAT_EMAIL, type Locale } from "./site";
 
 export const FOUNDATION_NAME = "TRADITIONAL CULTURE FOUNDATION AT UNESCO";
 export const FOUNDATION_NAME_ZH = "聯合國教科文組織傳統文化基金會";
 export const FOUNDATION_NAME_FR = "Fondation pour la culture traditionnelle à l'UNESCO";
 export const FOUNDATION_ADDRESS = "1 RUE MIOLLIS, 75015 PARIS, France";
-export const FOUNDATION_EMAIL = "tcfu.secretariat@gmail.com";
+export const FOUNDATION_EMAIL = SECRETARIAT_EMAIL;
 
 export type PolicySubsection = { heading: string; paragraphs?: string[]; list?: string[] };
 
