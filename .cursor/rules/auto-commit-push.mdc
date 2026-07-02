@@ -12,11 +12,12 @@ After finishing ANY operation that modifies files in this repo, automatically:
 3. `git push` to `origin main`.
 
 This is the production branch; pushing to `main` triggers the Cloudflare Pages
-auto-deploy. The user has standing approval for this commit+push workflow, so do
-it without asking again each time.
+auto-deploy. The user has standing approval for this commit+push workflow — **deploy
+directly after finishing the task; do not ask whether to deploy.**
 
 Rules:
-- Do this at the end of the task, after the change is verified (e.g. `npm run build` passes when relevant).
+- Do this at the end of every task that changes repo files, after verification when relevant (e.g. `npm run build` passes).
+- Do not wait for the user to say「部署」or「部署上線」— treat deployment as part of done.
 - Group the work into one logical commit per task.
 - Never force push. Never commit `.env`, keys, or other secrets.
 - If `git push` fails (e.g. needs pull/rebase), report it instead of forcing.
