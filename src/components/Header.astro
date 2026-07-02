@@ -14,12 +14,12 @@ const logoAlt =
 ---
 
 <header class="site-header">
-  <div class="language-links" aria-label="Language selector">
-    {Object.entries(languages).map(([key, language]) => (
-      <a href={language.path} aria-current={key === locale ? "page" : undefined}>{language.label}</a>
-    ))}
-  </div>
   <nav class="main-nav" aria-label="Main navigation">
+    <div class="language-links" aria-label="Language selector">
+      {Object.entries(languages).map(([key, language]) => (
+        <a href={language.path} aria-current={key === locale ? "page" : undefined}>{language.label}</a>
+      ))}
+    </div>
     <a class="brand" href={languages[locale].path} aria-label={`${logoAlt} homepage`}>
       <img src={settings.logo} alt={logoAlt} />
     </a>

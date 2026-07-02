@@ -91,7 +91,7 @@ const logoStoryEn: LogoStoryContent = {
 };
 
 const logoStoryZh: LogoStoryContent = {
-  sectionTitle: "活態傳統的象徵",
+  sectionTitle: "在時代中延續的文化之光",
   sectionSubtitle:
     "基金會徽識匯聚音樂、建築、文學、書法、飲食文化、表演藝術與禮儀藝術等多元傳統文化形態，寓意人類智慧在傳承、交流與互鑒中凝結為一個共同的文明圓環。",
   steps: [
@@ -118,7 +118,7 @@ const logoStoryZh: LogoStoryContent = {
     },
     {
       id: "music",
-      title: "音樂與和聲",
+      title: "音樂",
       subtitle: "Music & Harmony",
       text: "音樂與和聲是超越語言邊界的文化表達。節奏、旋律與聲音的共鳴，能夠喚起人類共同的情感經驗，使不同文化在聆聽之中相遇。傳統音樂不僅保存了地方記憶與審美形式，也體現了人們對和諧、秩序與內在平衡的追求。它提醒我們，文化交流並不僅依賴語言，也可以通過聲音與心靈的共振而展開。",
       image: categoryImages.music,
