@@ -1,11 +1,11 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import AboutPage from "@components/AboutPage.astro";
 import ContactPage from "@components/ContactPage.astro";
 import ContentPage from "@components/ContentPage.astro";
 import GovernancePage from "@components/GovernancePage.astro";
 import PlaceholderPage from "@components/PlaceholderPage.astro";
 import { content, projects, staticPages } from "@data/content";
-import { fallbackAboutPageZh } from "@data/about-page";
 import { getPage } from "@lib/cms";
 
 const locale = "zh";
@@ -27,13 +27,7 @@ if (slug === "privacy") {
 }
 
 const t = content[locale];
-let page = editableKeys.includes(slug) ? await getPage(slug, locale) : null;
-if (slug === "about") {
-  const hasSanityBody = Boolean(page?.body && Array.isArray(page.body) && page.body.length > 0);
-  if (!hasSanityBody) {
-    page = { ...page, ...fallbackAboutPageZh };
-  }
-}
+const page = editableKeys.includes(slug) ? await getPage(slug, locale) : null;
 const metaTitle = page?.seoTitle || page?.title || title;
 const metaDescription = page?.seoDescription || t.metaDescription;
 ---
@@ -43,6 +37,8 @@ const metaDescription = page?.seoDescription || t.metaDescription;
     <ContactPage locale={locale} title={title} />
   ) : slug === "governance" ? (
     <GovernancePage locale={locale} />
+  ) : slug === "about" ? (
+    <AboutPage locale={locale} kicker={title} />
   ) : editableKeys.includes(slug) ? (
     <ContentPage locale={locale} title={title} kicker={title} page={page} message={message} slug={slug} />
   ) : (
