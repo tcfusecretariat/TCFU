@@ -2220,7 +2220,8 @@ html[lang="zh-Hant"] .governance-role {
   }
 
   html[lang="zh-Hant"] .about-page .about-intro p {
-    text-align: center;
+    text-align: justify;
+    text-align-last: left;
     text-wrap: pretty;
   }
 
@@ -2360,24 +2361,25 @@ html[lang="zh-Hant"] .governance-role {
   }
 }
 
-/* Chinese About page — centered intro with first-line indent */
+/* Chinese About page — justified intro with first-line indent */
 .about-page .section-kicker {
   text-align: center;
 }
 
 .about-page .about-intro {
   margin-inline: auto;
-  text-align: center;
 }
 
 .about-page .about-intro p {
-  text-align: center;
+  text-align: justify;
+  text-align-last: left;
   text-indent: 2em;
   overflow-wrap: normal;
   word-break: normal;
   hyphens: none;
   -webkit-hyphens: none;
   text-wrap: pretty;
+  hanging-punctuation: allow-end;
 }
 
 /* Logo story — About Us traditional culture categories */
