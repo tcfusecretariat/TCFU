@@ -1,0 +1,19 @@
+---
+import LogoStorySection from "@components/LogoStorySection.astro";
+import { zhAboutParagraphs } from "@data/about-page";
+import type { Locale } from "@data/site";
+
+const { locale, kicker } = Astro.props as { locale: Locale; kicker: string };
+---
+
+<main class="content-page detail-page about-page editorial-reveal">
+  <article class="detail-article">
+    <p class="section-kicker">{kicker}</p>
+    <div class="portable-body about-intro">
+      {zhAboutParagraphs.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+    {locale === "zh" && <LogoStorySection locale={locale} />}
+  </article>
+</main>

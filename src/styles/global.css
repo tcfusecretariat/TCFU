@@ -2219,6 +2219,11 @@ html[lang="zh-Hant"] .governance-role {
     text-wrap: normal;
   }
 
+  html[lang="zh-Hant"] .about-page .about-intro p {
+    text-align: center;
+    text-wrap: pretty;
+  }
+
   .resource-hero,
   .resource-library {
     padding-inline: 18px;
@@ -2353,6 +2358,26 @@ html[lang="zh-Hant"] .governance-role {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* Chinese About page — centered intro with first-line indent */
+.about-page .section-kicker {
+  text-align: center;
+}
+
+.about-page .about-intro {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.about-page .about-intro p {
+  text-align: center;
+  text-indent: 2em;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  -webkit-hyphens: none;
+  text-wrap: pretty;
 }
 
 /* Logo story — About Us traditional culture categories */
