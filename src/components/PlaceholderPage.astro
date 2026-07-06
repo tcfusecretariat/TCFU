@@ -2,11 +2,12 @@
 import { placeholderText } from "@data/content";
 import { defaultLocale, type Locale } from "@data/site";
 
-const { title, kicker = title, locale = defaultLocale, message } = Astro.props as {
+const { title, kicker = title, locale = defaultLocale, message, hideTitle = false } = Astro.props as {
   title: string;
   kicker?: string;
   locale?: Locale;
   message?: string;
+  hideTitle?: boolean;
 };
 const resolvedMessage = message || placeholderText[locale] || placeholderText.en;
 ---
@@ -14,7 +15,7 @@ const resolvedMessage = message || placeholderText[locale] || placeholderText.en
 <main class="placeholder-page">
   <section class="placeholder-content editorial-reveal">
     <p class="section-kicker">{kicker}</p>
-    <h1>{title}</h1>
+    {!hideTitle && <h1>{title}</h1>}
     <p>{resolvedMessage}</p>
   </section>
 </main>

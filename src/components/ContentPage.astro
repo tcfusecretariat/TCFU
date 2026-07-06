@@ -17,13 +17,14 @@ const { locale, title, kicker, page, message, slug } = Astro.props as {
 const hasBody = Boolean(page?.body && Array.isArray(page.body) && page.body.length > 0);
 const heading = page?.title || title;
 const cover = page ? imageSrc(page.coverImage, 1400) : "";
+const hidePageTitle = slug === "about" || slug === "work";
 ---
 
 {hasBody ? (
   <main class="content-page detail-page editorial-reveal">
     <article class="detail-article">
       {kicker && <p class="section-kicker">{kicker}</p>}
-      <h1>{heading}</h1>
+      {!hidePageTitle && <h1>{heading}</h1>}
       {cover && <img class="detail-cover" src={cover} alt={page?.coverImage?.alt || heading} />}
       <PortableBody value={page?.body as unknown[]} locale={locale} />
       {slug === "about" && <LogoStorySection locale={locale} />}
@@ -31,7 +32,7 @@ const cover = page ? imageSrc(page.coverImage, 1400) : "";
   </main>
 ) : (
   <>
-    <PlaceholderPage title={title} kicker={kicker} locale={locale} message={message} />
+    <PlaceholderPage title={title} kicker={kicker} locale={locale} message={message} hideTitle={hidePageTitle} />
     {slug === "about" && <LogoStorySection locale={locale} />}
   </>
 )}

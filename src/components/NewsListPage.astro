@@ -28,7 +28,7 @@ const news = await getAllNews(locale);
       </div>
     </>
   ) : (
-    <PlaceholderPage title={t.sections.news.kicker} kicker={t.sections.news.kicker} locale={locale} />
+    <PlaceholderPage title={t.sections.news.kicker} kicker={t.sections.news.kicker} locale={locale} hideTitle />
   )}
 </main>
 <SanityLiveNews locale={locale} mode="list" kicker={t.sections.news.kicker} />

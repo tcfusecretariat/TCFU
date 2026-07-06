@@ -132,13 +132,13 @@ const dateLocale = locale === "zh" ? "zh-Hant" : locale;
           if (!page?.querySelector(".section-heading")) {
             page?.insertAdjacentHTML(
               "afterbegin",
-              `<div class="section-heading"><p class="section-kicker">${escapeHtml(kicker)}</p><h1>${escapeHtml(kicker)}</h1></div>`
+              `<div class="section-heading"><p class="section-kicker">${escapeHtml(kicker)}</p></div>`
             );
           }
           return;
         }
         if (!page) return;
-        page.innerHTML = `<div class="section-heading"><p class="section-kicker">${escapeHtml(kicker)}</p><h1>${escapeHtml(kicker)}</h1></div><div class="news-list">${renderNewsCards(items)}</div>`;
+        page.innerHTML = `<div class="section-heading"><p class="section-kicker">${escapeHtml(kicker)}</p></div><div class="news-list">${renderNewsCards(items)}</div>`;
         return;
       }
     } catch (error) {
