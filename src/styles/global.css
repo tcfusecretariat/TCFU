@@ -2364,6 +2364,9 @@ html[lang="zh-Hant"] .governance-role {
 /* Chinese About page — justified intro with first-line indent */
 .about-page .section-kicker {
   text-align: center;
+  font-size: clamp(19px, 2vw, 25px);
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .about-page .about-intro {
