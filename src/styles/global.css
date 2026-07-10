@@ -2385,6 +2385,19 @@ html[lang="zh-Hant"] .governance-role {
   hanging-punctuation: allow-end;
 }
 
+html[lang="en"] .about-page .section-kicker,
+html[lang="en"] .about-page .about-intro p,
+html[lang="fr"] .about-page .section-kicker,
+html[lang="fr"] .about-page .about-intro p {
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.8;
+}
+
+html[lang="en"] .about-page .about-intro p,
+html[lang="fr"] .about-page .about-intro p {
+  text-indent: 0;
+}
+
 /* Logo story — About Us traditional culture categories */
 .logo-story-section {
   --ls-text-title: #7a5a36;
