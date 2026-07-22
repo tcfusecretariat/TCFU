@@ -61,9 +61,9 @@ const logoStoryEn: LogoStoryContent = {
     },
     {
       id: "music",
-      title: "Music & Harmony",
+      title: "Music",
       subtitle: "Resonance that crosses languages and borders.",
-      text: "Music and harmony are cultural expressions that transcend linguistic boundaries. Rhythm, melody, and shared resonance can awaken common human feeling and allow cultures to meet in listening. Traditional music preserves local memory and aesthetic forms while embodying pursuits of harmony, order, and inner balance. It reminds us that cultural exchange depends not only on language, but can unfold through the resonance of sound and spirit.",
+      text: "Music is a cultural expression that transcends linguistic boundaries. Rhythm, melody, and shared resonance can awaken common human feeling and allow cultures to meet in listening. Traditional music preserves local memory and aesthetic forms while embodying pursuits of harmony, order, and inner balance. It reminds us that cultural exchange depends not only on language, but can unfold through the resonance of sound and spirit.",
       image: categoryImages.music,
     },
     {
