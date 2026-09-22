@@ -16,6 +16,6 @@ const article = await getNewsBySlug("zh", Astro.params.slug || "");
 const t = content.zh;
 ---
 
-<BaseLayout locale="zh" title={`${article?.seoTitle || article?.title || "最新動態"} | ${t.metaTitle}`} description={article?.seoDescription || article?.summary || t.metaDescription} path={`news/${Astro.params.slug}`}>
+<BaseLayout locale="zh" title={`${article?.seoTitle || article?.title?.replace(/\s*\n\s*/g, " ") || "最新動態"} | ${t.metaTitle}`} description={article?.seoDescription || article?.summary || t.metaDescription} path={`news/${Astro.params.slug}`}>
   <NewsArticlePage article={article} locale="zh" slug={Astro.params.slug || ""} />
 </BaseLayout>

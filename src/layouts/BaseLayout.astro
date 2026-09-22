@@ -90,7 +90,7 @@ const analyticsScript = cloudflareAnalyticsToken
     <Fragment set:html={analyticsScript} />
   </head>
   <body data-lang={locale}>
-    <Header locale={locale} />
+    <Header locale={locale} path={path} />
     <slot />
     <Footer locale={locale} />
     <ContactDialog locale={locale} />

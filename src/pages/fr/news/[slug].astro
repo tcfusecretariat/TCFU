@@ -16,6 +16,6 @@ const article = await getNewsBySlug("fr", Astro.params.slug || "");
 const t = content.fr;
 ---
 
-<BaseLayout locale="fr" title={`${article?.seoTitle || article?.title || "Actualités"} | ${t.metaTitle}`} description={article?.seoDescription || article?.summary || t.metaDescription} path={`news/${Astro.params.slug}`}>
+<BaseLayout locale="fr" title={`${article?.seoTitle || article?.title?.replace(/\s*\n\s*/g, " ") || "Actualités"} | ${t.metaTitle}`} description={article?.seoDescription || article?.summary || t.metaDescription} path={`news/${Astro.params.slug}`}>
   <NewsArticlePage article={article} locale="fr" slug={Astro.params.slug || ""} />
 </BaseLayout>
