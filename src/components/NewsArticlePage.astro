@@ -37,9 +37,25 @@ const chrome = {
 const banner = article?.editorialBanner;
 const hasBanner = Boolean(banner?.title || banner?.kicker);
 const publishLabel = formatNewsDate(article?.publishDate, locale);
-const pdfSize = formatPdfSize(article?.pdfSize);
 const crumbLabel = article?.breadcrumbLabel || article?.title || chrome.news;
-const pdfName = article?.pdfLabel || (locale === "zh" ? "附件 (PDF)" : locale === "fr" ? "Pièce jointe (PDF)" : "Attachment (PDF)");
+const downloads = article
+  ? [
+      article.pdfUrl
+        ? {
+            url: article.pdfUrl,
+            label: article.pdfLabel || (locale === "zh" ? "附件 (PDF)" : locale === "fr" ? "Pièce jointe (PDF)" : "Attachment (PDF)"),
+            size: formatPdfSize(article.pdfSize)
+          }
+        : null,
+      article.agendaPdfUrl
+        ? {
+            url: article.agendaPdfUrl,
+            label: article.agendaPdfLabel || (locale === "zh" ? "活動日程 (PDF)" : locale === "fr" ? "Programme (PDF)" : "Agenda (PDF)"),
+            size: formatPdfSize(article.agendaPdfSize)
+          }
+        : null
+    ].filter((item): item is { url: string; label: string; size: string } => Boolean(item))
+  : [];
 ---
 
 {article ? (
@@ -125,8 +141,8 @@ const pdfName = article?.pdfLabel || (locale === "zh" ? "附件 (PDF)" : locale 
               <span class="news-sidebar-text">{article.eventDateLabel}</span>
             </p>
           )}
-          {article.pdfUrl && (
-            <a class="news-pdf-card" href={article.pdfUrl} download>
+          {downloads.map((file) => (
+            <a class="news-pdf-card" href={file.url} download>
               <span class="news-pdf-doc" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
                   <path d="M7 3.5h7.2L19.5 9v11.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.4"></path>
@@ -136,8 +152,8 @@ const pdfName = article?.pdfLabel || (locale === "zh" ? "附件 (PDF)" : locale 
               </span>
               <span class="news-pdf-copy">
                 <span class="news-pdf-kicker">{chrome.download}</span>
-                <span class="news-pdf-name">{pdfName}</span>
-                {pdfSize && <span class="news-pdf-size">{pdfSize}</span>}
+                <span class="news-pdf-name">{file.label}</span>
+                {file.size && <span class="news-pdf-size">{file.size}</span>}
               </span>
               <span class="news-pdf-arrow" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
@@ -146,7 +162,7 @@ const pdfName = article?.pdfLabel || (locale === "zh" ? "附件 (PDF)" : locale 
                 </svg>
               </span>
             </a>
-          )}
+          ))}
         </aside>
       </div>
     </div>

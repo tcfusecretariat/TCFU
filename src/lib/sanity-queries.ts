@@ -27,6 +27,9 @@ export const newsDetailQuery = `*[_type == "news" && language == $locale && slug
   "pdfUrl": pdfAttachment.asset->url,
   "pdfSize": pdfAttachment.asset->size,
   pdfLabel,
+  "agendaPdfUrl": agendaPdfAttachment.asset->url,
+  "agendaPdfSize": agendaPdfAttachment.asset->size,
+  agendaPdfLabel,
   seoTitle,
   seoDescription
 }`;

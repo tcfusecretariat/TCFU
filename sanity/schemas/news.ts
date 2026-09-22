@@ -101,6 +101,21 @@ export const news = defineType({
       group: "media",
       description: "右側下載卡片上的檔名，例如 Concept Note (PDF)。"
     }),
+    defineField({
+      name: "agendaPdfAttachment",
+      title: "活動日程 PDF（選填）",
+      type: "file",
+      options: { accept: "application/pdf" },
+      group: "media",
+      description: "會議 / 活動日程檔，顯示為第二個下載卡片。"
+    }),
+    defineField({
+      name: "agendaPdfLabel",
+      title: "日程 PDF 顯示名稱（選填）",
+      type: "string",
+      group: "media",
+      description: "例如 Agenda (PDF) 或 活動日程 (PDF)。"
+    }),
 
     ...seoFields.map((field) => ({ ...field, group: "seo" })),
     ...publishingControls.map((field) => ({ ...field, group: "seo" }))

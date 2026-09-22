@@ -2800,7 +2800,7 @@ html[lang="fr"] .about-page .about-intro p {
   grid-template-columns: 28px minmax(0, 1fr) 22px;
   gap: 12px;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 0;
   padding: 16px 14px;
   border: 1px solid rgba(183, 154, 103, 0.22);
   color: inherit;

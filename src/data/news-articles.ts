@@ -93,6 +93,9 @@ const conceptNoteArticle = {
   pdfUrl: CONCEPT_NOTE_PDF,
   pdfSize: CONCEPT_NOTE_PDF_SIZE,
   pdfLabel: "Concept Note (PDF)",
+  agendaPdfUrl: "/assets/news/international-conference-on-peace-2026-agenda.pdf",
+  agendaPdfSize: 436659,
+  agendaPdfLabel: "Agenda (PDF)",
   seoTitle: "International Conference on Peace 2026 – Concept Note",
   seoDescription:
     "Concept Note for the International Conference on Peace: Igniting the Vital Spark of the Heart through Education of Traditional Culture for Youth. 1–2 October 2026, UNESCO Headquarters, Paris."

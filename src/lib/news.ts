@@ -32,6 +32,9 @@ export type NewsDetail = NewsSummary & {
   pdfUrl?: string;
   pdfSize?: number;
   pdfLabel?: string;
+  agendaPdfUrl?: string;
+  agendaPdfSize?: number;
+  agendaPdfLabel?: string;
 };
 
 function byNewest(a: NewsSummary, b: NewsSummary) {
@@ -63,7 +66,18 @@ export async function getAllNews(locale: Locale) {
 export async function getNewsBySlug(locale: Locale, slug: string) {
   const sanity = await fetchOptional<NewsDetail | null>(newsDetailQuery, { locale, slug }, null);
   const fallback = fallbackNews[locale].find((article) => article.slug === slug) || null;
-  if (sanity && fallback) return { ...fallback, ...sanity };
+  if (sanity && fallback) {
+    return {
+      ...fallback,
+      ...sanity,
+      pdfUrl: sanity.pdfUrl || fallback.pdfUrl,
+      pdfSize: sanity.pdfSize || fallback.pdfSize,
+      pdfLabel: sanity.pdfLabel || fallback.pdfLabel,
+      agendaPdfUrl: sanity.agendaPdfUrl || fallback.agendaPdfUrl,
+      agendaPdfSize: sanity.agendaPdfSize || fallback.agendaPdfSize,
+      agendaPdfLabel: sanity.agendaPdfLabel || fallback.agendaPdfLabel
+    };
+  }
   return sanity || fallback;
 }
 
