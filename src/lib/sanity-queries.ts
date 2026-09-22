@@ -3,7 +3,12 @@ export const newsSummaryQuery = `*[_type == "news" && language == $locale && isH
   "slug": slug.current,
   category,
   publishDate,
-  summary
+  summary,
+  subtitle,
+  breadcrumbLabel,
+  location,
+  eventDateLabel,
+  editorialBanner
 }`;
 
 export const newsDetailQuery = `*[_type == "news" && language == $locale && slug.current == $slug && isHidden != true][0]{
@@ -12,9 +17,16 @@ export const newsDetailQuery = `*[_type == "news" && language == $locale && slug
   category,
   publishDate,
   summary,
+  subtitle,
+  breadcrumbLabel,
+  location,
+  eventDateLabel,
+  editorialBanner,
   body,
   videoUrl,
   "pdfUrl": pdfAttachment.asset->url,
+  "pdfSize": pdfAttachment.asset->size,
+  pdfLabel,
   seoTitle,
   seoDescription
 }`;

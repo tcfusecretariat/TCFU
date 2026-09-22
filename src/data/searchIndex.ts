@@ -17,6 +17,7 @@ export const searchIndex: SearchItem[] = [
   { locale: "zh", type: "Resource", title: "群書治要 日文版 第三冊", description: "日文版《群書治要》第三冊。", url: "/zh/library/#qunshu-zhiyao-ja-vol3" },
   { locale: "zh", type: "Resource", title: "Principes de Gouvernance de la Chine Ancienne 第一冊（中法對照）", description: "法文版《群書治要360》第一冊中法對照本。", url: "/zh/library/#qunshu-zhiyao-fr-vol1" },
   { locale: "en", type: "Page", title: "About Us", description: "Foundation mission and vision.", url: "/en/about/" },
+  { locale: "en", type: "News", title: "International Conference on Peace 2026 – Concept Note", description: "Concept Note for the International Conference on Peace, 1–2 October 2026, UNESCO Headquarters, Paris.", url: "/en/news/international-conference-on-peace-2026-concept-note/" },
   { locale: "en", type: "Page", title: "Governance", description: "Foundation leadership and governance.", url: "/en/governance/" },
   { locale: "en", type: "Page", title: "Support Us", description: "Support Love Education, international forums, and classical translation.", url: "/en/support/" },
   { locale: "en", type: "Resource", title: "The Governing Principles of Ancient China 360 Chinese Edition", description: "Online reading and PDF download.", url: "/en/library/#qunshu-zhiyao-360-zh" },

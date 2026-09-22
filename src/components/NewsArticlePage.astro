@@ -2,33 +2,158 @@
 import PlaceholderPage from "@components/PlaceholderPage.astro";
 import PortableBody from "@components/PortableBody.astro";
 import SanityLiveNews from "@components/SanityLiveNews.astro";
+import { content } from "@data/content";
 import type { Locale } from "@data/site";
-import type { NewsDetail } from "@lib/news";
+import { formatNewsDate, formatPdfSize, type NewsDetail } from "@lib/news";
 
 const { article, locale, slug } = Astro.props as {
   article: NewsDetail | null;
   locale: Locale;
   slug: string;
 };
+
+const t = content[locale];
+const chrome = {
+  zh: {
+    home: "首頁",
+    news: "最新動態",
+    tagline: "以故事傳遞更和平的世界",
+    download: "下載"
+  },
+  en: {
+    home: "Home",
+    news: "News",
+    tagline: "Sharing stories for a more peaceful world",
+    download: "Download"
+  },
+  fr: {
+    home: "Accueil",
+    news: "Actualités",
+    tagline: "Partager des histoires pour un monde plus pacifique",
+    download: "Télécharger"
+  }
+}[locale];
+
+const banner = article?.editorialBanner;
+const hasBanner = Boolean(banner?.title || banner?.kicker);
+const publishLabel = formatNewsDate(article?.publishDate, locale);
+const pdfSize = formatPdfSize(article?.pdfSize);
+const crumbLabel = article?.breadcrumbLabel || article?.title || chrome.news;
+const pdfName = article?.pdfLabel || (locale === "zh" ? "附件 (PDF)" : locale === "fr" ? "Pièce jointe (PDF)" : "Attachment (PDF)");
 ---
 
 {article ? (
-  <main class="idea-section editorial-reveal" data-sanity-news-article>
-    <p class="section-kicker">{article.category || "News"}</p>
-    <div class="idea-layout">
-      <h1>{article.title}</h1>
-      <div>
-        {article.publishDate && <p><time datetime={article.publishDate}>{new Date(article.publishDate).toLocaleDateString()}</time></p>}
-        {article.summary && <p>{article.summary}</p>}
-        {article.body && <PortableBody value={article.body} locale={locale} />}
-        {article.videoUrl && <p><a class="text-link" href={article.videoUrl}>Video</a></p>}
-        {article.pdfUrl && <p><a class="text-link" href={article.pdfUrl}>PDF</a></p>}
+  <main class="news-article-page editorial-reveal" data-sanity-news-article>
+    <div class="news-article-shell">
+      <nav class="news-breadcrumb" aria-label={locale === "zh" ? "麵包屑" : locale === "fr" ? "Fil d’Ariane" : "Breadcrumb"}>
+        <a href={`/${locale}/`}>{chrome.home}</a>
+        <span aria-hidden="true">›</span>
+        <a href={`/${locale}/news/`}>{chrome.news}</a>
+        <span aria-hidden="true">›</span>
+        <span>{crumbLabel}</span>
+      </nav>
+
+      <header class="news-article-masthead">
+        <p class="news-article-brand">{chrome.news}</p>
+        <p class="news-article-tagline">{chrome.tagline}</p>
+      </header>
+
+      {hasBanner && (
+        <section class="news-editorial-banner" aria-label={banner?.kicker || article.title}>
+          <div class="news-editorial-banner-copy">
+            {banner?.kicker && <p class="news-editorial-kicker">{banner.kicker}</p>}
+            {banner?.title && (
+              <p class="news-editorial-title">
+                {banner.title.split("\n").map((line, index) => (
+                  <>
+                    {index > 0 && <br />}
+                    {line}
+                  </>
+                ))}
+              </p>
+            )}
+            {banner?.meta && <p class="news-editorial-meta">{banner.meta}</p>}
+          </div>
+          {banner?.tags && <p class="news-editorial-tags">{banner.tags}</p>}
+          {banner?.aside && <p class="news-editorial-aside">{banner.aside}</p>}
+        </section>
+      )}
+
+      <div class="news-article-layout">
+        <article class="news-article-main">
+          {article.category && <p class="news-article-category">{article.category}</p>}
+          <h1 class="news-article-title">
+            {article.title.split("\n").map((line, index) => (
+              <>
+                {index > 0 && <br />}
+                {line}
+              </>
+            ))}
+          </h1>
+          {article.subtitle && <p class="news-article-subtitle">{article.subtitle}</p>}
+          {article.body && <PortableBody value={article.body} locale={locale} />}
+          {article.videoUrl && (
+            <p class="news-article-extra">
+              <a class="text-link" href={article.videoUrl}>{locale === "zh" ? "影片" : locale === "fr" ? "Vidéo" : "Video"}</a>
+            </p>
+          )}
+        </article>
+
+        <aside class="news-article-sidebar">
+          {publishLabel && article.publishDate && (
+            <time class="news-sidebar-date" datetime={article.publishDate}>{publishLabel}</time>
+          )}
+          {article.location && (
+            <p class="news-sidebar-item">
+              <span class="news-sidebar-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M12 21s7-5.4 7-11.2A7 7 0 0 0 5 9.8C5 15.6 12 21 12 21Z" stroke="currentColor" stroke-width="1.4"></path>
+                  <circle cx="12" cy="9.5" r="2.2" stroke="currentColor" stroke-width="1.4"></circle>
+                </svg>
+              </span>
+              <span class="news-sidebar-text">{article.location}</span>
+            </p>
+          )}
+          {article.eventDateLabel && (
+            <p class="news-sidebar-item">
+              <span class="news-sidebar-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <rect x="3.5" y="5" width="17" height="15.5" rx="2" stroke="currentColor" stroke-width="1.4"></rect>
+                  <path d="M8 3.5V7M16 3.5V7M3.5 10h17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+                </svg>
+              </span>
+              <span class="news-sidebar-text">{article.eventDateLabel}</span>
+            </p>
+          )}
+          {article.pdfUrl && (
+            <a class="news-pdf-card" href={article.pdfUrl} download>
+              <span class="news-pdf-doc" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M7 3.5h7.2L19.5 9v11.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.4"></path>
+                  <path d="M14 3.5V9h5.5" stroke="currentColor" stroke-width="1.4"></path>
+                  <path d="M8.5 13h7M8.5 16.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+                </svg>
+              </span>
+              <span class="news-pdf-copy">
+                <span class="news-pdf-kicker">{chrome.download}</span>
+                <span class="news-pdf-name">{pdfName}</span>
+                {pdfSize && <span class="news-pdf-size">{pdfSize}</span>}
+              </span>
+              <span class="news-pdf-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M12 4v12.5M7.5 12.5 12 17l4.5-4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M5 20h14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+                </svg>
+              </span>
+            </a>
+          )}
+        </aside>
       </div>
     </div>
   </main>
 ) : (
   <div data-sanity-news-article>
-    <PlaceholderPage title="News" locale={locale} />
+    <PlaceholderPage title={t.sections.news.kicker} locale={locale} />
   </div>
 )}
-<SanityLiveNews locale={locale} mode="article" slug={slug} />
+<SanityLiveNews locale={locale} mode="article" slug={slug} seedArticle={article} />

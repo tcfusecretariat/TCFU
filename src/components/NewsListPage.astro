@@ -21,7 +21,7 @@ const news = await getAllNews(locale);
         {news.map((article) => (
           <article>
             <p>{article.category || t.sections.news.kicker}</p>
-            <h3><a href={`/${locale}/news/${article.slug}/`}>{article.title}</a></h3>
+            <h3><a href={`/${locale}/news/${article.slug}/`}>{article.title.replace(/\s*\n\s*/g, " ")}</a></h3>
             {article.publishDate && <time datetime={article.publishDate}>{new Date(article.publishDate).toLocaleDateString(locale === "zh" ? "zh-Hant" : locale)}</time>}
           </article>
         ))}
@@ -31,4 +31,4 @@ const news = await getAllNews(locale);
     <PlaceholderPage title={t.sections.news.kicker} kicker={t.sections.news.kicker} locale={locale} hideTitle />
   )}
 </main>
-<SanityLiveNews locale={locale} mode="list" kicker={t.sections.news.kicker} />
+<SanityLiveNews locale={locale} mode="list" kicker={t.sections.news.kicker} seedItems={news} />

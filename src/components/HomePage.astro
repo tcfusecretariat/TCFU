@@ -151,14 +151,14 @@ const helloAssoUrl = settings.helloAssoUrl || siteSettings.helloAssoUrl;
           {latestNews.map((article) => (
             <article>
               <p>{article.category || home.news.kicker}</p>
-              <h3><a href={`/${locale}/news/${article.slug}/`}>{article.title}</a></h3>
+              <h3><a href={`/${locale}/news/${article.slug}/`}>{article.title.replace(/\s*\n\s*/g, " ")}</a></h3>
               {article.publishDate && <time datetime={article.publishDate}>{new Date(article.publishDate).toLocaleDateString(locale === "zh" ? "zh-Hant" : locale)}</time>}
             </article>
           ))}
         </div>
         <a class="text-link section-more" href={`/${locale}/news/`}>{learnMore}</a>
       </section>
-      <SanityLiveNews locale={locale} mode="latest" limit={3} kicker={home.news.kicker} />
+      <SanityLiveNews locale={locale} mode="latest" limit={3} kicker={home.news.kicker} seedItems={latestNews} />
     </>
   )}
 
