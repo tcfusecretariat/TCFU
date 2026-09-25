@@ -73,11 +73,19 @@ export type RegistrationCopy = {
   volunteerOptions: { yes: string; no: string };
   attendanceOptions: { oct1: string; oct2: string; both: string };
   privacyConsentRequired: string;
+  agendaDownload: string;
+  agendaLabel: string;
   submit: string;
   sending: string;
   successConfirmed: string;
   error: string;
 };
+
+export const CONFERENCE_AGENDA_PDF = {
+  url: "/assets/news/international-conference-on-peace-2026-agenda.pdf",
+  size: 436659,
+  filename: "international-conference-on-peace-2026-agenda.pdf"
+} as const;
 
 export const registrationCopy: Record<Locale, RegistrationCopy> = {
   en: {
@@ -146,6 +154,8 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
       both: "Both days"
     },
     privacyConsentRequired: "You must read and accept the Privacy Policy before submitting.",
+    agendaDownload: "Download",
+    agendaLabel: "Agenda (PDF)",
     submit: "Submit Registration",
     sending: "Submitting…",
     successConfirmed:
@@ -213,6 +223,8 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
       both: "兩日皆出席"
     },
     privacyConsentRequired: "提交前請先閱讀並同意隱私政策。",
+    agendaDownload: "下載",
+    agendaLabel: "活動日程 (PDF)",
     submit: "提交報名",
     sending: "提交中…",
     successConfirmed: "感謝您。您的報名已成功確認。確認信已寄至您的電郵。",
@@ -286,6 +298,8 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     },
     privacyConsentRequired:
       "Vous devez lire et accepter la Politique de confidentialité avant l'envoi.",
+    agendaDownload: "Télécharger",
+    agendaLabel: "Programme (PDF)",
     submit: "Envoyer l'inscription",
     sending: "Envoi en cours…",
     successConfirmed:
