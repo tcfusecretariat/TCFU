@@ -4,7 +4,7 @@ const CONCEPT_NOTE_SLUG = "international-conference-on-peace-2026-concept-note";
 const CONCEPT_NOTE_PDF = "/assets/news/international-conference-on-peace-2026-concept-note.pdf";
 const CONCEPT_NOTE_PDF_SIZE = 61372;
 const AGENDA_PDF = "/assets/news/international-conference-on-peace-2026-agenda.pdf";
-const AGENDA_PDF_SIZE = 436659;
+const AGENDA_PDF_SIZE = 480085;
 
 function block(key: string, text: string, marks: string[][] = []) {
   return {
