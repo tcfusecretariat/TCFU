@@ -57,6 +57,7 @@ export const content: Record<Locale, HomeContent> = {
       { label: "組織治理", href: "/zh/governance/" },
       { label: "核心工作", href: "/zh/work/" },
       { label: "最新動態", href: "/zh/news/" },
+      { label: "直播", href: "/zh/live/" },
       { label: "活動報名", href: `/zh/register/${SYMPOSIUM_PAGE_SLUG}/` },
       { label: "資源中心", href: "/zh/#library" },
       { label: "支持我們", href: "/zh/support/" }
@@ -131,6 +132,7 @@ export const content: Record<Locale, HomeContent> = {
       { label: "Governance", href: "/en/governance/" },
       { label: "Core Work", href: "/en/work/" },
       { label: "Latest News", href: "/en/news/" },
+      { label: "Live", href: "/en/live/" },
       { label: "Register", href: `/en/register/${SYMPOSIUM_PAGE_SLUG}/` },
       { label: "Resource Center", href: "/en/#library" },
       { label: "Support Us", href: "/en/support/" }
@@ -174,6 +176,7 @@ export const content: Record<Locale, HomeContent> = {
       { label: "Gouvernance", href: "/fr/governance/" },
       { label: "Axes de travail", href: "/fr/work/" },
       { label: "Actualités", href: "/fr/news/" },
+      { label: "En direct", href: "/fr/live/" },
       { label: "Inscription", href: `/fr/register/${SYMPOSIUM_PAGE_SLUG}/` },
       { label: "Ressources", href: "/fr/#library" },
       { label: "Nous soutenir", href: "/fr/support/" }

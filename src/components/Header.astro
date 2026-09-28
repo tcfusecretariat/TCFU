@@ -7,11 +7,19 @@ import { localizedPath } from "@lib/seo";
 const { locale, path = "" } = Astro.props as { locale: Locale; path?: string };
 const t = content[locale];
 const settings = await getSiteSettings(locale);
+const here = localizedPath(locale, path);
 const helloAssoUrl = settings.helloAssoUrl;
 const logoAlt =
   locale === "zh"
     ? "聯合國教科文組織傳統文化基金會"
     : "Traditional Culture Foundation at UNESCO";
+
+function isCurrentNav(href: string) {
+  if (href.startsWith("http") || href.includes("#")) return false;
+  const target = href.endsWith("/") ? href : `${href}/`;
+  if (target === languages[locale].path) return here === target;
+  return here === target || here.startsWith(target);
+}
 ---
 
 <header class="site-header">
@@ -32,7 +40,7 @@ const logoAlt =
         item.href.endsWith("/support/") ? (
           <a href={helloAssoUrl} target="_blank" rel="noopener">{item.label}</a>
         ) : (
-          <a href={item.href}>{item.label}</a>
+          <a href={item.href} aria-current={isCurrentNav(item.href) ? "page" : undefined}>{item.label}</a>
         )
       )}
       <form class="site-search" role="search" action={`${languages[locale].path}search/`}>

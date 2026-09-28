@@ -256,6 +256,10 @@ blockquote {
   transform: translateY(-1px);
 }
 
+.nav-links a[aria-current="page"] {
+  color: var(--champagne-deep);
+}
+
 html[lang="zh-Hant"] .nav-links {
   font-size: 19px;
 }
@@ -2916,5 +2920,188 @@ html[lang="fr"] .about-page .about-intro p {
   html[lang="zh-Hant"] .news-article-page .portable-body li {
     text-align: justify;
     text-wrap: normal;
+  }
+}
+
+.live-page {
+  position: relative;
+  overflow-x: clip;
+  background:
+    radial-gradient(circle at 92% 12%, rgba(216, 199, 166, 0.18), transparent 34%),
+    var(--ivory);
+}
+
+.live-page::before {
+  display: none;
+}
+
+@media (min-width: 861px) {
+  .live-page::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 48px;
+    right: max(-80px, -6vw);
+    width: min(420px, 38vw);
+    aspect-ratio: 1;
+    background: url("/assets/tcf-logo-mark.png") center / contain no-repeat;
+    opacity: 0.1;
+    pointer-events: none;
+  }
+}
+
+.live-shell {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.live-header {
+  max-width: 920px;
+  margin-bottom: 28px;
+}
+
+.live-header h1 {
+  margin: 0 0 10px;
+  font-size: clamp(34px, 4.6vw, 56px);
+  font-weight: 400;
+  line-height: 1.12;
+  color: var(--ink);
+}
+
+.live-subtitle {
+  margin: 0 0 14px;
+  color: var(--ink);
+  font-size: clamp(17px, 1.7vw, 22px);
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.live-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(15px, 1.3vw, 18px);
+}
+
+.live-hero {
+  margin: 0 0 22px;
+}
+
+.live-hero img {
+  width: 100%;
+  height: auto;
+  max-height: min(58vh, 560px);
+  object-fit: cover;
+  object-position: center 42%;
+}
+
+.live-watch {
+  margin: 0 0 clamp(40px, 6vw, 64px);
+}
+
+.live-hosted {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: clamp(15px, 1.3vw, 17px);
+}
+
+.live-watch-button {
+  min-width: min(320px, 100%);
+}
+
+.live-watch-hint {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-style: italic;
+}
+
+.live-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+  margin-bottom: clamp(48px, 6vw, 72px);
+}
+
+.live-about h2,
+.live-resources h2,
+.live-concept h2 {
+  margin: 0 0 16px;
+  color: var(--ink);
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 400;
+}
+
+.live-about p,
+.live-concept-body {
+  color: var(--ink);
+  font-size: clamp(16px, 1.45vw, 19px);
+  line-height: 1.75;
+}
+
+.live-resources {
+  padding-top: 2px;
+  border-top: 1px solid var(--line);
+}
+
+.live-resources ul {
+  display: grid;
+  gap: 14px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.live-resources a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  color: var(--champagne-deep);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+
+.live-resources a:hover {
+  color: var(--soft-gold);
+}
+
+.live-file-icon {
+  display: block;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--champagne-deep);
+}
+
+.live-file-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.live-concept {
+  padding-top: clamp(28px, 4vw, 40px);
+  border-top: 1px solid var(--line);
+}
+
+.live-concept-body .portable-body p {
+  margin: 0 0 1.1em;
+}
+
+@media (max-width: 860px) {
+  .live-columns {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .live-watch-button {
+    width: 100%;
+  }
+
+  .live-hero img {
+    max-height: 42vh;
   }
 }

@@ -1,0 +1,86 @@
+---
+import PortableBody from "@components/PortableBody.astro";
+import {
+  CONFERENCE_LIVE_ASSETS,
+  UNESCO_LIVESTREAM_URL,
+  getLiveConceptNoteBody,
+  livePageCopy
+} from "@data/conference-live";
+import type { Locale } from "@data/site";
+
+const { locale } = Astro.props as { locale: Locale };
+const t = livePageCopy[locale];
+const conceptNoteBody = getLiveConceptNoteBody(locale);
+---
+
+<main class="live-page detail-page editorial-reveal">
+  <article class="live-shell">
+    <header class="live-header">
+      <h1>{t.title}</h1>
+      <p class="live-subtitle">{t.subtitle}</p>
+      <p class="live-meta">{t.eventInfo}</p>
+    </header>
+
+    <figure class="live-hero">
+      <img src={CONFERENCE_LIVE_ASSETS.heroImage} alt={t.heroAlt} />
+    </figure>
+
+    <section class="live-watch" aria-labelledby="live-watch-heading">
+      <p class="live-hosted" id="live-watch-heading">{t.hostedBy}</p>
+      <a
+        class="button primary live-watch-button"
+        href={UNESCO_LIVESTREAM_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-describedby="live-watch-hint"
+      >
+        {t.watchLive}
+      </a>
+      <p class="live-watch-hint" id="live-watch-hint">{t.newTabHint}</p>
+    </section>
+
+    <div class="live-columns">
+      <section class="live-about" aria-labelledby="live-about-heading">
+        <h2 id="live-about-heading">{t.aboutTitle}</h2>
+        <p>{t.about}</p>
+      </section>
+
+      <section class="live-resources" aria-labelledby="live-resources-heading">
+        <h2 id="live-resources-heading">{t.resourcesTitle}</h2>
+        <ul>
+          <li>
+            <a href={CONFERENCE_LIVE_ASSETS.conceptNotePdfUrl} download>
+              <span class="live-file-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M7 3.5h7.2L19.5 9v11.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.4"></path>
+                  <path d="M14 3.5V9h5.5" stroke="currentColor" stroke-width="1.4"></path>
+                  <path d="M8.5 13h7M8.5 16.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+                </svg>
+              </span>
+              <span>{t.downloadConceptNote}</span>
+            </a>
+          </li>
+          <li>
+            <a href={CONFERENCE_LIVE_ASSETS.agendaPdfUrl} download>
+              <span class="live-file-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M7 3.5h7.2L19.5 9v11.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.4"></path>
+                  <path d="M14 3.5V9h5.5" stroke="currentColor" stroke-width="1.4"></path>
+                  <path d="M8.5 13h7M8.5 16.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+                </svg>
+              </span>
+              <span>{t.downloadAgenda}</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="live-concept" aria-labelledby="live-concept-heading">
+      <h2 id="live-concept-heading">{t.conceptNoteTitle}</h2>
+      <div class="live-concept-body" data-live-concept-note>
+        {conceptNoteBody.length > 0 && <PortableBody value={conceptNoteBody} locale={locale} />}
+      </div>
+    </section>
+  </article>
+</main>

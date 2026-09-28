@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ConferenceLivePage from "@components/ConferenceLivePage.astro";
+import { content } from "@data/content";
+import { CONFERENCE_LIVE_ASSETS, LIVE_PAGE_SLUG, livePageCopy } from "@data/conference-live";
+
+const locale = "fr";
+const t = livePageCopy[locale];
+const site = content[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${t.metaTitle} | ${site.metaTitle}`}
+  description={t.metaDescription}
+  path={LIVE_PAGE_SLUG}
+  image={CONFERENCE_LIVE_ASSETS.heroImage}
+>
+  <ConferenceLivePage locale={locale} />
+</BaseLayout>
