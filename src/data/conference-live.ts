@@ -3,11 +3,7 @@ import { fallbackNews } from "./news-articles";
 
 export const LIVE_PAGE_SLUG = "live";
 
-/**
- * PLACEHOLDER — replace with the official UNESCO livestream URL when provided.
- * Do not invent a URL.
- */
-export const UNESCO_LIVESTREAM_URL = "#PLACEHOLDER_UNESCO_LIVESTREAM_URL";
+export const UNESCO_LIVESTREAM_URL = "http://webcast.unesco.org/events/2026-10-WFB/";
 
 export const CONFERENCE_LIVE_ASSETS = {
   heroImage: "/assets/live/unesco-headquarters-conference-hall.jpg",
