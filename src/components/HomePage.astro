@@ -13,6 +13,22 @@ const cmsProjects = await getItems("project", locale, 3);
 const partners = home.show.partners ? await getPartners() : [];
 const learnMore = locale === "zh" ? "了解更多" : locale === "fr" ? "En savoir plus" : "Learn more";
 const helloAssoUrl = settings.helloAssoUrl || siteSettings.helloAssoUrl;
+
+function isPeaceConferenceProject(project: { href?: string; slug?: string; title?: string; path?: string }) {
+  if (project.path === "/live/") return true;
+  const blob = `${project.href || ""} ${project.slug || ""} ${project.title || ""}`.toLowerCase();
+  return /peace-conference|world peace forum|forum mondial pour la paix|世界和平論壇/.test(blob);
+}
+
+function projectHref(
+  locale: Locale,
+  project: { href?: string; slug?: string; title?: string; path?: string }
+) {
+  if (project.path) return `/${locale}${project.path}`;
+  if (isPeaceConferenceProject(project)) return `/${locale}/live/`;
+  if (project.slug) return `/${locale}/projects/${project.slug}/`;
+  return `/${locale}/${project.href}/`;
+}
 ---
 
 <main id="main">
@@ -91,14 +107,14 @@ const helloAssoUrl = settings.helloAssoUrl || siteSettings.helloAssoUrl;
       <div class="project-list">
         {cmsProjects.length > 0 ? (
           cmsProjects.map((project) => (
-            <a href={`/${locale}/projects/${project.slug}/`}>
+            <a href={projectHref(locale, project)}>
               <span>{project.summary || home.projects.kicker}</span>
               <strong>{project.title}</strong>
             </a>
           ))
         ) : (
           projects.map((project) => (
-            <a href={`/${locale}/${project.href}/`}>
+            <a href={projectHref(locale, project)}>
               <span>{project.eyebrow}</span>
               <strong>{project[locale]}</strong>
             </a>
