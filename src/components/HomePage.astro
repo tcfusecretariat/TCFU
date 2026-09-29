@@ -20,12 +20,19 @@ function isPeaceConferenceProject(project: { href?: string; slug?: string; title
   return /peace-conference|world peace forum|forum mondial pour la paix|世界和平論壇/.test(blob);
 }
 
+function isTranslationProject(project: { href?: string; slug?: string; title?: string; path?: string }) {
+  if (project.path === "/library/") return true;
+  const blob = `${project.href || ""} ${project.slug || ""} ${project.title || ""}`.toLowerCase();
+  return /project-translation|global translation|governing principles|principes de gouvernance|群書治要/.test(blob);
+}
+
 function projectHref(
   locale: Locale,
   project: { href?: string; slug?: string; title?: string; path?: string }
 ) {
   if (project.path) return `/${locale}${project.path}`;
   if (isPeaceConferenceProject(project)) return `/${locale}/live/`;
+  if (isTranslationProject(project)) return `/${locale}/library/`;
   if (project.slug) return `/${locale}/projects/${project.slug}/`;
   return `/${locale}/${project.href}/`;
 }
