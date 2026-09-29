@@ -4,6 +4,7 @@ import {
   CONFERENCE_LIVE_ASSETS,
   UNESCO_LIVESTREAM_URL,
   getLiveConceptNoteBody,
+  getLiveDownloads,
   livePageCopy
 } from "@data/conference-live";
 import { formatLivePhotoTime, getLivePhotos } from "@data/live-updates";
@@ -14,20 +15,7 @@ const t = livePageCopy[locale];
 const conceptNoteBody = getLiveConceptNoteBody(locale);
 const photos = getLivePhotos();
 const assets = CONFERENCE_LIVE_ASSETS;
-const downloads = [
-  {
-    href: assets.programmePdf[locale],
-    filename: assets.programmeDownloadName[locale],
-    name: t.downloadAgenda,
-    kind: t.programmeKind
-  },
-  {
-    href: assets.conceptNotePdf[locale],
-    filename: assets.conceptNoteDownloadName[locale],
-    name: t.downloadConceptNote,
-    kind: t.conceptNoteKind
-  }
-];
+const downloads = getLiveDownloads(locale);
 const photoPayload = photos.map((photo) => ({
   id: photo.id,
   day: photo.day,

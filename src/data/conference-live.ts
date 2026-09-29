@@ -35,6 +35,37 @@ export function getLiveConceptNoteBody(locale: Locale) {
   return fallbackNews[locale].find((article) => article.slug === CONCEPT_NOTE_SLUG)?.body ?? [];
 }
 
+export function getLiveDownloads(locale: Locale) {
+  const t = livePageCopy[locale];
+  const assets = CONFERENCE_LIVE_ASSETS;
+  return [
+    {
+      href: assets.programmePdf.zh,
+      filename: assets.programmeDownloadName.zh,
+      name: t.downloadProgrammeZh,
+      kind: t.programmeKindZh
+    },
+    {
+      href: assets.programmePdf.en,
+      filename: assets.programmeDownloadName.en,
+      name: t.downloadProgrammeEn,
+      kind: t.programmeKindEn
+    },
+    {
+      href: assets.programmePdf.fr,
+      filename: assets.programmeDownloadName.fr,
+      name: t.downloadProgrammeFr,
+      kind: t.programmeKindFr
+    },
+    {
+      href: assets.conceptNotePdf[locale],
+      filename: assets.conceptNoteDownloadName[locale],
+      name: t.downloadConceptNote,
+      kind: t.conceptNoteKind
+    }
+  ];
+}
+
 export type LivePageCopy = {
   metaTitle: string;
   metaDescription: string;
@@ -50,8 +81,12 @@ export type LivePageCopy = {
   about: string;
   resourcesTitle: string;
   downloadConceptNote: string;
-  downloadAgenda: string;
-  programmeKind: string;
+  downloadProgrammeZh: string;
+  downloadProgrammeEn: string;
+  downloadProgrammeFr: string;
+  programmeKindZh: string;
+  programmeKindEn: string;
+  programmeKindFr: string;
   conceptNoteKind: string;
   conceptNoteTitle: string;
   readFullConceptNote: string;
@@ -92,8 +127,12 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
       "This international conference brings together educators, cultural practitioners and youth advocates to explore how traditional culture can inspire inner peace and a more compassionate world.",
     resourcesTitle: "Event Resources",
     downloadConceptNote: "Download Concept Note",
-    downloadAgenda: "Download Programme",
-    programmeKind: "Programme · PDF",
+    downloadProgrammeZh: "Download Programme (Chinese)",
+    downloadProgrammeEn: "Download Programme (English)",
+    downloadProgrammeFr: "Download Programme (French)",
+    programmeKindZh: "Programme · Chinese · PDF",
+    programmeKindEn: "Programme · English · PDF",
+    programmeKindFr: "Programme · French · PDF",
     conceptNoteKind: "Concept Note · PDF",
     conceptNoteTitle: "Concept Note",
     readFullConceptNote: "Read full Concept Note",
@@ -130,8 +169,12 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
       "本次國際會議匯聚教育工作者、文化實踐者與青年倡議者，探討傳統文化如何啟發內在和平，並成就一個更有關懷的世界。",
     resourcesTitle: "活動資料",
     downloadConceptNote: "下載概念說明",
-    downloadAgenda: "下載活動日程",
-    programmeKind: "活動日程 · PDF",
+    downloadProgrammeZh: "下載活動日程（中文）",
+    downloadProgrammeEn: "下載活動日程（英文）",
+    downloadProgrammeFr: "下載活動日程（法文）",
+    programmeKindZh: "活動日程 · 中文 · PDF",
+    programmeKindEn: "活動日程 · 英文 · PDF",
+    programmeKindFr: "活動日程 · 法文 · PDF",
     conceptNoteKind: "概念說明 · PDF",
     conceptNoteTitle: "概念說明",
     readFullConceptNote: "閱讀完整概念說明",
@@ -170,8 +213,12 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
       "Cette conférence internationale réunit éducateurs, praticiens culturels et défenseurs de la jeunesse pour explorer comment la culture traditionnelle peut inspirer la paix intérieure et un monde plus compatissant.",
     resourcesTitle: "Ressources",
     downloadConceptNote: "Télécharger la note conceptuelle",
-    downloadAgenda: "Télécharger le programme",
-    programmeKind: "Programme · PDF",
+    downloadProgrammeZh: "Télécharger le programme (chinois)",
+    downloadProgrammeEn: "Télécharger le programme (anglais)",
+    downloadProgrammeFr: "Télécharger le programme (français)",
+    programmeKindZh: "Programme · chinois · PDF",
+    programmeKindEn: "Programme · anglais · PDF",
+    programmeKindFr: "Programme · français · PDF",
     conceptNoteKind: "Note conceptuelle · PDF",
     conceptNoteTitle: "Note conceptuelle",
     readFullConceptNote: "Lire la note conceptuelle complète",
