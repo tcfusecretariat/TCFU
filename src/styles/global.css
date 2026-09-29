@@ -3027,6 +3027,7 @@ html[lang="fr"] .about-page .about-intro p {
 
 .live-about h2,
 .live-resources h2,
+.live-programme h2,
 .live-concept h2,
 .live-updates h2 {
   margin: 0 0 16px;
@@ -3100,6 +3101,39 @@ html[lang="zh-Hant"] .live-resource-kind {
   font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: none;
+}
+
+.live-programme {
+  margin: 0 0 clamp(48px, 6vw, 72px);
+}
+
+.live-programme-reader {
+  padding: clamp(12px, 2vw, 22px);
+}
+
+.live-programme-reader:focus-visible {
+  outline: 1px solid var(--champagne-deep);
+  outline-offset: 4px;
+}
+
+.live-programme .book-stage {
+  min-height: min(78vh, 920px);
+}
+
+.live-programme .book-toolbar button {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.live-programme .book-toolbar button:disabled {
+  opacity: 0.42;
+  transform: none;
+  cursor: default;
+}
+
+html[lang="zh-Hant"] .live-programme .book-toolbar button {
+  letter-spacing: 0.04em;
 }
 
 .live-file-icon,
@@ -3420,6 +3454,10 @@ html[lang="zh-Hant"] .live-photo-time {
   .live-columns {
     grid-template-columns: 1fr;
     gap: 36px;
+  }
+
+  .live-programme .book-stage {
+    min-height: 520px;
   }
 
   .live-watch-button {

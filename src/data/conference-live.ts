@@ -68,6 +68,11 @@ export type LivePageCopy = {
   newTabHint: string;
   aboutTitle: string;
   about: string;
+  programmeTitle: string;
+  programmeReaderLabel: string;
+  programmePrev: string;
+  programmeNext: string;
+  programmeOpenFallback: string;
   resourcesTitle: string;
   downloadConceptNote: string;
   downloadAgenda: string;
@@ -110,6 +115,11 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     aboutTitle: "About the Conference",
     about:
       "This international conference brings together educators, cultural practitioners and youth advocates to explore how traditional culture can inspire inner peace and a more compassionate world.",
+    programmeTitle: "Programme",
+    programmeReaderLabel: "Conference programme",
+    programmePrev: "Previous",
+    programmeNext: "Next",
+    programmeOpenFallback: "Open programme",
     resourcesTitle: "Event Resources",
     downloadConceptNote: "Download Concept Note",
     downloadAgenda: "Download Programme",
@@ -148,6 +158,11 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     aboutTitle: "關於會議",
     about:
       "本次國際會議匯聚教育工作者、文化實踐者與青年倡議者，探討傳統文化如何啟發內在和平，並成就一個更有關懷的世界。",
+    programmeTitle: "活動日程",
+    programmeReaderLabel: "會議活動日程",
+    programmePrev: "上一頁",
+    programmeNext: "下一頁",
+    programmeOpenFallback: "開啟活動日程",
     resourcesTitle: "活動資料",
     downloadConceptNote: "下載概念說明",
     downloadAgenda: "下載活動日程",
@@ -188,6 +203,11 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     aboutTitle: "À propos de la conférence",
     about:
       "Cette conférence internationale réunit éducateurs, praticiens culturels et défenseurs de la jeunesse pour explorer comment la culture traditionnelle peut inspirer la paix intérieure et un monde plus compatissant.",
+    programmeTitle: "Programme",
+    programmeReaderLabel: "Programme de la conférence",
+    programmePrev: "Page précédente",
+    programmeNext: "Page suivante",
+    programmeOpenFallback: "Ouvrir le programme",
     resourcesTitle: "Ressources",
     downloadConceptNote: "Télécharger la note conceptuelle",
     downloadAgenda: "Télécharger le programme",

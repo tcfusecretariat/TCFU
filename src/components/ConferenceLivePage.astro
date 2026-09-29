@@ -16,6 +16,7 @@ const conceptNoteBody = getLiveConceptNoteBody(locale);
 const photos = getLivePhotos();
 const assets = CONFERENCE_LIVE_ASSETS;
 const downloads = getLiveDownloads(locale);
+const programmePdfUrl = assets.programmePdf[locale];
 const photoPayload = photos.map((photo) => ({
   id: photo.id,
   day: photo.day,
@@ -89,6 +90,23 @@ const photoPayload = photos.map((photo) => ({
         </ul>
       </section>
     </div>
+
+    <section class="live-programme" aria-labelledby="live-programme-heading">
+      <h2 id="live-programme-heading">{t.programmeTitle}</h2>
+      <div class="book-reader live-programme-reader" data-reader data-pdf={programmePdfUrl}>
+        <div class="book-toolbar">
+          <button type="button" data-prev>{t.programmePrev}</button>
+          <span aria-live="polite"><strong data-page>1</strong> / <span data-total>…</span></span>
+          <button type="button" data-next>{t.programmeNext}</button>
+        </div>
+        <div class="book-stage">
+          <canvas data-canvas aria-label={t.programmeReaderLabel}></canvas>
+          <p class="book-fallback" data-fallback hidden>
+            <a class="button secondary" href={programmePdfUrl} target="_blank" rel="noopener">{t.programmeOpenFallback}</a>
+          </p>
+        </div>
+      </div>
+    </section>
 
     <section class="live-concept" aria-labelledby="live-concept-heading">
       <h2 id="live-concept-heading">{t.conceptNoteTitle}</h2>
@@ -333,4 +351,128 @@ const photoPayload = photos.map((photo) => ({
 
   const requested = new URLSearchParams(window.location.search).get("photo");
   if (requested && photoById(requested)) openLightbox(requested);
+</script>
+
+<script is:inline>
+  (() => {
+    const PDFJS_VERSION = "4.7.76";
+    const base = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}/build`;
+    const readers = Array.from(document.querySelectorAll(".live-programme [data-reader]"));
+    if (!readers.length) return;
+
+    async function setupReader(reader, pdfjsLib) {
+      const url = reader.dataset.pdf;
+      const canvas = reader.querySelector("[data-canvas]");
+      const ctx = canvas?.getContext("2d");
+      const pageLabel = reader.querySelector("[data-page]");
+      const totalLabel = reader.querySelector("[data-total]");
+      const prevButton = reader.querySelector("[data-prev]");
+      const nextButton = reader.querySelector("[data-next]");
+      const stage = reader.querySelector(".book-stage");
+      const fallback = reader.querySelector("[data-fallback]");
+      if (!url || !canvas || !ctx) return;
+
+      let doc;
+      let page = 1;
+      let rendering = false;
+      let queued = false;
+
+      try {
+        doc = await pdfjsLib.getDocument({ url, withCredentials: false }).promise;
+      } catch (error) {
+        console.warn("[live-programme] Failed to open PDF:", error);
+        fallback?.removeAttribute("hidden");
+        return;
+      }
+
+      if (totalLabel) totalLabel.textContent = String(doc.numPages);
+
+      const syncControls = () => {
+        if (prevButton instanceof HTMLButtonElement) prevButton.disabled = page <= 1;
+        if (nextButton instanceof HTMLButtonElement) nextButton.disabled = page >= doc.numPages;
+      };
+
+      const render = async () => {
+        if (rendering) {
+          queued = true;
+          return;
+        }
+        rendering = true;
+        try {
+          const pdfPage = await doc.getPage(page);
+          const ratio = window.devicePixelRatio || 1;
+          const stageWidth = (stage?.clientWidth || 800) - 4;
+          const unscaled = pdfPage.getViewport({ scale: 1 });
+          const scale = Math.min(2.2, stageWidth / unscaled.width);
+          const viewport = pdfPage.getViewport({ scale: scale * ratio });
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.style.width = `${viewport.width / ratio}px`;
+          canvas.style.height = `${viewport.height / ratio}px`;
+          await pdfPage.render({ canvasContext: ctx, viewport }).promise;
+          if (pageLabel) pageLabel.textContent = String(page);
+          syncControls();
+        } catch (error) {
+          console.warn("[live-programme] Failed to render page:", error);
+        } finally {
+          rendering = false;
+          if (queued) {
+            queued = false;
+            render();
+          }
+        }
+      };
+
+      prevButton?.addEventListener("click", () => {
+        if (page > 1) {
+          page -= 1;
+          render();
+        }
+      });
+      nextButton?.addEventListener("click", () => {
+        if (page < doc.numPages) {
+          page += 1;
+          render();
+        }
+      });
+
+      reader.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft" && page > 1) {
+          event.preventDefault();
+          page -= 1;
+          render();
+        }
+        if (event.key === "ArrowRight" && page < doc.numPages) {
+          event.preventDefault();
+          page += 1;
+          render();
+        }
+      });
+
+      let resizeTimer;
+      window.addEventListener("resize", () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(render, 200);
+      });
+
+      syncControls();
+      render();
+    }
+
+    (async () => {
+      let pdfjsLib;
+      try {
+        pdfjsLib = await import(`${base}/pdf.min.mjs`);
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `${base}/pdf.worker.min.mjs`;
+      } catch (error) {
+        console.warn("[live-programme] Failed to load PDF.js:", error);
+        document.querySelectorAll(".live-programme [data-fallback]").forEach((el) => el.removeAttribute("hidden"));
+        return;
+      }
+      readers.forEach((reader) => {
+        if (reader instanceof HTMLElement) reader.tabIndex = 0;
+        setupReader(reader, pdfjsLib);
+      });
+    })();
+  })();
 </script>
