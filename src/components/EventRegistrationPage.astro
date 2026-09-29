@@ -7,9 +7,10 @@ import { formatPdfSize } from "@lib/news";
 
 const { locale } = Astro.props as { locale: Locale };
 const t = registrationCopy[locale];
+const agendaPdf = CONFERENCE_AGENDA_PDF[locale];
 const noticeParagraphs = registrationPrivacyNotice[locale].split("\n\n");
 const privacyPolicyLinkLabel = privacyPolicyContent[locale].privacyPolicyLinkLabel;
-const agendaSize = formatPdfSize(CONFERENCE_AGENDA_PDF.size);
+const agendaSize = formatPdfSize(agendaPdf.size);
 ---
 
 <main class={`registration-page registration-page--${locale} detail-page editorial-reveal`}>
@@ -28,8 +29,8 @@ const agendaSize = formatPdfSize(CONFERENCE_AGENDA_PDF.size);
       </div>
       <a
         class="news-pdf-card registration-agenda-card"
-        href={CONFERENCE_AGENDA_PDF.url}
-        download={CONFERENCE_AGENDA_PDF.filename}
+        href={agendaPdf.url}
+        download={agendaPdf.filename}
       >
         <span class="news-pdf-doc" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none">

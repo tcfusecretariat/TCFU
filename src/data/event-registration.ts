@@ -1,3 +1,4 @@
+import { CONFERENCE_PROGRAMME_PDF } from "./conference-files";
 import type { Locale } from "./site";
 
 export const SYMPOSIUM_EVENT_KEY = "international-symposium-youth-wellbeing-peace-education-2026";
@@ -81,11 +82,7 @@ export type RegistrationCopy = {
   error: string;
 };
 
-export const CONFERENCE_AGENDA_PDF = {
-  url: "/assets/news/international-conference-on-peace-2026-agenda.pdf",
-  size: 317112,
-  filename: "international-conference-on-peace-2026-agenda.pdf"
-} as const;
+export const CONFERENCE_AGENDA_PDF = CONFERENCE_PROGRAMME_PDF;
 
 export const registrationCopy: Record<Locale, RegistrationCopy> = {
   en: {

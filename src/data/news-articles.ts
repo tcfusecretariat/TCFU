@@ -1,10 +1,9 @@
+import { CONFERENCE_PROGRAMME_PDF } from "@data/conference-files";
 import type { Locale } from "@data/site";
 
 const CONCEPT_NOTE_SLUG = "international-conference-on-peace-2026-concept-note";
 const CONCEPT_NOTE_PDF = "/assets/news/international-conference-on-peace-2026-concept-note.pdf";
 const CONCEPT_NOTE_PDF_SIZE = 61372;
-const AGENDA_PDF = "/assets/news/international-conference-on-peace-2026-agenda.pdf";
-const AGENDA_PDF_SIZE = 317112;
 
 function block(key: string, text: string, marks: string[][] = []) {
   return {
@@ -46,9 +45,7 @@ const sharedFiles = {
   slug: CONCEPT_NOTE_SLUG,
   publishDate: "2026-09-22T00:00:00.000Z",
   pdfUrl: CONCEPT_NOTE_PDF,
-  pdfSize: CONCEPT_NOTE_PDF_SIZE,
-  agendaPdfUrl: AGENDA_PDF,
-  agendaPdfSize: AGENDA_PDF_SIZE
+  pdfSize: CONCEPT_NOTE_PDF_SIZE
 };
 
 const conceptNoteEn = {
@@ -70,6 +67,8 @@ const conceptNoteEn = {
     aside: "A more\nhumane\ninclusive\nand\npeaceful\nfuture"
   },
   pdfLabel: "Concept Note (PDF)",
+  agendaPdfUrl: CONFERENCE_PROGRAMME_PDF.en.url,
+  agendaPdfSize: CONFERENCE_PROGRAMME_PDF.en.size,
   agendaPdfLabel: "Agenda (PDF)",
   seoTitle: "International Conference on Peace 2026 – Concept Note",
   seoDescription:
@@ -121,6 +120,8 @@ const conceptNoteZh = {
     aside: "邁向更\n人道\n包容\n與和平的\n未來"
   },
   pdfLabel: "概念說明 (PDF)",
+  agendaPdfUrl: CONFERENCE_PROGRAMME_PDF.zh.url,
+  agendaPdfSize: CONFERENCE_PROGRAMME_PDF.zh.size,
   agendaPdfLabel: "活動日程 (PDF)",
   seoTitle: "2026 世界和平論壇 – 概念說明",
   seoDescription:
@@ -174,6 +175,8 @@ const conceptNoteFr = {
     aside: "Un avenir\nplus humain\ninclusif\net pacifique"
   },
   pdfLabel: "Note conceptuelle (PDF)",
+  agendaPdfUrl: CONFERENCE_PROGRAMME_PDF.fr.url,
+  agendaPdfSize: CONFERENCE_PROGRAMME_PDF.fr.size,
   agendaPdfLabel: "Programme (PDF)",
   seoTitle: "Conférence internationale pour la paix 2026 – Note conceptuelle",
   seoDescription:
