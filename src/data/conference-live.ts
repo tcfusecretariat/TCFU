@@ -11,8 +11,26 @@ export const UNESCO_LIVESTREAM_URL = "#PLACEHOLDER_UNESCO_LIVESTREAM_URL";
 
 export const CONFERENCE_LIVE_ASSETS = {
   heroImage: "/assets/live/unesco-headquarters-conference-hall.jpg",
-  conceptNotePdfUrl: "/assets/news/international-conference-on-peace-2026-concept-note.pdf",
-  agendaPdfUrl: "/assets/news/international-conference-on-peace-2026-agenda.pdf"
+  conceptNotePdf: {
+    en: "/assets/news/international-conference-on-peace-2026-concept-note.pdf",
+    zh: "/assets/news/international-conference-on-peace-2026-concept-note.pdf",
+    fr: "/assets/news/international-conference-on-peace-2026-concept-note.pdf"
+  },
+  programmePdf: {
+    en: "/assets/live/programme-2026-en.pdf",
+    zh: "/assets/live/programme-2026-zh.pdf",
+    fr: "/assets/live/programme-2026-fr.pdf"
+  },
+  programmeDownloadName: {
+    en: "International-Conference-on-Peace-2026-Programme-EN.pdf",
+    zh: "世界和平論壇-2026-活動日程.pdf",
+    fr: "Conference-internationale-pour-la-paix-2026-Programme-FR.pdf"
+  },
+  conceptNoteDownloadName: {
+    en: "International-Conference-on-Peace-2026-Concept-Note.pdf",
+    zh: "世界和平論壇-2026-概念說明.pdf",
+    fr: "Conference-internationale-pour-la-paix-2026-Note-conceptuelle.pdf"
+  }
 } as const;
 
 const CONCEPT_NOTE_SLUG = "international-conference-on-peace-2026-concept-note";
@@ -37,7 +55,26 @@ export type LivePageCopy = {
   resourcesTitle: string;
   downloadConceptNote: string;
   downloadAgenda: string;
+  programmeKind: string;
+  conceptNoteKind: string;
   conceptNoteTitle: string;
+  readFullConceptNote: string;
+  collapseConceptNote: string;
+  updatesTitle: string;
+  updatesSubtitle: string;
+  filterAll: string;
+  filterDay1: string;
+  filterDay2: string;
+  filterHighlights: string;
+  day1: string;
+  day2: string;
+  photosEmpty: string;
+  lightboxClose: string;
+  lightboxPrevious: string;
+  lightboxNext: string;
+  lightboxDownload: string;
+  lightboxCopyLink: string;
+  lightboxCopied: string;
 };
 
 export const livePageCopy: Record<Locale, LivePageCopy> = {
@@ -60,7 +97,26 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     resourcesTitle: "Event Resources",
     downloadConceptNote: "Download Concept Note",
     downloadAgenda: "Download Programme",
-    conceptNoteTitle: "Concept Note"
+    programmeKind: "Programme · PDF",
+    conceptNoteKind: "Concept Note · PDF",
+    conceptNoteTitle: "Concept Note",
+    readFullConceptNote: "Read full Concept Note",
+    collapseConceptNote: "Collapse",
+    updatesTitle: "Live Updates",
+    updatesSubtitle: "Photos from the event, updated throughout the day.",
+    filterAll: "All",
+    filterDay1: "Day 1",
+    filterDay2: "Day 2",
+    filterHighlights: "Highlights",
+    day1: "Day 1",
+    day2: "Day 2",
+    photosEmpty: "Live photos will be added throughout the event.",
+    lightboxClose: "Close photo",
+    lightboxPrevious: "Previous photo",
+    lightboxNext: "Next photo",
+    lightboxDownload: "Download photo",
+    lightboxCopyLink: "Copy photo link",
+    lightboxCopied: "Link copied"
   },
   zh: {
     metaTitle: "直播",
@@ -79,7 +135,26 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     resourcesTitle: "活動資料",
     downloadConceptNote: "下載概念說明",
     downloadAgenda: "下載活動日程",
-    conceptNoteTitle: "概念說明"
+    programmeKind: "活動日程 · PDF",
+    conceptNoteKind: "概念說明 · PDF",
+    conceptNoteTitle: "概念說明",
+    readFullConceptNote: "閱讀完整概念說明",
+    collapseConceptNote: "收合",
+    updatesTitle: "即時更新",
+    updatesSubtitle: "活動現場照片將於當日陸續更新。",
+    filterAll: "全部",
+    filterDay1: "第一天",
+    filterDay2: "第二天",
+    filterHighlights: "精選",
+    day1: "第一天",
+    day2: "第二天",
+    photosEmpty: "活動照片將於會議期間陸續上傳。",
+    lightboxClose: "關閉照片",
+    lightboxPrevious: "上一張",
+    lightboxNext: "下一張",
+    lightboxDownload: "下載照片",
+    lightboxCopyLink: "複製分享連結",
+    lightboxCopied: "連結已複製"
   },
   fr: {
     metaTitle: "En direct",
@@ -100,6 +175,25 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     resourcesTitle: "Ressources",
     downloadConceptNote: "Télécharger la note conceptuelle",
     downloadAgenda: "Télécharger le programme",
-    conceptNoteTitle: "Note conceptuelle"
+    programmeKind: "Programme · PDF",
+    conceptNoteKind: "Note conceptuelle · PDF",
+    conceptNoteTitle: "Note conceptuelle",
+    readFullConceptNote: "Lire la note conceptuelle complète",
+    collapseConceptNote: "Réduire",
+    updatesTitle: "Actualités en direct",
+    updatesSubtitle: "Photos de l'événement, mises à jour tout au long de la journée.",
+    filterAll: "Tout",
+    filterDay1: "Jour 1",
+    filterDay2: "Jour 2",
+    filterHighlights: "Temps forts",
+    day1: "Jour 1",
+    day2: "Jour 2",
+    photosEmpty: "Les photos seront ajoutées tout au long de l'événement.",
+    lightboxClose: "Fermer la photo",
+    lightboxPrevious: "Photo précédente",
+    lightboxNext: "Photo suivante",
+    lightboxDownload: "Télécharger la photo",
+    lightboxCopyLink: "Copier le lien de partage",
+    lightboxCopied: "Lien copié"
   }
 };

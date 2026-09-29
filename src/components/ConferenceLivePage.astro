@@ -6,11 +6,38 @@ import {
   getLiveConceptNoteBody,
   livePageCopy
 } from "@data/conference-live";
+import { formatLivePhotoTime, getLivePhotos } from "@data/live-updates";
 import type { Locale } from "@data/site";
 
 const { locale } = Astro.props as { locale: Locale };
 const t = livePageCopy[locale];
 const conceptNoteBody = getLiveConceptNoteBody(locale);
+const photos = getLivePhotos();
+const assets = CONFERENCE_LIVE_ASSETS;
+const downloads = [
+  {
+    href: assets.programmePdf[locale],
+    filename: assets.programmeDownloadName[locale],
+    name: t.downloadAgenda,
+    kind: t.programmeKind
+  },
+  {
+    href: assets.conceptNotePdf[locale],
+    filename: assets.conceptNoteDownloadName[locale],
+    name: t.downloadConceptNote,
+    kind: t.conceptNoteKind
+  }
+];
+const photoPayload = photos.map((photo) => ({
+  id: photo.id,
+  day: photo.day,
+  highlight: Boolean(photo.highlight),
+  caption: photo.caption[locale],
+  alt: photo.alt[locale],
+  full: photo.images.fullWebp || photo.images.fullJpg,
+  download: photo.images.fullJpg,
+  filename: `${photo.id}.jpg`
+}));
 ---
 
 <main class="live-page detail-page editorial-reveal">
@@ -22,7 +49,7 @@ const conceptNoteBody = getLiveConceptNoteBody(locale);
     </header>
 
     <figure class="live-hero">
-      <img src={CONFERENCE_LIVE_ASSETS.heroImage} alt={t.heroAlt} />
+      <img src={assets.heroImage} alt={t.heroAlt} />
     </figure>
 
     <section class="live-watch" aria-labelledby="live-watch-heading">
@@ -48,39 +75,274 @@ const conceptNoteBody = getLiveConceptNoteBody(locale);
       <section class="live-resources" aria-labelledby="live-resources-heading">
         <h2 id="live-resources-heading">{t.resourcesTitle}</h2>
         <ul>
-          <li>
-            <a href={CONFERENCE_LIVE_ASSETS.conceptNotePdfUrl} download>
-              <span class="live-file-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M7 3.5h7.2L19.5 9v11.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.4"></path>
-                  <path d="M14 3.5V9h5.5" stroke="currentColor" stroke-width="1.4"></path>
-                  <path d="M8.5 13h7M8.5 16.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
-                </svg>
-              </span>
-              <span>{t.downloadConceptNote}</span>
-            </a>
-          </li>
-          <li>
-            <a href={CONFERENCE_LIVE_ASSETS.agendaPdfUrl} download>
-              <span class="live-file-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M7 3.5h7.2L19.5 9v11.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.4"></path>
-                  <path d="M14 3.5V9h5.5" stroke="currentColor" stroke-width="1.4"></path>
-                  <path d="M8.5 13h7M8.5 16.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
-                </svg>
-              </span>
-              <span>{t.downloadAgenda}</span>
-            </a>
-          </li>
+          {
+            downloads.map((file) => (
+              <li>
+                <a class="live-resource-link" href={file.href} download={file.filename}>
+                  <span class="live-file-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <rect x="5" y="3.5" width="14" height="17" stroke="currentColor" stroke-width="1.3"></rect>
+                      <path d="M8 8h8M8 11.5h8M8 15h5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+                    </svg>
+                  </span>
+                  <span class="live-resource-copy">
+                    <span class="live-resource-name">{file.name}</span>
+                    <span class="live-resource-kind">{file.kind}</span>
+                  </span>
+                  <span class="live-resource-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M12 4v12.5M7.5 12.5 12 17l4.5-4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </span>
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </section>
     </div>
 
     <section class="live-concept" aria-labelledby="live-concept-heading">
       <h2 id="live-concept-heading">{t.conceptNoteTitle}</h2>
-      <div class="live-concept-body" data-live-concept-note>
-        {conceptNoteBody.length > 0 && <PortableBody value={conceptNoteBody} locale={locale} />}
+      <div class="live-concept-panel" id="live-concept-panel" data-live-concept-panel>
+        <div class="live-concept-inner" data-live-concept-note>
+          {conceptNoteBody.length > 0 && <PortableBody value={conceptNoteBody} locale={locale} />}
+        </div>
       </div>
+      <button
+        class="live-concept-toggle"
+        type="button"
+        data-live-concept-toggle
+        aria-expanded="false"
+        aria-controls="live-concept-panel"
+      >
+        {t.readFullConceptNote} ↓
+      </button>
+    </section>
+
+    <section class="live-updates" aria-labelledby="live-updates-heading" data-live-updates>
+      <div class="live-updates-head">
+        <div class="live-updates-intro">
+          <h2 id="live-updates-heading">{t.updatesTitle}</h2>
+          <p class="live-updates-subtitle">{t.updatesSubtitle}</p>
+        </div>
+        <div class="live-filters" role="group" aria-label={t.updatesTitle}>
+          <button type="button" class="live-filter" data-live-filter="all" aria-pressed="true">{t.filterAll}</button>
+          <button type="button" class="live-filter" data-live-filter="day1" aria-pressed="false">{t.filterDay1}</button>
+          <button type="button" class="live-filter" data-live-filter="day2" aria-pressed="false">{t.filterDay2}</button>
+          <button type="button" class="live-filter" data-live-filter="highlights" aria-pressed="false">{t.filterHighlights}</button>
+        </div>
+      </div>
+
+      {
+        photos.length === 0 ? (
+          <p class="live-updates-empty">{t.photosEmpty}</p>
+        ) : (
+          <ul class="live-photo-grid" data-live-photo-grid>
+            {photos.map((photo) => {
+              const time = formatLivePhotoTime(photo.takenAt, locale);
+              const dayLabel = photo.day === 1 ? t.day1 : t.day2;
+              return (
+                <li
+                  data-live-photo
+                  data-id={photo.id}
+                  data-day={photo.day}
+                  data-highlight={photo.highlight ? "true" : "false"}
+                >
+                  <button type="button" class="live-photo-open" data-open-photo={photo.id}>
+                    <span class="live-photo-frame">
+                      <picture>
+                        {photo.images.thumbAvif && <source type="image/avif" srcset={photo.images.thumbAvif} />}
+                        {photo.images.thumbWebp && <source type="image/webp" srcset={photo.images.thumbWebp} />}
+                        <img
+                          src={photo.images.thumbJpg}
+                          alt={photo.alt[locale]}
+                          width={photo.images.width}
+                          height={photo.images.height}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </picture>
+                    </span>
+                    <span class="live-photo-meta">
+                      <span class="live-photo-time">
+                        {time} · {dayLabel}
+                      </span>
+                      <span class="live-photo-caption">{photo.caption[locale]}</span>
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )
+      }
     </section>
   </article>
 </main>
+
+<dialog class="live-lightbox" data-live-lightbox aria-label={t.updatesTitle}>
+  <button class="live-lightbox-close" type="button" data-lightbox-close aria-label={t.lightboxClose}>×</button>
+  <div class="live-lightbox-stage">
+    <button class="live-lightbox-nav" type="button" data-lightbox-prev aria-label={t.lightboxPrevious}>‹</button>
+    <figure class="live-lightbox-figure">
+      <img data-lightbox-image alt="" />
+      <figcaption>
+        <p class="live-lightbox-kicker" data-lightbox-kicker></p>
+        <p class="live-lightbox-caption" data-lightbox-caption></p>
+      </figcaption>
+    </figure>
+    <button class="live-lightbox-nav" type="button" data-lightbox-next aria-label={t.lightboxNext}>›</button>
+  </div>
+  <div class="live-lightbox-actions">
+    <a class="live-lightbox-action" data-lightbox-download download>{t.lightboxDownload}</a>
+    <button class="live-lightbox-action" type="button" data-lightbox-copy>{t.lightboxCopyLink}</button>
+  </div>
+</dialog>
+
+<script
+  define:vars={{
+    photoPayload,
+    expandLabel: `${t.readFullConceptNote} ↓`,
+    collapseLabel: `${t.collapseConceptNote} ↑`,
+    copyLabel: t.lightboxCopyLink,
+    copiedLabel: t.lightboxCopied,
+    day1Label: t.day1,
+    day2Label: t.day2
+  }}
+>
+  const conceptPanel = document.querySelector("[data-live-concept-panel]");
+  const conceptToggle = document.querySelector("[data-live-concept-toggle]");
+  if (conceptPanel instanceof HTMLElement && conceptToggle instanceof HTMLButtonElement) {
+    conceptToggle.addEventListener("click", () => {
+      const open = conceptToggle.getAttribute("aria-expanded") === "true";
+      conceptToggle.setAttribute("aria-expanded", open ? "false" : "true");
+      conceptPanel.classList.toggle("is-open", !open);
+      conceptToggle.textContent = open ? expandLabel : collapseLabel;
+    });
+  }
+
+  const photos = Array.isArray(photoPayload) ? photoPayload : [];
+  const filters = document.querySelectorAll("[data-live-filter]");
+  const items = document.querySelectorAll("[data-live-photo]");
+
+  function applyFilter(filter) {
+    filters.forEach((button) => {
+      button.setAttribute("aria-pressed", button.getAttribute("data-live-filter") === filter ? "true" : "false");
+    });
+    items.forEach((item) => {
+      const day = item.getAttribute("data-day");
+      const highlight = item.getAttribute("data-highlight") === "true";
+      const visible =
+        filter === "all" ||
+        (filter === "day1" && day === "1") ||
+        (filter === "day2" && day === "2") ||
+        (filter === "highlights" && highlight);
+      item.hidden = !visible;
+    });
+  }
+
+  filters.forEach((button) => {
+    button.addEventListener("click", () => applyFilter(button.getAttribute("data-live-filter") || "all"));
+  });
+
+  const lightbox = document.querySelector("[data-live-lightbox]");
+  const lightboxImage = document.querySelector("[data-lightbox-image]");
+  const lightboxCaption = document.querySelector("[data-lightbox-caption]");
+  const lightboxKicker = document.querySelector("[data-lightbox-kicker]");
+  const lightboxDownload = document.querySelector("[data-lightbox-download]");
+  const lightboxCopy = document.querySelector("[data-lightbox-copy]");
+  let currentIndex = 0;
+
+  function photoById(id) {
+    return photos.find((photo) => photo.id === id);
+  }
+
+  function visiblePhotos() {
+    const visibleIds = [...items]
+      .filter((item) => !item.hidden)
+      .map((item) => item.getAttribute("data-id"));
+    return photos.filter((photo) => visibleIds.includes(photo.id));
+  }
+
+  function shareUrl(id) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("photo", id);
+    url.hash = "";
+    return url.toString();
+  }
+
+  function showPhoto(index) {
+    const list = visiblePhotos();
+    if (!list.length) return;
+    currentIndex = (index + list.length) % list.length;
+    const photo = list[currentIndex];
+    if (!(lightboxImage instanceof HTMLImageElement) || !photo) return;
+    lightboxImage.src = photo.full;
+    lightboxImage.alt = photo.alt;
+    if (lightboxCaption) lightboxCaption.textContent = photo.caption;
+    if (lightboxKicker) lightboxKicker.textContent = `${photo.day === 1 ? day1Label : day2Label}`;
+    if (lightboxDownload instanceof HTMLAnchorElement) {
+      lightboxDownload.href = photo.download;
+      lightboxDownload.setAttribute("download", photo.filename);
+    }
+    const url = new URL(window.location.href);
+    url.searchParams.set("photo", photo.id);
+    window.history.replaceState({}, "", url);
+  }
+
+  function openLightbox(id) {
+    const list = visiblePhotos();
+    const index = list.findIndex((photo) => photo.id === id);
+    if (index < 0 || !(lightbox instanceof HTMLDialogElement)) return;
+    showPhoto(index);
+    if (!lightbox.open) lightbox.showModal();
+  }
+
+  function closeLightbox() {
+    if (lightbox instanceof HTMLDialogElement && lightbox.open) lightbox.close();
+    const url = new URL(window.location.href);
+    url.searchParams.delete("photo");
+    window.history.replaceState({}, "", url);
+  }
+
+  document.querySelectorAll("[data-open-photo]").forEach((button) => {
+    button.addEventListener("click", () => openLightbox(button.getAttribute("data-open-photo") || ""));
+  });
+  document.querySelector("[data-lightbox-close]")?.addEventListener("click", closeLightbox);
+  document.querySelector("[data-lightbox-prev]")?.addEventListener("click", () => showPhoto(currentIndex - 1));
+  document.querySelector("[data-lightbox-next]")?.addEventListener("click", () => showPhoto(currentIndex + 1));
+  lightbox?.addEventListener("click", (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+  lightbox?.addEventListener("close", () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("photo");
+    window.history.replaceState({}, "", url);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (!(lightbox instanceof HTMLDialogElement) || !lightbox.open) return;
+    if (event.key === "ArrowLeft") showPhoto(currentIndex - 1);
+    if (event.key === "ArrowRight") showPhoto(currentIndex + 1);
+    if (event.key === "Escape") closeLightbox();
+  });
+  lightboxCopy?.addEventListener("click", async () => {
+    const list = visiblePhotos();
+    const photo = list[currentIndex];
+    if (!photo) return;
+    try {
+      await navigator.clipboard.writeText(shareUrl(photo.id));
+      if (lightboxCopy instanceof HTMLButtonElement) {
+        lightboxCopy.textContent = copiedLabel;
+        window.setTimeout(() => {
+          lightboxCopy.textContent = copyLabel;
+        }, 1600);
+      }
+    } catch {
+      window.prompt(copyLabel, shareUrl(photo.id));
+    }
+  });
+
+  const requested = new URLSearchParams(window.location.search).get("photo");
+  if (requested && photoById(requested)) openLightbox(requested);
+</script>

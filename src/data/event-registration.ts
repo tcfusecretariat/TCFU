@@ -83,7 +83,7 @@ export type RegistrationCopy = {
 
 export const CONFERENCE_AGENDA_PDF = {
   url: "/assets/news/international-conference-on-peace-2026-agenda.pdf",
-  size: 480085,
+  size: 317112,
   filename: "international-conference-on-peace-2026-agenda.pdf"
 } as const;
 
