@@ -32,3 +32,65 @@ export const aboutParagraphsByLocale: Record<Locale, string[]> = {
   en: enAboutParagraphs,
   fr: frAboutParagraphs
 };
+
+export const ABOUT_BROCHURE_PDF: Record<
+  Locale,
+  { url: string; size: number; filename: string }
+> = {
+  en: {
+    url: "/assets/about/tcf-brochure-en.pdf",
+    size: 2435934,
+    filename: "TCF-Brochure-EN.pdf"
+  },
+  zh: {
+    url: "/assets/about/tcf-brochure-zh.pdf",
+    size: 2422303,
+    filename: "傳統文化基金會簡介.pdf"
+  },
+  fr: {
+    url: "/assets/about/tcf-brochure-fr.pdf",
+    size: 2254308,
+    filename: "Brochure-TCF-FR.pdf"
+  }
+};
+
+export const aboutBrochureCopy: Record<
+  Locale,
+  {
+    title: string;
+    readerLabel: string;
+    prev: string;
+    next: string;
+    openFallback: string;
+    download: string;
+  }
+> = {
+  en: {
+    title: "Foundation Brochure",
+    readerLabel: "Traditional Culture Foundation brochure",
+    prev: "Previous",
+    next: "Next",
+    openFallback: "Open brochure",
+    download: "Download PDF"
+  },
+  zh: {
+    title: "基金會簡介",
+    readerLabel: "傳統文化基金會簡介",
+    prev: "上一頁",
+    next: "下一頁",
+    openFallback: "開啟簡介",
+    download: "下載 PDF"
+  },
+  fr: {
+    title: "Brochure de la Fondation",
+    readerLabel: "Brochure de la Traditional Culture Foundation",
+    prev: "Page précédente",
+    next: "Page suivante",
+    openFallback: "Ouvrir la brochure",
+    download: "Télécharger le PDF"
+  }
+};
+
+export function getAboutBrochurePdf(locale: Locale) {
+  return ABOUT_BROCHURE_PDF[locale];
+}

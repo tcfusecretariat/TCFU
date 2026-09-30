@@ -2408,6 +2408,72 @@ html[lang="fr"] .about-page .about-intro p {
   text-indent: 0;
 }
 
+.about-brochure {
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+.about-brochure-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-bottom: 18px;
+}
+
+.about-brochure-head h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 400;
+}
+
+.about-brochure-head .text-link {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  white-space: nowrap;
+}
+
+.about-brochure-reader {
+  padding: clamp(12px, 2vw, 22px);
+}
+
+.about-brochure-reader:focus-visible {
+  outline: 1px solid var(--champagne-deep);
+  outline-offset: 4px;
+}
+
+.about-brochure .book-stage {
+  min-height: min(78vh, 920px);
+}
+
+.about-brochure .book-toolbar button {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.about-brochure .book-toolbar button:disabled {
+  opacity: 0.42;
+  transform: none;
+  cursor: default;
+}
+
+html[lang="zh-Hant"] .about-brochure .book-toolbar button {
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 860px) {
+  .about-brochure .book-stage {
+    min-height: 520px;
+  }
+
+  .about-brochure-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 /* Logo story — About Us traditional culture categories */
 .logo-story-section {
   --ls-text-title: #7a5a36;
