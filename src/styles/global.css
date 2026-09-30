@@ -2435,7 +2435,9 @@ html[lang="fr"] .about-page .about-intro p {
 }
 
 .about-brochure-reader {
-  padding: clamp(12px, 2vw, 22px);
+  width: 50%;
+  margin-inline: auto;
+  padding: clamp(8px, 1.5vw, 12px);
 }
 
 .about-brochure-reader:focus-visible {
@@ -2444,7 +2446,7 @@ html[lang="fr"] .about-page .about-intro p {
 }
 
 .about-brochure .book-stage {
-  min-height: min(78vh, 920px);
+  min-height: 0;
 }
 
 .about-brochure .book-toolbar button {
@@ -2464,8 +2466,8 @@ html[lang="zh-Hant"] .about-brochure .book-toolbar button {
 }
 
 @media (max-width: 860px) {
-  .about-brochure .book-stage {
-    min-height: 520px;
+  .about-brochure-reader {
+    width: 100%;
   }
 
   .about-brochure-head {
