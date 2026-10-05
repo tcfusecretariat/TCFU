@@ -110,7 +110,7 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     heroAlt:
       "Delegates seated in the UNESCO plenary hall during a conference, with the UNESCO emblem and national flags on stage.",
     hostedBy: "Live coverage is hosted by UNESCO.",
-    watchLive: "Watch Live on UNESCO",
+    watchLive: "Replay on UNESCO",
     newTabHint: "The livestream will open in a new tab.",
     aboutTitle: "About the Conference",
     about:
@@ -153,7 +153,7 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     eventInfo: "2026 年 10 月 1–2 日 · 聯合國教科文組織總部 · 第四會議室",
     heroAlt: "聯合國教科文組織大會堂會議現場，講台上可見 UNESCO 標誌與各國國旗。",
     hostedBy: "直播由 UNESCO 提供。",
-    watchLive: "於 UNESCO 觀看直播",
+    watchLive: "教科文組織重播",
     newTabHint: "直播將於新分頁開啟。",
     aboutTitle: "關於會議",
     about:
@@ -198,7 +198,7 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     heroAlt:
       "Salle plénière de l'UNESCO pendant une conférence, avec l'emblème de l'UNESCO et les drapeaux nationaux sur scène.",
     hostedBy: "La couverture en direct est assurée par l'UNESCO.",
-    watchLive: "Regarder en direct sur l'UNESCO",
+    watchLive: "Rediffusion UNESCO",
     newTabHint: "La diffusion s'ouvrira dans un nouvel onglet.",
     aboutTitle: "À propos de la conférence",
     about:
