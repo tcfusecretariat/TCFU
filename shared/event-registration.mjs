@@ -1,5 +1,5 @@
 export const SYMPOSIUM_EVENT_KEY = "international-symposium-youth-wellbeing-peace-education-2026";
-/** Public event registration is closed; the API rejects all new submissions. */
+/** Keep the register pages. Set true for the next event to reopen submissions and emails. */
 export const REGISTRATION_OPEN = false;
 
 export const REGISTRATION_CLOSED_MESSAGE = {

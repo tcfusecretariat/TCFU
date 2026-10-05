@@ -3,7 +3,10 @@ import type { Locale } from "./site";
 
 export const SYMPOSIUM_EVENT_KEY = "international-symposium-youth-wellbeing-peace-education-2026";
 export const SYMPOSIUM_PAGE_SLUG = "international-symposium-youth-wellbeing-peace-education-2026";
-/** Public event registration is closed; the API rejects all new submissions. */
+/**
+ * Keep the register pages and form. Set to true for the next event to show
+ * the form again, accept submissions, and resume confirmation emails.
+ */
 export const REGISTRATION_OPEN = false;
 
 /** Official conference titles (2026, UNESCO Paris) */
