@@ -103,7 +103,7 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     metaTitle: "Live",
     metaDescription:
       "Live coverage of the International Conference on Peace, 1–2 October 2026, UNESCO Headquarters, Room IV. Watch on UNESCO.",
-    navLabel: "Live",
+    navLabel: "Latest Forum",
     title: "International Conference on Peace",
     subtitle: "Igniting the Vital Spark of the Heart through Education of Traditional Culture for Youth",
     eventInfo: "1–2 October 2026 · UNESCO Headquarters · Room IV",
@@ -147,7 +147,7 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
   zh: {
     metaTitle: "直播",
     metaDescription: "2026 年 10 月 1–2 日，巴黎聯合國教科文組織總部第四會議室「世界和平論壇」直播。請至 UNESCO 觀看。",
-    navLabel: "直播",
+    navLabel: "最新論壇",
     title: "世界和平論壇",
     subtitle: "以傳統文化教育啟動青少年核心源動力",
     eventInfo: "2026 年 10 月 1–2 日 · 聯合國教科文組織總部 · 第四會議室",
@@ -191,7 +191,7 @@ export const livePageCopy: Record<Locale, LivePageCopy> = {
     metaTitle: "En direct",
     metaDescription:
       "Couverture en direct de la Conférence internationale pour la paix, 1–2 octobre 2026, siège de l'UNESCO, Salle IV. À suivre sur l'UNESCO.",
-    navLabel: "En direct",
+    navLabel: "Dernier forum",
     title: "Conférence internationale pour la paix",
     subtitle: "Réveiller l'élan vital du cœur par l'éducation des jeunes à la culture traditionnelle",
     eventInfo: "1–2 octobre 2026 · Siège de l'UNESCO · Salle IV",

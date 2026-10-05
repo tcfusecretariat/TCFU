@@ -10,7 +10,7 @@ export type SearchItem = {
 
 export const searchIndex: SearchItem[] = [
   { locale: "zh", type: "Page", title: "認識我們", description: "基金會介紹、使命與願景。", url: "/zh/about/" },
-  { locale: "zh", type: "Page", title: "直播", description: "2026 年世界和平論壇直播頁面。", url: "/zh/live/" },
+  { locale: "zh", type: "Page", title: "最新論壇", description: "2026 年世界和平論壇直播頁面。", url: "/zh/live/" },
   { locale: "zh", type: "News", title: "2026 世界和平論壇 – 概念說明", description: "2026 年 10 月 1–2 日，巴黎聯合國教科文組織總部世界和平論壇概念說明。", url: "/zh/news/international-conference-on-peace-2026-concept-note/" },
   { locale: "zh", type: "Page", title: "組織治理", description: "基金會主席、副主席與組織架構。", url: "/zh/governance/" },
   { locale: "zh", type: "Page", title: "支持我們", description: "支持愛的教育、國際論壇與經典翻譯。", url: "/zh/support/" },
@@ -19,7 +19,7 @@ export const searchIndex: SearchItem[] = [
   { locale: "zh", type: "Resource", title: "群書治要 日文版 第三冊", description: "日文版《群書治要》第三冊。", url: "/zh/library/#qunshu-zhiyao-ja-vol3" },
   { locale: "zh", type: "Resource", title: "Principes de Gouvernance de la Chine Ancienne 第一冊（中法對照）", description: "法文版《群書治要360》第一冊中法對照本。", url: "/zh/library/#qunshu-zhiyao-fr-vol1" },
   { locale: "en", type: "Page", title: "About Us", description: "Foundation mission and vision.", url: "/en/about/" },
-  { locale: "en", type: "Page", title: "Live", description: "Live coverage of the International Conference on Peace, 1–2 October 2026, UNESCO Headquarters.", url: "/en/live/" },
+  { locale: "en", type: "Page", title: "Latest Forum", description: "Live coverage of the International Conference on Peace, 1–2 October 2026, UNESCO Headquarters.", url: "/en/live/" },
   { locale: "en", type: "News", title: "International Conference on Peace 2026 – Concept Note", description: "Concept Note for the International Conference on Peace, 1–2 October 2026, UNESCO Headquarters, Paris.", url: "/en/news/international-conference-on-peace-2026-concept-note/" },
   { locale: "en", type: "Page", title: "Governance", description: "Foundation leadership and governance.", url: "/en/governance/" },
   { locale: "en", type: "Page", title: "Support Us", description: "Support Love Education, international forums, and classical translation.", url: "/en/support/" },
@@ -28,7 +28,7 @@ export const searchIndex: SearchItem[] = [
   { locale: "en", type: "Resource", title: "The Governing Principles of Ancient China Japanese Edition Volume 3", description: "Japanese edition volume 3 online reading and PDF download.", url: "/en/library/#qunshu-zhiyao-ja-vol3" },
   { locale: "en", type: "Resource", title: "Principes de Gouvernance de la Chine Ancienne Volume 1 (Chinese–French)", description: "Bilingual Chinese–French edition volume 1 online reading and PDF download.", url: "/en/library/#qunshu-zhiyao-fr-vol1" },
   { locale: "fr", type: "Page", title: "Nous connaître", description: "Mission et vision de la Fondation.", url: "/fr/about/" },
-  { locale: "fr", type: "Page", title: "En direct", description: "Couverture en direct de la Conférence internationale pour la paix, 1–2 octobre 2026, siège de l'UNESCO.", url: "/fr/live/" },
+  { locale: "fr", type: "Page", title: "Dernier forum", description: "Couverture en direct de la Conférence internationale pour la paix, 1–2 octobre 2026, siège de l'UNESCO.", url: "/fr/live/" },
   { locale: "fr", type: "News", title: "Conférence internationale pour la paix 2026 – Note conceptuelle", description: "Note conceptuelle de la Conférence internationale pour la paix, 1–2 octobre 2026, siège de l'UNESCO, Paris.", url: "/fr/news/international-conference-on-peace-2026-concept-note/" },
   { locale: "fr", type: "Page", title: "Gouvernance", description: "Direction et gouvernance de la Fondation.", url: "/fr/governance/" },
   { locale: "fr", type: "Resource", title: "Les principes de gouvernance de la chine ancienne", description: "Lecture en ligne et téléchargement PDF.", url: "/fr/library/#qunshu-zhiyao-360-zh" },
