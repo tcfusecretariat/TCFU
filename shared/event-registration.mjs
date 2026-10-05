@@ -1,4 +1,12 @@
 export const SYMPOSIUM_EVENT_KEY = "international-symposium-youth-wellbeing-peace-education-2026";
+/** Public event registration is closed; the API rejects all new submissions. */
+export const REGISTRATION_OPEN = false;
+
+export const REGISTRATION_CLOSED_MESSAGE = {
+  en: "Registration for this event is now closed. New submissions are no longer accepted.",
+  zh: "本活動報名現已截止，恕不再接受新的報名。",
+  fr: "Les inscriptions à cet événement sont désormais closes. Les nouvelles demandes ne sont plus acceptées."
+};
 
 export const CONFERENCE_TITLE = {
   en: "International Peace Conference on Traditional Culture Education for Youth: Ignite the Vital Spark of the Heart",

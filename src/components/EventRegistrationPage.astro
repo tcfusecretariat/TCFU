@@ -1,6 +1,6 @@
 ---
 import EventRegistrationForm from "@components/EventRegistrationForm.astro";
-import { CONFERENCE_AGENDA_PDF, registrationCopy } from "@data/event-registration";
+import { CONFERENCE_AGENDA_PDF, REGISTRATION_OPEN, registrationCopy } from "@data/event-registration";
 import { privacyPolicyContent, registrationPrivacyNotice } from "@data/privacy-policy-content";
 import type { Locale } from "@data/site";
 import { formatPdfSize } from "@lib/news";
@@ -22,7 +22,7 @@ const agendaSize = formatPdfSize(agendaPdf.size);
           ? t.titleLines.map((line) => <span class="registration-title-line">{line}</span>)
           : t.title}
       </h1>
-      <p class="registration-subtitle">{t.subtitle}</p>
+      {REGISTRATION_OPEN && <p class="registration-subtitle">{t.subtitle}</p>}
       <div class="registration-meta">
         <p><strong>{t.date}</strong></p>
         <p>{t.venue}</p>
@@ -53,15 +53,20 @@ const agendaSize = formatPdfSize(agendaPdf.size);
       </a>
     </header>
 
-    <aside class="registration-privacy-notice" aria-label="Privacy notice">
-      {noticeParagraphs.map((paragraph) => (
-        <p>{paragraph}</p>
-      ))}
-      <p>
-        <a href={`/${locale}/privacy-policy/`}>{privacyPolicyLinkLabel}</a>
-      </p>
-    </aside>
-
-    <EventRegistrationForm locale={locale} />
+    {REGISTRATION_OPEN ? (
+      <>
+        <aside class="registration-privacy-notice" aria-label="Privacy notice">
+          {noticeParagraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+          <p>
+            <a href={`/${locale}/privacy-policy/`}>{privacyPolicyLinkLabel}</a>
+          </p>
+        </aside>
+        <EventRegistrationForm locale={locale} />
+      </>
+    ) : (
+      <p class="registration-closed" role="status">{t.closed}</p>
+    )}
   </article>
 </main>

@@ -3,6 +3,8 @@ import type { Locale } from "./site";
 
 export const SYMPOSIUM_EVENT_KEY = "international-symposium-youth-wellbeing-peace-education-2026";
 export const SYMPOSIUM_PAGE_SLUG = "international-symposium-youth-wellbeing-peace-education-2026";
+/** Public event registration is closed; the API rejects all new submissions. */
+export const REGISTRATION_OPEN = false;
 
 /** Official conference titles (2026, UNESCO Paris) */
 export const CONFERENCE_TITLE = {
@@ -80,6 +82,7 @@ export type RegistrationCopy = {
   sending: string;
   successConfirmed: string;
   error: string;
+  closed: string;
 };
 
 export const CONFERENCE_AGENDA_PDF = CONFERENCE_PROGRAMME_PDF;
@@ -157,7 +160,8 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     sending: "Submitting…",
     successConfirmed:
       "Thank you. Your registration has been successfully confirmed. A confirmation email has been sent to your address.",
-    error: "We could not submit your registration. Please review the form and try again."
+    error: "We could not submit your registration. Please review the form and try again.",
+    closed: "Registration for this event is now closed. New submissions are no longer accepted."
   },
   zh: {
     metaTitle: "活動報名",
@@ -225,7 +229,8 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     submit: "提交報名",
     sending: "提交中…",
     successConfirmed: "感謝您。您的報名已成功確認。確認信已寄至您的電郵。",
-    error: "無法提交報名，請檢查表格後再試。"
+    error: "無法提交報名，請檢查表格後再試。",
+    closed: "本活動報名現已截止，恕不再接受新的報名。"
   },
   fr: {
     metaTitle: "Inscription à l'événement",
@@ -301,6 +306,7 @@ export const registrationCopy: Record<Locale, RegistrationCopy> = {
     sending: "Envoi en cours…",
     successConfirmed:
       "Merci. Votre inscription a été confirmée avec succès. Un e-mail de confirmation vous a été envoyé.",
-    error: "Impossible d'envoyer votre inscription. Veuillez vérifier le formulaire et réessayer."
+    error: "Impossible d'envoyer votre inscription. Veuillez vérifier le formulaire et réessayer.",
+    closed: "Les inscriptions à cet événement sont désormais closes. Les nouvelles demandes ne sont plus acceptées."
   }
 };

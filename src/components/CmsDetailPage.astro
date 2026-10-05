@@ -2,6 +2,7 @@
 import PlaceholderPage from "@components/PlaceholderPage.astro";
 import GalleryLightbox from "@components/GalleryLightbox.astro";
 import PortableBody from "@components/PortableBody.astro";
+import { REGISTRATION_OPEN } from "@data/event-registration";
 import type { Locale } from "@data/site";
 import { imageSrc, type CmsDetail } from "@lib/cms";
 
@@ -36,7 +37,7 @@ const videoLinks = item
     ].filter((link): link is { label: string; url: string } => Boolean(link.url))
   : [];
 const youtubeSrc = item?.youtubeUrl ? youtubeEmbed(item.youtubeUrl) : "";
-const registrationOpen = item?.registrationUrl && item?.isRegistrationOpen !== false;
+const registrationOpen = REGISTRATION_OPEN && item?.registrationUrl && item?.isRegistrationOpen !== false;
 ---
 
 {item ? (
