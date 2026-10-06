@@ -9,6 +9,24 @@ function zhText(locale: Locale, text: string): string {
   return locale === "zh" ? normalizeZhCopy(text) : text;
 }
 
+const STALE_EVENT_KICKERS = new Set([
+  "Latest Forum",
+  "latest forum",
+  "LATEST FORUM",
+  "最新論壇",
+  "Dernier forum",
+  "dernier forum"
+]);
+
+function eventKickerText(locale: Locale, cmsValue: string | undefined, fallback: string): string {
+  const value = cmsValue?.trim();
+  if (!value) return zhText(locale, fallback);
+  if (STALE_EVENT_KICKERS.has(value) || STALE_EVENT_KICKERS.has(value.toLocaleLowerCase())) {
+    return zhText(locale, fallback);
+  }
+  return zhText(locale, value);
+}
+
 type ImageValue = {
   alt?: string;
   asset?: unknown;
@@ -410,7 +428,7 @@ export async function getHomeContent(locale: Locale) {
       languages: doc?.libraryLanguages?.length ? doc.libraryLanguages : fallback.sections.library.languages
     },
     event: {
-      kicker: zhText(locale, doc?.eventKicker || fallback.sections.event.kicker),
+      kicker: eventKickerText(locale, doc?.eventKicker, fallback.sections.event.kicker),
       title: zhText(locale, doc?.eventTitle || fallback.sections.event.title),
       description: zhText(locale, doc?.eventDescription || fallback.sections.event.description),
       link: zhText(locale, doc?.eventLinkText || fallback.sections.event.link),

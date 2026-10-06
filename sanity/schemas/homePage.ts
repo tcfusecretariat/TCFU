@@ -11,7 +11,7 @@ export const homePage = defineType({
     { name: "work", title: "核心工作" },
     { name: "projects", title: "旗艦項目" },
     { name: "library", title: "資源中心" },
-    { name: "event", title: "最新論壇" },
+    { name: "event", title: "我們的論壇" },
     { name: "news", title: "最新動態" },
     { name: "support", title: "支持我們" },
     { name: "partners", title: "合作夥伴" }
@@ -61,7 +61,7 @@ export const homePage = defineType({
     defineField({ name: "libraryDescription", title: "說明文字", type: "text", rows: 3, group: "library" }),
     defineField({ name: "libraryLanguages", title: "語言版本標籤", type: "array", of: [defineArrayMember({ type: "string" })], group: "library" }),
 
-    defineField({ name: "showEvent", title: "顯示「最新論壇」區塊", type: "boolean", initialValue: true, group: "event" }),
+    defineField({ name: "showEvent", title: "顯示「我們的論壇」區塊", type: "boolean", initialValue: true, group: "event" }),
     defineField({ name: "eventKicker", title: "小標題", type: "string", group: "event" }),
     defineField({ name: "eventTitle", title: "標題", type: "string", group: "event" }),
     defineField({ name: "eventDescription", title: "說明文字", type: "text", rows: 3, group: "event" }),
