@@ -1,7 +1,20 @@
 import type { APIRoute } from "astro";
 import { languages, type Locale } from "@data/site";
 
-const pageSlugs = ["", "about", "contact", "support", "privacy-policy", "legal-notice", "accessibility", "news", "live", "library"];
+const pageSlugs = [
+  "",
+  "about",
+  "contact",
+  "support",
+  "privacy-policy",
+  "legal-notice",
+  "accessibility",
+  "news",
+  "live",
+  "library",
+  "library/qunshu-zhiyao",
+  "library/traditional-culture-inclusive-education"
+];
 
 export const GET: APIRoute = ({ site }) => {
   const origin = site?.toString().replace(/\/$/, "") || "https://traditionalculturefoundation.org";

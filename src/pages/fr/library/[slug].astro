@@ -1,0 +1,27 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ResourceTopicPage from "@components/ResourceTopicPage.astro";
+import { content } from "@data/content";
+import { getResourceTopic, visibleResourceTopics } from "@data/resource-topics";
+
+const locale = "fr";
+
+export function getStaticPaths() {
+  return visibleResourceTopics().map((topic) => ({ params: { slug: topic.slug } }));
+}
+
+const topic = getResourceTopic(Astro.params.slug || "");
+if (!topic) {
+  return Astro.redirect("/fr/library/");
+}
+const t = content[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${topic.seoTitle[locale]} | ${t.metaTitle}`}
+  description={topic.seoDescription[locale]}
+  path={`library/${topic.slug}`}
+>
+  <ResourceTopicPage locale={locale} topic={topic} />
+</BaseLayout>

@@ -1,192 +1,199 @@
 ---
 import type { Locale } from "@data/site";
-import { getResources } from "@lib/cms";
-import SanityLiveResources from "@components/SanityLiveResources.astro";
+import {
+  libraryHubCopy,
+  topicHref,
+  topicSearchBlob,
+  visibleResourceTopics,
+  type ResourceTopic
+} from "@data/resource-topics";
+import { fallbackResources } from "@data/resources";
 
 const { locale } = Astro.props as { locale: Locale };
-const resources = await getResources(locale);
-const copy = {
-  zh: {
-    kicker: "資源中心",
-    title: "傳統智慧世界共享",
-    intro: "精選《群書治要》多語版本，提供線上閱讀與 PDF 下載，讓經典智慧以清晰、優雅的方式被更多讀者親近。",
-    read: "線上閱讀",
-    download: "下載 PDF",
-    prev: "上一頁",
-    next: "下一頁"
-  },
-  en: {
-    kicker: "Resource Center",
-    title: "Traditional Wisdom Shared with the World",
-    intro: "Selected multilingual editions of The Governing Principles of Ancient China are available for online reading and PDF download.",
-    read: "Read Online",
-    download: "Download PDF",
-    prev: "Previous",
-    next: "Next"
-  },
-  fr: {
-    kicker: "Ressources",
-    title: "Sagesse traditionnelle partagée avec le monde",
-    intro: "Des éditions multilingues sélectionnées des principes de gouvernance de la chine ancienne sont disponibles en lecture en ligne et en téléchargement PDF.",
-    read: "Lire en ligne",
-    download: "Télécharger le PDF",
-    prev: "Page précédente",
-    next: "Page suivante"
-  }
-}[locale];
+const copy = libraryHubCopy[locale];
+const topics = visibleResourceTopics();
+const hasVideo = topics.some((topic) => topic.resourceTypeKey === "video" && topic.status === "published");
+const languageOptions = Array.from(
+  new Set(fallbackResources[locale].flatMap((item) => (item.language ? [item.language] : [])))
+);
+const themeOptions = Array.from(new Set(topics.flatMap((topic) => topic.themes[locale])));
+const cards = topics.map((topic) => serializeCard(locale, topic));
+
+function serializeCard(locale: Locale, topic: ResourceTopic) {
+  return {
+    slug: topic.slug,
+    status: topic.status,
+    href: topic.status === "published" ? topicHref(locale, topic.slug) : "",
+    typeKey: topic.resourceTypeKey,
+    type: topic.resourceType[locale],
+    title: topic.title[locale],
+    subtitle: topic.subtitle[locale],
+    summary: topic.summary[locale],
+    coverImage: topic.coverImage,
+    coverImageAlt: topic.coverImageAlt[locale],
+    languages: topic.slug === "qunshu-zhiyao" ? fallbackResources[locale].map((item) => item.language) : [],
+    themes: topic.themes[locale],
+    publishDate: topic.publishDate,
+    search: topicSearchBlob(locale, topic)
+  };
+}
 ---
 
-<main class="resource-page">
-  <section class="resource-hero editorial-reveal">
+<main class="resource-page resource-hub">
+  <section class="resource-hub-hero editorial-reveal">
     <p class="section-kicker">{copy.kicker}</p>
-    <h1 set:html={copy.title} />
-    <p>{copy.intro}</p>
+    <h1>{copy.title}</h1>
+    <p class="resource-hub-lede">{copy.subtitle}</p>
+    <form class="resource-hub-search" role="search" data-resource-search>
+      <label class="sr-only" for="resource-hub-query">{copy.searchPlaceholder}</label>
+      <input id="resource-hub-query" name="q" type="search" placeholder={copy.searchPlaceholder} autocomplete="off" data-resource-query />
+      <button class="button primary" type="submit">{copy.searchSubmit}</button>
+    </form>
   </section>
 
-  <section class="resource-library editorial-reveal" aria-label={copy.kicker} data-resource-library>
-    {resources.map((resource) => (
-      <article class="resource-reader" id={resource.slug}>
-        <div class="resource-copy">
-          <p class="section-kicker">{resource.language}</p>
-          <h2>{resource.readerTitle}</h2>
-          <p>{resource.description}</p>
-          <div class="resource-actions">
-            <a class="button primary" href={resource.file} target="_blank" rel="noopener">{copy.read}</a>
-            <a class="button secondary" href={resource.file} download>{copy.download}</a>
+  <section class="resource-hub-toolbar" aria-label={copy.filterAll}>
+    <div class="resource-hub-types" role="tablist" data-resource-types>
+      <button type="button" class="is-active" data-type="all">{copy.filterAll}</button>
+      <button type="button" data-type="ebook">{copy.filterEbook}</button>
+      {hasVideo && <button type="button" data-type="video">{copy.filterVideo}</button>}
+    </div>
+    <div class="resource-hub-filters">
+      {languageOptions.length > 0 && (
+        <label>
+          <span class="sr-only">{copy.language}</span>
+          <select data-resource-language>
+            <option value="">{copy.language}</option>
+            {languageOptions.map((language) => (
+              <option value={language}>{language}</option>
+            ))}
+          </select>
+        </label>
+      )}
+      {themeOptions.length > 0 && (
+        <label>
+          <span class="sr-only">{copy.theme}</span>
+          <select data-resource-theme>
+            <option value="">{copy.theme}</option>
+            {themeOptions.map((theme) => (
+              <option value={theme}>{theme}</option>
+            ))}
+          </select>
+        </label>
+      )}
+      <label>
+        <span class="sr-only">{copy.sort}</span>
+        <select data-resource-sort>
+          <option value="newest">{copy.sortNewest}</option>
+        </select>
+      </label>
+    </div>
+  </section>
+
+  <section class="resource-hub-grid" data-resource-grid>
+    {cards.map((card) => {
+      const published = card.status === "published";
+      const inner = (
+        <>
+          <div class="resource-hub-media">
+            <img src={card.coverImage} alt={card.coverImageAlt} />
           </div>
-        </div>
-        <div class="book-reader" data-reader data-pdf={resource.file}>
-          <div class="book-toolbar">
-            <button type="button" data-prev>{copy.prev}</button>
-            <span><strong data-page>1</strong> / <span data-total>…</span></span>
-            <button type="button" data-next>{copy.next}</button>
+          <div class="resource-hub-copy">
+            <h2>{card.title}</h2>
+            {card.subtitle && <p class="resource-hub-subtitle">{card.subtitle}</p>}
+            <p class="resource-hub-type">{card.type}</p>
+            <p class="resource-hub-summary">{card.summary}</p>
+            {published ? (
+              <span class="button primary resource-hub-cta">{copy.readOnline}</span>
+            ) : (
+              <span class="resource-hub-soon">{copy.comingSoon}</span>
+            )}
           </div>
-          <div class="book-stage">
-            <canvas data-canvas aria-label={`${resource.readerTitle} online reader`}></canvas>
-            <p class="book-fallback" data-fallback hidden>
-              <a class="button secondary" href={resource.file} target="_blank" rel="noopener">{copy.read}</a>
-            </p>
-          </div>
-        </div>
-      </article>
-    ))}
+        </>
+      );
+
+      return published ? (
+        <a
+          class="resource-hub-card"
+          href={card.href}
+          data-resource-card
+          data-status={card.status}
+          data-type={card.typeKey}
+          data-languages={card.languages.join("|")}
+          data-themes={card.themes.join("|")}
+          data-search={card.search}
+          data-date={card.publishDate}
+        >
+          {inner}
+        </a>
+      ) : (
+        <article
+          class="resource-hub-card is-soon"
+          data-resource-card
+          data-status={card.status}
+          data-type={card.typeKey}
+          data-languages={card.languages.join("|")}
+          data-themes={card.themes.join("|")}
+          data-search={card.search}
+          data-date={card.publishDate}
+        >
+          {inner}
+        </article>
+      );
+    })}
   </section>
 </main>
 
 <script is:inline>
   (() => {
-    const PDFJS_VERSION = "4.7.76";
-    const base = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}/build`;
-    let libPromise = null;
-
-    function loadPdfJs() {
-      if (!libPromise) {
-        libPromise = import(`${base}/pdf.min.mjs`).then((lib) => {
-          lib.GlobalWorkerOptions.workerSrc = `${base}/pdf.worker.min.mjs`;
-          return lib;
-        });
-      }
-      return libPromise;
+    const knownHashes = ["qunshu-zhiyao-360-zh", "qunshu-zhiyao-es", "qunshu-zhiyao-ja-vol3", "qunshu-zhiyao-fr-vol1"];
+    const hash = location.hash.replace("#", "");
+    if (hash && knownHashes.includes(hash)) {
+      const parts = location.pathname.split("/").filter(Boolean);
+      const locale = parts[0] || "en";
+      location.replace(`/${locale}/library/qunshu-zhiyao/#${hash}`);
+      return;
     }
 
-    async function setupReader(reader, pdfjsLib) {
-      const url = reader.dataset.pdf;
-      const canvas = reader.querySelector("[data-canvas]");
-      const ctx = canvas?.getContext("2d");
-      const pageLabel = reader.querySelector("[data-page]");
-      const totalLabel = reader.querySelector("[data-total]");
-      const stage = reader.querySelector(".book-stage");
-      const fallback = reader.querySelector("[data-fallback]");
-      if (!url || !canvas || !ctx) return;
+    const form = document.querySelector("[data-resource-search]");
+    const queryInput = document.querySelector("[data-resource-query]");
+    const typeButtons = Array.from(document.querySelectorAll("[data-resource-types] button"));
+    const languageSelect = document.querySelector("[data-resource-language]");
+    const themeSelect = document.querySelector("[data-resource-theme]");
+    const cards = Array.from(document.querySelectorAll("[data-resource-card]"));
+    let activeType = "all";
 
-      let doc;
-      let page = 1;
-      let rendering = false;
-      let queued = false;
+    function applyFilters() {
+      const query = (queryInput instanceof HTMLInputElement ? queryInput.value : "").trim().toLowerCase();
+      const language = languageSelect instanceof HTMLSelectElement ? languageSelect.value : "";
+      const theme = themeSelect instanceof HTMLSelectElement ? themeSelect.value : "";
 
-      try {
-        doc = await pdfjsLib.getDocument({ url, withCredentials: false }).promise;
-      } catch (error) {
-        console.warn("[reader] Failed to open PDF:", error);
-        fallback?.removeAttribute("hidden");
-        return;
-      }
-
-      if (totalLabel) totalLabel.textContent = String(doc.numPages);
-
-      const render = async () => {
-        if (rendering) {
-          queued = true;
-          return;
-        }
-        rendering = true;
-        try {
-          const pdfPage = await doc.getPage(page);
-          const ratio = window.devicePixelRatio || 1;
-          const stageWidth = (stage?.clientWidth || 800) - 4;
-          const unscaled = pdfPage.getViewport({ scale: 1 });
-          const scale = Math.min(2.2, stageWidth / unscaled.width);
-          const viewport = pdfPage.getViewport({ scale: scale * ratio });
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
-          canvas.style.width = `${viewport.width / ratio}px`;
-          canvas.style.height = `${viewport.height / ratio}px`;
-          await pdfPage.render({ canvasContext: ctx, viewport }).promise;
-          if (pageLabel) pageLabel.textContent = String(page);
-        } catch (error) {
-          console.warn("[reader] Failed to render page:", error);
-        } finally {
-          rendering = false;
-          if (queued) {
-            queued = false;
-            render();
-          }
-        }
-      };
-
-      reader.querySelector("[data-prev]")?.addEventListener("click", () => {
-        if (page > 1) {
-          page -= 1;
-          render();
-        }
+      cards.forEach((card) => {
+        if (!(card instanceof HTMLElement)) return;
+        const search = (card.dataset.search || "").toLowerCase();
+        const type = card.dataset.type || "";
+        const languages = (card.dataset.languages || "").split("|").filter(Boolean);
+        const themes = (card.dataset.themes || "").split("|").filter(Boolean);
+        const typeOk = activeType === "all" || type === activeType;
+        const queryOk = !query || search.includes(query);
+        const languageOk = !language || languages.includes(language);
+        const themeOk = !theme || themes.includes(theme);
+        card.hidden = !(typeOk && queryOk && languageOk && themeOk);
       });
-      reader.querySelector("[data-next]")?.addEventListener("click", () => {
-        if (page < doc.numPages) {
-          page += 1;
-          render();
-        }
-      });
-
-      let resizeTimer;
-      window.addEventListener("resize", () => {
-        window.clearTimeout(resizeTimer);
-        resizeTimer = window.setTimeout(render, 200);
-      });
-
-      render();
     }
 
-    window.initPdfReaders = async () => {
-      const readers = Array.from(document.querySelectorAll("[data-reader]")).filter(
-        (reader) => !reader.dataset.readerReady
-      );
-      if (!readers.length) return;
-      let pdfjsLib;
-      try {
-        pdfjsLib = await loadPdfJs();
-      } catch (error) {
-        console.warn("[reader] Failed to load PDF.js:", error);
-        document.querySelectorAll("[data-fallback]").forEach((el) => el.removeAttribute("hidden"));
-        return;
-      }
-      readers.forEach((reader) => {
-        reader.dataset.readerReady = "true";
-        setupReader(reader, pdfjsLib);
+    form?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      applyFilters();
+    });
+    queryInput?.addEventListener("input", applyFilters);
+    languageSelect?.addEventListener("change", applyFilters);
+    themeSelect?.addEventListener("change", applyFilters);
+    typeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeType = button.getAttribute("data-type") || "all";
+        typeButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+        applyFilters();
       });
-    };
-
-    window.initPdfReaders();
+    });
   })();
 </script>
-
-<SanityLiveResources locale={locale} read={copy.read} download={copy.download} />

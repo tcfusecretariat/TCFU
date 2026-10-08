@@ -38,8 +38,8 @@ const next = locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" :
           <h2>${readerTitle}</h2>
           <p>${description}</p>
           <div class="resource-actions">
-            <a class="button primary" href="${safeFile}" target="_blank" rel="noopener">${escapeHtml(read)}</a>
-            <a class="button secondary" href="${safeFile}" download>${escapeHtml(download)}</a>
+            <a class="button primary" href="${safeFile}" target="_blank" rel="noopener noreferrer">${escapeHtml(read)}</a>
+            <a class="button secondary" href="${safeFile}" download rel="noopener noreferrer">${escapeHtml(download)}</a>
           </div>
         </div>
         <div class="book-reader" data-reader data-pdf="${safeFile}">
@@ -51,7 +51,7 @@ const next = locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" :
           <div class="book-stage">
             <canvas data-canvas aria-label="${readerTitle} online reader"></canvas>
             <p class="book-fallback" data-fallback hidden>
-              <a class="button secondary" href="${safeFile}" target="_blank" rel="noopener">${escapeHtml(read)}</a>
+              <a class="button secondary" href="${safeFile}" target="_blank" rel="noopener noreferrer">${escapeHtml(read)}</a>
             </p>
           </div>
         </div>
@@ -78,10 +78,13 @@ const next = locale === "zh" ? "下一頁" : locale === "fr" ? "Page suivante" :
         : [];
       if (items.length === 0) return;
 
-      const library = document.querySelector("[data-resource-library]");
+      const library = document.querySelector("[data-resource-editions]") || document.querySelector("[data-resource-library]");
       if (!library) return;
 
-      library.innerHTML = items.map(resourceCard).join("");
+      const qunshuItems = items.filter((resource) => String(resource.slug || "").startsWith("qunshu-zhiyao-"));
+      if (qunshuItems.length === 0) return;
+
+      library.innerHTML = qunshuItems.map(resourceCard).join("");
       if (typeof window.initPdfReaders === "function") {
         window.initPdfReaders();
       }
