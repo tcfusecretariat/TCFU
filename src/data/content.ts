@@ -59,7 +59,7 @@ export const content: Record<Locale, HomeContent> = {
       { label: "最新論壇", href: "/zh/live/" },
       // Hidden until the next event. Page kept at /zh/register/international-symposium-youth-wellbeing-peace-education-2026/
       // { label: "活動報名", href: "/zh/register/international-symposium-youth-wellbeing-peace-education-2026/" },
-      { label: "資源中心", href: "/zh/#library" },
+      { label: "資源中心", href: "/zh/library/" },
       { label: "支持我們", href: "/zh/support/" }
     ],
     search: "網站搜索",
@@ -135,7 +135,7 @@ export const content: Record<Locale, HomeContent> = {
       { label: "Latest Forum", href: "/en/live/" },
       // Hidden until the next event. Page kept at /en/register/international-symposium-youth-wellbeing-peace-education-2026/
       // { label: "Register", href: "/en/register/international-symposium-youth-wellbeing-peace-education-2026/" },
-      { label: "Resource Center", href: "/en/#library" },
+      { label: "Resource Center", href: "/en/library/" },
       { label: "Support Us", href: "/en/support/" }
     ],
     search: "Site Search",
@@ -180,7 +180,7 @@ export const content: Record<Locale, HomeContent> = {
       { label: "Dernier forum", href: "/fr/live/" },
       // Hidden until the next event. Page kept at /fr/register/international-symposium-youth-wellbeing-peace-education-2026/
       // { label: "Inscription", href: "/fr/register/international-symposium-youth-wellbeing-peace-education-2026/" },
-      { label: "Ressources", href: "/fr/#library" },
+      { label: "Ressources", href: "/fr/library/" },
       { label: "Nous soutenir", href: "/fr/support/" }
     ],
     search: "Recherche",

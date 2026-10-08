@@ -29,7 +29,9 @@ const copy = {
 
   function render() {
     const query = input.value.trim().toLowerCase();
-    const matches = query ? items.filter((item) => `${item.title} ${item.description} ${item.type}`.toLowerCase().includes(query)) : items;
+    const matches = query
+      ? items.filter((item) => `${item.title} ${item.description} ${item.type} ${item.search || ""}`.toLowerCase().includes(query))
+      : items;
     results.innerHTML = matches.length
       ? matches.map((item) => `<article><p>${item.type}</p><h3><a href="${item.url}">${item.title}</a></h3><p>${item.description}</p></article>`).join("")
       : `<p>${empty}</p>`;

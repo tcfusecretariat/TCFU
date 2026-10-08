@@ -18,6 +18,11 @@ const STALE_EVENT_KICKERS = new Set([
   "dernier forum"
 ]);
 
+function libraryCtaUrl(locale: Locale, cmsUrl?: string) {
+  if (!cmsUrl || cmsUrl.includes("#library")) return `/${locale}/library/`;
+  return cmsUrl;
+}
+
 function eventKickerText(locale: Locale, cmsValue: string | undefined, fallback: string): string {
   const value = cmsValue?.trim();
   if (!value) return zhText(locale, fallback);
@@ -397,7 +402,7 @@ export async function getHomeContent(locale: Locale) {
       primaryCta: doc?.heroPrimaryCtaText || fallback.hero.primaryCta,
       primaryCtaUrl: doc?.heroPrimaryCtaUrl || `/${locale}/#about`,
       secondaryCta: doc?.heroSecondaryCtaText || fallback.hero.secondaryCta,
-      secondaryCtaUrl: doc?.heroSecondaryCtaUrl || `/${locale}/#library`,
+      secondaryCtaUrl: libraryCtaUrl(locale, doc?.heroSecondaryCtaUrl),
       translations: fallback.hero.translations
     },
     philosophy: {

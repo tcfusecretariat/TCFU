@@ -1,4 +1,14 @@
-import type { Locale } from "./site";
+import { fallbackResources, getResourceReaderTitle, isExcludedResource } from "./resources";
+import {
+  QUNSHU_TOPIC_SLUG,
+  editionHref,
+  getResourceTopic,
+  libraryHubCopy,
+  topicHref,
+  topicSearchBlob,
+  visibleResourceTopics
+} from "./resource-topics";
+import { languages, type Locale } from "./site";
 
 export type SearchItem = {
   title: string;
@@ -6,42 +16,75 @@ export type SearchItem = {
   url: string;
   locale: Locale;
   type: string;
+  search?: string;
 };
 
-export const searchIndex: SearchItem[] = [
+const LOCALES = Object.keys(languages) as Locale[];
+
+const pageItems: SearchItem[] = [
   { locale: "zh", type: "Page", title: "認識我們", description: "基金會介紹、使命與願景。", url: "/zh/about/" },
   { locale: "zh", type: "Page", title: "最新論壇", description: "2026 年世界和平論壇直播頁面。", url: "/zh/live/" },
   { locale: "zh", type: "News", title: "2026 世界和平論壇 – 概念說明", description: "2026 年 10 月 1–2 日，巴黎聯合國教科文組織總部世界和平論壇概念說明。", url: "/zh/news/international-conference-on-peace-2026-concept-note/" },
   { locale: "zh", type: "Page", title: "組織治理", description: "基金會主席、副主席與組織架構。", url: "/zh/governance/" },
   { locale: "zh", type: "Page", title: "支持我們", description: "支持愛的教育、國際論壇與經典翻譯。", url: "/zh/support/" },
   { locale: "zh", type: "Page", title: "文化資源中心", description: "閱讀經典，聆聽智慧，探索傳統文化。", url: "/zh/library/" },
-  { locale: "zh", type: "Resource", title: "群書治要", description: "精選《群書治要》多語版本，提供線上閱讀與 PDF 下載。", url: "/zh/library/qunshu-zhiyao/" },
-  { locale: "zh", type: "Resource", title: "群書治要三六〇 中文版", description: "線上閱讀與 PDF 下載。", url: "/zh/library/qunshu-zhiyao/#qunshu-zhiyao-360-zh" },
-  { locale: "zh", type: "Resource", title: "西班牙文群書治要", description: "Los Principios de Gobierno de la Antigua China。", url: "/zh/library/qunshu-zhiyao/#qunshu-zhiyao-es" },
-  { locale: "zh", type: "Resource", title: "群書治要 日文版 第三冊", description: "日文版《群書治要》第三冊。", url: "/zh/library/qunshu-zhiyao/#qunshu-zhiyao-ja-vol3" },
-  { locale: "zh", type: "Resource", title: "Principes de Gouvernance de la Chine Ancienne 第一冊（中法對照）", description: "法文版《群書治要360》第一冊中法對照本。", url: "/zh/library/qunshu-zhiyao/#qunshu-zhiyao-fr-vol1" },
-  { locale: "zh", type: "Resource", title: "傳統文化與全納教育", description: "以傳統文化滋養心靈，尊重每位學習者的差異，讓獨特潛能得以綻放。", url: "/zh/library/traditional-culture-inclusive-education/" },
   { locale: "en", type: "Page", title: "About Us", description: "Foundation mission and vision.", url: "/en/about/" },
   { locale: "en", type: "Page", title: "Latest Forum", description: "Live coverage of the International Conference on Peace, 1–2 October 2026, UNESCO Headquarters.", url: "/en/live/" },
   { locale: "en", type: "News", title: "International Conference on Peace 2026 – Concept Note", description: "Concept Note for the International Conference on Peace, 1–2 October 2026, UNESCO Headquarters, Paris.", url: "/en/news/international-conference-on-peace-2026-concept-note/" },
   { locale: "en", type: "Page", title: "Governance", description: "Foundation leadership and governance.", url: "/en/governance/" },
   { locale: "en", type: "Page", title: "Support Us", description: "Support Love Education, international forums, and classical translation.", url: "/en/support/" },
   { locale: "en", type: "Page", title: "Resource Center", description: "Read the classics, encounter enduring wisdom, and explore traditional culture.", url: "/en/library/" },
-  { locale: "en", type: "Resource", title: "The Governing Principles of Ancient China", description: "Selected multilingual editions for online reading and PDF download.", url: "/en/library/qunshu-zhiyao/" },
-  { locale: "en", type: "Resource", title: "The Governing Principles of Ancient China 360 Chinese Edition", description: "Online reading and PDF download.", url: "/en/library/qunshu-zhiyao/#qunshu-zhiyao-360-zh" },
-  { locale: "en", type: "Resource", title: "Los Principios de Gobierno de la Antigua China", description: "Spanish edition online reading and PDF download.", url: "/en/library/qunshu-zhiyao/#qunshu-zhiyao-es" },
-  { locale: "en", type: "Resource", title: "The Governing Principles of Ancient China Japanese Edition Volume 3", description: "Japanese edition volume 3 online reading and PDF download.", url: "/en/library/qunshu-zhiyao/#qunshu-zhiyao-ja-vol3" },
-  { locale: "en", type: "Resource", title: "Principes de Gouvernance de la Chine Ancienne Volume 1 (Chinese–French)", description: "Bilingual Chinese–French edition volume 1 online reading and PDF download.", url: "/en/library/qunshu-zhiyao/#qunshu-zhiyao-fr-vol1" },
-  { locale: "en", type: "Resource", title: "Traditional Culture and Inclusive Education", description: "Coming soon.", url: "/en/library/traditional-culture-inclusive-education/" },
   { locale: "fr", type: "Page", title: "Nous connaître", description: "Mission et vision de la Fondation.", url: "/fr/about/" },
   { locale: "fr", type: "Page", title: "Dernier forum", description: "Couverture en direct de la Conférence internationale pour la paix, 1–2 octobre 2026, siège de l'UNESCO.", url: "/fr/live/" },
   { locale: "fr", type: "News", title: "Conférence internationale pour la paix 2026 – Note conceptuelle", description: "Note conceptuelle de la Conférence internationale pour la paix, 1–2 octobre 2026, siège de l'UNESCO, Paris.", url: "/fr/news/international-conference-on-peace-2026-concept-note/" },
   { locale: "fr", type: "Page", title: "Gouvernance", description: "Direction et gouvernance de la Fondation.", url: "/fr/governance/" },
-  { locale: "fr", type: "Page", title: "Centre de ressources", description: "Lire les classiques, rencontrer une sagesse durable et explorer la culture traditionnelle.", url: "/fr/library/" },
-  { locale: "fr", type: "Resource", title: "Les Principes de Gouvernance de la Chine Ancienne", description: "Éditions multilingues en lecture en ligne et en téléchargement PDF.", url: "/fr/library/qunshu-zhiyao/" },
-  { locale: "fr", type: "Resource", title: "Les principes de gouvernance de la chine ancienne", description: "Lecture en ligne et téléchargement PDF.", url: "/fr/library/qunshu-zhiyao/#qunshu-zhiyao-360-zh" },
-  { locale: "fr", type: "Resource", title: "Los Principios de Gobierno de la Antigua China", description: "Édition espagnole — lecture en ligne et téléchargement PDF.", url: "/fr/library/qunshu-zhiyao/#qunshu-zhiyao-es" },
-  { locale: "fr", type: "Resource", title: "Les Principes de Gouvernance de la Chine Ancienne édition japonaise volume 3", description: "Volume 3 de l’édition japonaise.", url: "/fr/library/qunshu-zhiyao/#qunshu-zhiyao-ja-vol3" },
-  { locale: "fr", type: "Resource", title: "Principes de Gouvernance de la Chine Ancienne volume 1 (bilingue chinois–français)", description: "Volume 1 bilingue chinois–français.", url: "/fr/library/qunshu-zhiyao/#qunshu-zhiyao-fr-vol1" },
-  { locale: "fr", type: "Resource", title: "Traditional Culture and Inclusive Education", description: "Prochainement.", url: "/fr/library/traditional-culture-inclusive-education/" }
+  { locale: "fr", type: "Page", title: "Centre de ressources", description: "Lire les classiques, rencontrer une sagesse durable et explorer la culture traditionnelle.", url: "/fr/library/" }
 ];
+
+function qunshuSearchItems(): SearchItem[] {
+  const topic = getResourceTopic(QUNSHU_TOPIC_SLUG);
+  if (!topic) return [];
+
+  const items: SearchItem[] = [];
+  for (const locale of LOCALES) {
+    items.push({
+      locale,
+      type: "Resource",
+      title: topic.title[locale],
+      description: topic.summary[locale] || topic.content[locale],
+      url: topicHref(locale, topic.slug),
+      search: topicSearchBlob(locale, topic)
+    });
+
+    for (const edition of fallbackResources[locale]) {
+      if (isExcludedResource(edition.slug)) continue;
+      const readerTitle = getResourceReaderTitle(edition.slug, edition.title);
+      items.push({
+        locale,
+        type: "Resource",
+        title: edition.title,
+        description: edition.description,
+        url: editionHref(locale, edition.slug),
+        search: [edition.slug, edition.title, edition.language, edition.description, readerTitle, edition.file].join(" ")
+      });
+    }
+  }
+  return items;
+}
+
+function otherTopicSearchItems(): SearchItem[] {
+  return visibleResourceTopics()
+    .filter((topic) => topic.slug !== QUNSHU_TOPIC_SLUG)
+    .flatMap((topic) =>
+      LOCALES.map((locale) => ({
+        locale,
+        type: "Resource" as const,
+        title: topic.title[locale],
+        description: topic.summary[locale] || libraryHubCopy[locale].comingSoon,
+        url: topicHref(locale, topic.slug),
+        search: topicSearchBlob(locale, topic)
+      }))
+    );
+}
+
+export const searchIndex: SearchItem[] = [...pageItems, ...qunshuSearchItems(), ...otherTopicSearchItems()];

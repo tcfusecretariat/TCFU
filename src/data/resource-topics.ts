@@ -1,5 +1,7 @@
-import { fallbackResources, getResourceReaderTitle, isExcludedResource, type LibraryResource } from "./resources";
-import type { Locale } from "./site";
+import { fallbackResources, getResourceReaderTitle, isExcludedResource, resourceReaderTitles, type LibraryResource } from "./resources";
+import { languages, type Locale } from "./site";
+
+const LOCALES = Object.keys(languages) as Locale[];
 
 export type ResourceStatus = "published" | "comingSoon" | "draft";
 
@@ -188,16 +190,16 @@ export const resourceTopics: ResourceTopic[] = [
     },
     title: {
       zh: "群書治要",
-      en: "群書治要",
-      fr: "群書治要"
-    },
-    subtitle: {
-      zh: "THE GOVERNING PRINCIPLES OF ANCIENT CHINA",
       en: "THE GOVERNING PRINCIPLES OF ANCIENT CHINA",
       fr: "Les Principes de Gouvernance de la Chine Ancienne"
     },
+    subtitle: {
+      zh: "",
+      en: "",
+      fr: ""
+    },
     summary: {
-      zh: "《群書治要》THE GOVERNING PRINCIPLES OF ANCIENT CHINA 是基金會推動傳統智慧全球共享的重要出版與翻譯計劃。",
+      zh: "《群書治要》是基金會推動傳統智慧全球共享的重要出版與翻譯計劃。",
       en: "THE GOVERNING PRINCIPLES OF ANCIENT CHINA is a flagship translation and publishing initiative for sharing classical wisdom globally.",
       fr: "Les Principes de Gouvernance de la Chine Ancienne constituent un projet phare de traduction et d’édition pour partager la sagesse classique à l’échelle mondiale."
     },
@@ -248,22 +250,22 @@ export const resourceTopics: ResourceTopic[] = [
     title: {
       zh: "傳統文化與全納教育",
       en: "Traditional Culture and Inclusive Education",
-      fr: "Traditional Culture and Inclusive Education"
+      fr: "Culture traditionnelle et éducation inclusive"
     },
     subtitle: {
-      zh: "Traditional Culture and Inclusive Education",
-      en: "Traditional Culture and Inclusive Education",
-      fr: "Traditional Culture and Inclusive Education"
+      zh: "",
+      en: "",
+      fr: ""
     },
     summary: {
       zh: "以傳統文化滋養心靈，尊重每位學習者的差異，讓獨特潛能得以綻放。",
-      en: "以傳統文化滋養心靈，尊重每位學習者的差異，讓獨特潛能得以綻放。",
-      fr: "以傳統文化滋養心靈，尊重每位學習者的差異，讓獨特潛能得以綻放。"
+      en: "",
+      fr: ""
     },
     content: {
       zh: "以傳統文化滋養心靈，尊重每位學習者的差異，讓獨特潛能得以綻放。",
-      en: "以傳統文化滋養心靈，尊重每位學習者的差異，讓獨特潛能得以綻放。",
-      fr: "以傳統文化滋養心靈，尊重每位學習者的差異，讓獨特潛能得以綻放。"
+      en: "",
+      fr: ""
     },
     coverImage: "/assets/resources/traditional-culture-inclusive-education.jpg",
     coverImageAlt: {
@@ -284,12 +286,12 @@ export const resourceTopics: ResourceTopic[] = [
     seoTitle: {
       zh: "傳統文化與全納教育",
       en: "Traditional Culture and Inclusive Education",
-      fr: "Traditional Culture and Inclusive Education"
+      fr: "Culture traditionnelle et éducation inclusive"
     },
     seoDescription: {
       zh: "以傳統文化滋養心靈，尊重每位學習者的差異，讓獨特潛能得以綻放。",
-      en: "Traditional Culture and Inclusive Education.",
-      fr: "Traditional Culture and Inclusive Education."
+      en: "Coming Soon",
+      fr: "Prochainement"
     },
     editionSlugs: []
   }
@@ -345,15 +347,58 @@ export function editionsForTopic(locale: Locale, topic: ResourceTopic, extra: Li
   }));
 }
 
-export function topicSearchBlob(locale: Locale, topic: ResourceTopic) {
-  return [
-    topic.title[locale],
-    topic.subtitle[locale],
-    topic.summary[locale],
-    topic.resourceType[locale],
-    ...topic.keywords[locale],
-    ...topic.themes[locale]
-  ]
-    .join(" ")
-    .toLowerCase();
+export function topicDisplaySubtitle(locale: Locale, topic: ResourceTopic) {
+  const title = topic.title[locale]?.trim() || "";
+  const subtitle = topic.subtitle[locale]?.trim() || "";
+  if (!subtitle || subtitle === title) return "";
+  return subtitle;
+}
+
+function localizedStrings(value: Localized<string> | Localized<string[]>) {
+  return LOCALES.flatMap((locale) => {
+    const entry = value[locale];
+    return Array.isArray(entry) ? entry : entry ? [entry] : [];
+  });
+}
+
+function resourceFileName(file: string) {
+  const path = file.split(/[?#]/)[0];
+  return path.split("/").filter(Boolean).pop() || file;
+}
+
+export function topicSearchBlob(_locale: Locale, topic: ResourceTopic) {
+  const parts = [
+    ...localizedStrings(topic.title),
+    ...localizedStrings(topic.subtitle),
+    ...localizedStrings(topic.summary),
+    ...localizedStrings(topic.content),
+    ...localizedStrings(topic.resourceType),
+    ...localizedStrings(topic.keywords),
+    ...localizedStrings(topic.themes),
+    ...localizedStrings(topic.seoTitle),
+    ...localizedStrings(topic.seoDescription),
+    topic.slug
+  ];
+
+  if (topic.slug === QUNSHU_TOPIC_SLUG) {
+    parts.push(...Object.values(resourceReaderTitles));
+    const seen = new Set<string>();
+    for (const locale of LOCALES) {
+      for (const edition of editionsForTopic(locale, topic)) {
+        if (seen.has(`${locale}:${edition.slug}`)) continue;
+        seen.add(`${locale}:${edition.slug}`);
+        parts.push(
+          edition.slug,
+          edition.title,
+          edition.language,
+          edition.description,
+          edition.readerTitle,
+          edition.file,
+          resourceFileName(edition.file)
+        );
+      }
+    }
+  }
+
+  return parts.filter(Boolean).join(" ").toLowerCase();
 }

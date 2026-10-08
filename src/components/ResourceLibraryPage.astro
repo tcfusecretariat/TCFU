@@ -2,6 +2,7 @@
 import type { Locale } from "@data/site";
 import {
   libraryHubCopy,
+  topicDisplaySubtitle,
   topicHref,
   topicSearchBlob,
   visibleResourceTopics,
@@ -27,7 +28,7 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
     typeKey: topic.resourceTypeKey,
     type: topic.resourceType[locale],
     title: topic.title[locale],
-    subtitle: topic.subtitle[locale],
+    subtitle: topicDisplaySubtitle(locale, topic),
     summary: topic.summary[locale],
     coverImage: topic.coverImage,
     coverImageAlt: topic.coverImageAlt[locale],
@@ -101,7 +102,7 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
             <h2>{card.title}</h2>
             {card.subtitle && <p class="resource-hub-subtitle">{card.subtitle}</p>}
             <p class="resource-hub-type">{card.type}</p>
-            <p class="resource-hub-summary">{card.summary}</p>
+            {card.summary && <p class="resource-hub-summary">{card.summary}</p>}
             {published ? (
               <span class="button primary resource-hub-cta">{copy.readOnline}</span>
             ) : (

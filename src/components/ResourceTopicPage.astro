@@ -4,14 +4,19 @@ import { getResources } from "@lib/cms";
 import { formatPdfSize } from "@lib/news";
 import {
   editionsForTopic,
+  libraryHubCopy,
   libraryHref,
   resourceTopicChrome,
+  topicDisplaySubtitle,
   type ResourceTopic
 } from "@data/resource-topics";
 import type { Locale } from "@data/site";
 
 const { locale, topic } = Astro.props as { locale: Locale; topic: ResourceTopic };
 const chrome = resourceTopicChrome[locale];
+const hubCopy = libraryHubCopy[locale];
+const subtitle = topicDisplaySubtitle(locale, topic);
+const body = topic.content[locale]?.trim() || "";
 const extra = (await getResources(locale)).map((item) => ({
   slug: item.slug,
   title: item.title,
@@ -37,8 +42,8 @@ const published = topic.status === "published";
     <div class="resource-topic-intro">
       <p class="section-kicker">{topic.resourceType[locale]}</p>
       <h1>{topic.title[locale]}</h1>
-      <p class="resource-topic-subtitle">{topic.subtitle[locale]}</p>
-      <p class="resource-topic-body">{topic.content[locale]}</p>
+      {subtitle && <p class="resource-topic-subtitle">{subtitle}</p>}
+      {body && <p class="resource-topic-body">{body}</p>}
       <a class="text-link" href={libraryHref(locale)}>{chrome.back}</a>
     </div>
   </header>
@@ -80,7 +85,7 @@ const published = topic.status === "published";
   )}
 
   {!published && (
-    <p class="resource-topic-soon" role="status">{topic.summary[locale]}</p>
+    <p class="resource-topic-soon" role="status">{topic.summary[locale] || hubCopy.comingSoon}</p>
   )}
 </main>
 
