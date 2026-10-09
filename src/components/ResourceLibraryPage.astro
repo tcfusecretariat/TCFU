@@ -8,16 +8,11 @@ import {
   visibleResourceTopics,
   type ResourceTopic
 } from "@data/resource-topics";
-import { fallbackResources } from "@data/resources";
 
 const { locale } = Astro.props as { locale: Locale };
 const copy = libraryHubCopy[locale];
 const topics = visibleResourceTopics();
 const hasVideo = topics.some((topic) => topic.resourceTypeKey === "video" && topic.status === "published");
-const languageOptions = Array.from(
-  new Set(fallbackResources[locale].flatMap((item) => (item.language ? [item.language] : [])))
-);
-const themeOptions = Array.from(new Set(topics.flatMap((topic) => topic.themes[locale])));
 const cards = topics.map((topic) => serializeCard(locale, topic));
 
 function serializeCard(locale: Locale, topic: ResourceTopic) {
@@ -32,9 +27,6 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
     summary: topic.summary[locale],
     coverImage: topic.coverImage,
     coverImageAlt: topic.coverImageAlt[locale],
-    languages: topic.slug === "qunshu-zhiyao" ? fallbackResources[locale].map((item) => item.language) : [],
-    themes: topic.themes[locale],
-    publishDate: topic.publishDate,
     search: topicSearchBlob(locale, topic)
   };
 }
@@ -57,36 +49,6 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
       <button type="button" class="is-active" data-type="all">{copy.filterAll}</button>
       <button type="button" data-type="ebook">{copy.filterEbook}</button>
       {hasVideo && <button type="button" data-type="video">{copy.filterVideo}</button>}
-    </div>
-    <div class="resource-hub-filters">
-      {languageOptions.length > 0 && (
-        <label>
-          <span class="sr-only">{copy.language}</span>
-          <select data-resource-language>
-            <option value="">{copy.language}</option>
-            {languageOptions.map((language) => (
-              <option value={language}>{language}</option>
-            ))}
-          </select>
-        </label>
-      )}
-      {themeOptions.length > 0 && (
-        <label>
-          <span class="sr-only">{copy.theme}</span>
-          <select data-resource-theme>
-            <option value="">{copy.theme}</option>
-            {themeOptions.map((theme) => (
-              <option value={theme}>{theme}</option>
-            ))}
-          </select>
-        </label>
-      )}
-      <label>
-        <span class="sr-only">{copy.sort}</span>
-        <select data-resource-sort>
-          <option value="newest">{copy.sortNewest}</option>
-        </select>
-      </label>
     </div>
   </section>
 
@@ -119,10 +81,7 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
           data-resource-card
           data-status={card.status}
           data-type={card.typeKey}
-          data-languages={card.languages.join("|")}
-          data-themes={card.themes.join("|")}
           data-search={card.search}
-          data-date={card.publishDate}
         >
           {inner}
         </a>
@@ -132,10 +91,7 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
           data-resource-card
           data-status={card.status}
           data-type={card.typeKey}
-          data-languages={card.languages.join("|")}
-          data-themes={card.themes.join("|")}
           data-search={card.search}
-          data-date={card.publishDate}
         >
           {inner}
         </article>
@@ -158,27 +114,19 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
     const form = document.querySelector("[data-resource-search]");
     const queryInput = document.querySelector("[data-resource-query]");
     const typeButtons = Array.from(document.querySelectorAll("[data-resource-types] button"));
-    const languageSelect = document.querySelector("[data-resource-language]");
-    const themeSelect = document.querySelector("[data-resource-theme]");
     const cards = Array.from(document.querySelectorAll("[data-resource-card]"));
     let activeType = "all";
 
     function applyFilters() {
       const query = (queryInput instanceof HTMLInputElement ? queryInput.value : "").trim().toLowerCase();
-      const language = languageSelect instanceof HTMLSelectElement ? languageSelect.value : "";
-      const theme = themeSelect instanceof HTMLSelectElement ? themeSelect.value : "";
 
       cards.forEach((card) => {
         if (!(card instanceof HTMLElement)) return;
         const search = (card.dataset.search || "").toLowerCase();
         const type = card.dataset.type || "";
-        const languages = (card.dataset.languages || "").split("|").filter(Boolean);
-        const themes = (card.dataset.themes || "").split("|").filter(Boolean);
         const typeOk = activeType === "all" || type === activeType;
         const queryOk = !query || search.includes(query);
-        const languageOk = !language || languages.includes(language);
-        const themeOk = !theme || themes.includes(theme);
-        card.hidden = !(typeOk && queryOk && languageOk && themeOk);
+        card.hidden = !(typeOk && queryOk);
       });
     }
 
@@ -187,8 +135,6 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
       applyFilters();
     });
     queryInput?.addEventListener("input", applyFilters);
-    languageSelect?.addEventListener("change", applyFilters);
-    themeSelect?.addEventListener("change", applyFilters);
     typeButtons.forEach((button) => {
       button.addEventListener("click", () => {
         activeType = button.getAttribute("data-type") || "all";
