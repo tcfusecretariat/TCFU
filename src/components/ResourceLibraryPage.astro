@@ -12,7 +12,6 @@ import {
 const { locale } = Astro.props as { locale: Locale };
 const copy = libraryHubCopy[locale];
 const topics = visibleResourceTopics();
-const hasVideo = topics.some((topic) => topic.resourceTypeKey === "video" && topic.status === "published");
 const cards = topics.map((topic) => serializeCard(locale, topic));
 
 function serializeCard(locale: Locale, topic: ResourceTopic) {
@@ -20,7 +19,6 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
     slug: topic.slug,
     status: topic.status,
     href: topic.status === "published" ? topicHref(locale, topic.slug) : "",
-    typeKey: topic.resourceTypeKey,
     type: topic.resourceType[locale],
     title: topic.title[locale],
     subtitle: topicDisplaySubtitle(locale, topic),
@@ -41,14 +39,6 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
       <input id="resource-hub-query" name="q" type="search" placeholder={copy.searchPlaceholder} autocomplete="off" data-resource-query />
       <button class="button primary" type="submit">{copy.searchSubmit}</button>
     </form>
-  </section>
-
-  <section class="resource-hub-toolbar" aria-label={copy.filterAll}>
-    <div class="resource-hub-types" role="tablist" data-resource-types>
-      <button type="button" class="is-active" data-type="all">{copy.filterAll}</button>
-      <button type="button" data-type="ebook">{copy.filterEbook}</button>
-      {hasVideo && <button type="button" data-type="video">{copy.filterVideo}</button>}
-    </div>
   </section>
 
   <section class="resource-hub-grid" data-resource-grid>
@@ -78,8 +68,6 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
           class="resource-hub-card"
           href={card.href}
           data-resource-card
-          data-status={card.status}
-          data-type={card.typeKey}
           data-search={card.search}
         >
           {inner}
@@ -88,8 +76,6 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
         <article
           class="resource-hub-card is-soon"
           data-resource-card
-          data-status={card.status}
-          data-type={card.typeKey}
           data-search={card.search}
         >
           {inner}
@@ -112,9 +98,7 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
 
     const form = document.querySelector("[data-resource-search]");
     const queryInput = document.querySelector("[data-resource-query]");
-    const typeButtons = Array.from(document.querySelectorAll("[data-resource-types] button"));
     const cards = Array.from(document.querySelectorAll("[data-resource-card]"));
-    let activeType = "all";
 
     function applyFilters() {
       const query = (queryInput instanceof HTMLInputElement ? queryInput.value : "").trim().toLowerCase();
@@ -122,10 +106,7 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
       cards.forEach((card) => {
         if (!(card instanceof HTMLElement)) return;
         const search = (card.dataset.search || "").toLowerCase();
-        const type = card.dataset.type || "";
-        const typeOk = activeType === "all" || type === activeType;
-        const queryOk = !query || search.includes(query);
-        card.hidden = !(typeOk && queryOk);
+        card.hidden = Boolean(query) && !search.includes(query);
       });
     }
 
@@ -134,12 +115,5 @@ function serializeCard(locale: Locale, topic: ResourceTopic) {
       applyFilters();
     });
     queryInput?.addEventListener("input", applyFilters);
-    typeButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        activeType = button.getAttribute("data-type") || "all";
-        typeButtons.forEach((item) => item.classList.toggle("is-active", item === button));
-        applyFilters();
-      });
-    });
   })();
 </script>

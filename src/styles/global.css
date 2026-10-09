@@ -1130,39 +1130,6 @@ h3 {
   box-shadow: none;
 }
 
-.resource-hub-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px 24px;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 18px 24px 8px;
-  border-bottom: 1px solid rgba(183, 154, 103, 0.28);
-}
-
-.resource-hub-types {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-}
-
-.resource-hub-types button {
-  padding: 6px 0;
-  border: 0;
-  background: none;
-  color: var(--muted);
-  font: inherit;
-  cursor: pointer;
-  box-shadow: none;
-}
-
-.resource-hub-types button.is-active {
-  color: var(--ink);
-  border-bottom: 1px solid var(--champagne-deep);
-}
-
 .resource-hub-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2468,11 +2435,6 @@ html[lang="zh-Hant"] .governance-role {
 
   .resource-hub-search {
     flex-direction: column;
-  }
-
-  .resource-hub-toolbar {
-    flex-direction: column;
-    align-items: flex-start;
   }
 
   .resource-hub-grid,
