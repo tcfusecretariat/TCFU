@@ -1089,20 +1089,10 @@ h3 {
 }
 
 .resource-hub-hero .section-kicker {
+  margin: 0 auto 20px;
   text-align: center;
   letter-spacing: 0.18em;
-}
-
-.resource-hub-hero h1 {
-  margin: 0 auto 14px;
-  color: var(--ink);
-  font-size: clamp(36px, 5vw, 58px);
-  font-weight: 400;
-  line-height: 1.2;
-  text-wrap: balance;
-  overflow-wrap: normal;
-  word-break: normal;
-  hyphens: none;
+  font-size: clamp(18px, 1.6vw, 24px);
 }
 
 .resource-hub-lede {
