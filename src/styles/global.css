@@ -1237,6 +1237,9 @@ h3 {
   margin: 0 0 6px;
   font-size: clamp(24px, 2.4vw, 32px);
   font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: normal;
+  text-transform: none;
   overflow-wrap: normal;
   word-break: normal;
   hyphens: none;
@@ -1301,6 +1304,11 @@ h3 {
   max-width: 1180px;
   margin: 0 auto;
   padding: clamp(28px, 4vw, 48px) 24px clamp(36px, 5vw, 64px);
+}
+
+.resource-topic-intro h1 {
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .resource-topic-cover {

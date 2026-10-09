@@ -190,7 +190,7 @@ export const resourceTopics: ResourceTopic[] = [
     },
     title: {
       zh: "群書治要",
-      en: "THE GOVERNING PRINCIPLES OF ANCIENT CHINA",
+      en: "The Governing Principles of Ancient China",
       fr: "Les Principes de Gouvernance de la Chine Ancienne"
     },
     subtitle: {
@@ -200,7 +200,7 @@ export const resourceTopics: ResourceTopic[] = [
     },
     summary: {
       zh: "《群書治要》是基金會推動傳統智慧全球共享的重要出版與翻譯計劃。",
-      en: "THE GOVERNING PRINCIPLES OF ANCIENT CHINA is a flagship translation and publishing initiative for sharing classical wisdom globally.",
+      en: "The Governing Principles of Ancient China is a flagship translation and publishing initiative for sharing classical wisdom globally.",
       fr: "Les Principes de Gouvernance de la Chine Ancienne constituent un projet phare de traduction et d’édition pour partager la sagesse classique à l’échelle mondiale."
     },
     content: {
