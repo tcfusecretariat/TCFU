@@ -267,7 +267,7 @@ export const resourceTopics: ResourceTopic[] = [
       en: "",
       fr: ""
     },
-    coverImage: "/assets/resources/traditional-culture-inclusive-education.jpg",
+    coverImage: "/assets/resources/traditional-culture-inclusive-education.png",
     coverImageAlt: {
       zh: "啟動核心源動力",
       en: "Ignite the vital spark of the heart",

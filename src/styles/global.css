@@ -1224,6 +1224,7 @@ h3 {
   width: min(100%, 210px);
   height: auto;
   object-fit: contain;
+  background: transparent;
 }
 
 .resource-hub-copy {
