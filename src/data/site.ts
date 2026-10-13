@@ -16,7 +16,7 @@ export const siteSettings = {
   helloAssoUrl: "https://www.helloasso.com/associations/traditional-culture-foundation-at-unesco",
   logo: "/assets/tcf-logo.svg?v=9",
   logoMark: "/assets/tcf-logo-mark.png",
-  calligraphy: "/assets/calligraphy-qixin-src.png",
+  calligraphy: "/assets/calligraphy-qixin-black.png",
   heroArabicTagline: "/assets/hero-arabic-tagline.png",
   heroArabicTaglineAlt: "أشعل الشرارة في القلب",
   defaultOgImage: "/assets/events/international-peace-conference-2025-poster.jpg"
