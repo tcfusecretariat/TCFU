@@ -380,7 +380,7 @@ html[lang="zh-Hant"] .nav-links {
   margin: 0;
   pointer-events: none;
   opacity: 1;
-  mix-blend-mode: normal;
+  mix-blend-mode: multiply;
   filter: none;
   animation: hero-calligraphy-reveal 1.3s var(--ease) 0.45s both;
 }
