@@ -374,7 +374,7 @@ html[lang="zh-Hant"] .nav-links {
   z-index: 1;
   grid-area: 1 / 1;
   display: block;
-  width: 88%;
+  width: 100%;
   max-width: none;
   height: auto;
   margin: 0;
@@ -2371,7 +2371,7 @@ html[lang="zh-Hant"] .governance-role {
   }
 
   .hero-calligraphy {
-    width: 88%;
+    width: 100%;
   }
 
   .pillar-grid,
@@ -2412,7 +2412,7 @@ html[lang="zh-Hant"] .governance-role {
   }
 
   .hero-calligraphy {
-    width: 88%;
+    width: 100%;
   }
 
   .hero-translations {
