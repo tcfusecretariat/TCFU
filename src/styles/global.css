@@ -374,14 +374,15 @@ html[lang="zh-Hant"] .nav-links {
   z-index: 1;
   grid-area: 1 / 1;
   display: block;
-  width: 100%;
+  width: 82%;
   max-width: none;
   height: auto;
   margin: 0;
   pointer-events: none;
   opacity: 1;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
   filter: none;
+  object-fit: contain;
   animation: hero-calligraphy-reveal 1.3s var(--ease) 0.45s both;
 }
 
@@ -2370,7 +2371,7 @@ html[lang="zh-Hant"] .governance-role {
   }
 
   .hero-calligraphy {
-    width: 100%;
+    width: 82%;
   }
 
   .pillar-grid,
@@ -2411,7 +2412,7 @@ html[lang="zh-Hant"] .governance-role {
   }
 
   .hero-calligraphy {
-    width: 100%;
+    width: 82%;
   }
 
   .hero-translations {
