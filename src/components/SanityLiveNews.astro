@@ -89,12 +89,22 @@ const chrome = {
     return blocks
       .map((block) => {
         if (block?._type === "image") return "";
+        const markDefs = block?.markDefs || [];
         const text = (block?.children || [])
           .map((child) => {
-            const value = escapeHtml(child?.text || "");
+            let value = escapeHtml(child?.text || "");
             if (!value) return "";
-            if ((child?.marks || []).includes("em")) return `<em>${value}</em>`;
-            if ((child?.marks || []).includes("strong")) return `<strong>${value}</strong>`;
+            const marks = child?.marks || [];
+            if (marks.includes("em")) value = `<em>${value}</em>`;
+            if (marks.includes("strong")) value = `<strong>${value}</strong>`;
+            for (const mark of marks) {
+              const def = markDefs.find((item) => item?._key === mark);
+              if (def?._type === "link" && def.href) {
+                const href = escapeHtml(def.href);
+                const external = /^https?:\/\//.test(def.href);
+                value = `<a href="${href}"${external ? ' target="_blank" rel="noopener"' : ""}>${value}</a>`;
+              }
+            }
             return value;
           })
           .join("");
@@ -174,7 +184,8 @@ const chrome = {
       ? `<time class="news-sidebar-date" datetime="${escapeHtml(article.publishDate)}">${escapeHtml(formatDate(article.publishDate))}</time>`
       : "";
 
-    return `<main class="news-article-page editorial-reveal" data-sanity-news-article><div class="news-article-shell"><nav class="news-breadcrumb"><a href="/${locale}/">${escapeHtml(chrome.home)}</a><span aria-hidden="true">›</span><a href="/${locale}/news/">${escapeHtml(chrome.news)}</a><span aria-hidden="true">›</span><span>${crumb}</span></nav><header class="news-article-masthead"><p class="news-article-brand">${escapeHtml(chrome.news)}</p><p class="news-article-tagline">${escapeHtml(chrome.tagline)}</p></header>${bannerHtml}<div class="news-article-layout"><article class="news-article-main">${article.category ? `<p class="news-article-category">${escapeHtml(article.category)}</p>` : ""}<h1 class="news-article-title">${escapeHtml(article.title)}</h1>${article.subtitle ? `<p class="news-article-subtitle">${escapeHtml(article.subtitle)}</p>` : ""}${article.body ? `<div class="portable-body">${renderPortableBody(article.body)}</div>` : ""}${video}</article><aside class="news-article-sidebar">${date}${location}${eventDate}${pdf}</aside></div></div></main>`;
+    const titleHtml = escapeHtml(article.title || "").split("\n").join("<br>");
+    return `<main class="news-article-page editorial-reveal" data-sanity-news-article><div class="news-article-shell"><nav class="news-breadcrumb"><a href="/${locale}/">${escapeHtml(chrome.home)}</a><span aria-hidden="true">›</span><a href="/${locale}/news/">${escapeHtml(chrome.news)}</a><span aria-hidden="true">›</span><span>${crumb}</span></nav><header class="news-article-masthead"><p class="news-article-brand">${escapeHtml(chrome.news)}</p><p class="news-article-tagline">${escapeHtml(chrome.tagline)}</p></header>${bannerHtml}<div class="news-article-layout"><article class="news-article-main">${article.category ? `<p class="news-article-category">${escapeHtml(article.category)}</p>` : ""}<h1 class="news-article-title">${titleHtml}</h1>${article.subtitle ? `<p class="news-article-subtitle">${escapeHtml(article.subtitle)}</p>` : ""}${article.body ? `<div class="portable-body">${renderPortableBody(article.body)}</div>` : ""}${video}</article><aside class="news-article-sidebar">${date}${location}${eventDate}${pdf}</aside></div></div></main>`;
   }
 
   async function hydrateSanityNews() {

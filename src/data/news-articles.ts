@@ -41,6 +41,19 @@ function emBlock(
   };
 }
 
+function sourceBlock(key: string, before: string, label: string, href: string) {
+  return {
+    _type: "block" as const,
+    _key: key,
+    style: "normal",
+    markDefs: [{ _key: `${key}link`, _type: "link", href }],
+    children: [
+      { _type: "span" as const, _key: `${key}a`, marks: [], text: before },
+      { _type: "span" as const, _key: `${key}b`, marks: [`${key}link`], text: label }
+    ]
+  };
+}
+
 const sharedFiles = {
   slug: CONCEPT_NOTE_SLUG,
   publishDate: "2026-09-22T00:00:00.000Z",
@@ -211,8 +224,112 @@ const conceptNoteFr = {
   ]
 };
 
-export const fallbackNews: Record<Locale, Array<typeof conceptNoteEn | typeof conceptNoteZh | typeof conceptNoteFr>> = {
-  en: [conceptNoteEn],
-  zh: [conceptNoteZh],
-  fr: [conceptNoteFr]
+const LI_BAI_SLUG = "li-bai-poetry-calligraphy-cooperation";
+const LI_BAI_SOURCE_URL =
+  "https://www.facebook.com/HKPlusMedia/posts/pfbid0fz66vmU7x3oxunE3ZpbY6E4YpBJghgeNFZ3da2DhrqMEMwxBo1p5nbP1gSrZw3otl";
+
+const liBaiShared = {
+  slug: LI_BAI_SLUG,
+  publishDate: "2026-11-24T00:00:00.000Z"
+};
+
+const liBaiZh = {
+  ...liBaiShared,
+  title: "本基金會與李白基金會簽署合作協議\n共同推動中國詩詞與書法傳統文化國際交流",
+  category: "媒體報導",
+  summary:
+    "本基金會與李白國際文化交流基金會簽署合作框架協議，共同推動中國詩詞與書法的傳承、推廣及國際交流。",
+  breadcrumbLabel: "與李白基金會簽署合作協議",
+  seoTitle: "本基金會與李白基金會簽署合作協議",
+  seoDescription:
+    "本基金會與李白國際文化交流基金會有限公司簽署《中國詩詞與書法傳統文化國際推廣合作框架協議》，就詩詞與書法的傳承、推廣及國際交流建立合作框架。",
+  body: [
+    block(
+      "p1",
+      "本基金會與李白國際文化交流基金會有限公司簽署《中國詩詞與書法傳統文化國際推廣合作框架協議》，就中國詩詞與書法的傳承、推廣及國際交流建立合作框架。"
+    ),
+    block(
+      "p2",
+      "根據協議，雙方將在學術研究、公共教育、展覽策劃及數字傳播等領域開展合作，並與海外學術機構、博物館及公眾分享中國詩詞與書法的文化內涵。"
+    ),
+    block(
+      "p3",
+      "雙方計劃策劃李白書法與詩詞主題展覽，運用高精度複製品、數字影像及學術圖錄等媒介，並開發多語種數字內容，擴大海外公眾接觸相關文化資源的機會。"
+    ),
+    block(
+      "p4",
+      "下一階段，雙方將就合作內容及實施細節進一步磋商，推動正式合約的簽署和相關項目的落實。雙方期望透過合作，為文化工作者、藝術愛好者及年輕一代提供更多參與機會，促進跨文化對話與相互理解。"
+    ),
+    sourceBlock("p5", "消息來源：", "央視香港", LI_BAI_SOURCE_URL)
+  ]
+};
+
+const liBaiEn = {
+  ...liBaiShared,
+  title:
+    "Foundation Signs Cooperation Agreement with the Li Bai Foundation\nto Advance International Exchange of Chinese Poetry and Calligraphy",
+  category: "Media",
+  summary:
+    "The Foundation has signed a cooperation framework agreement with the Li Bai International Cultural Exchange Foundation to promote Chinese poetry and calligraphy worldwide.",
+  breadcrumbLabel: "Cooperation Agreement with the Li Bai Foundation",
+  seoTitle: "Foundation Signs Cooperation Agreement with the Li Bai Foundation",
+  seoDescription:
+    "The Foundation and the Li Bai International Cultural Exchange Foundation Limited have signed a framework agreement on the international promotion of Chinese poetry and calligraphy.",
+  body: [
+    block(
+      "p1",
+      "The Foundation has signed a Framework Agreement on the International Promotion of Chinese Poetry and Calligraphy Traditional Culture with the Li Bai International Cultural Exchange Foundation Limited, establishing a cooperation framework for the inheritance, promotion, and international exchange of Chinese poetry and calligraphy."
+    ),
+    block(
+      "p2",
+      "Under the agreement, the two parties will cooperate in academic research, public education, exhibition planning, and digital communication, and will share the cultural meaning of Chinese poetry and calligraphy with overseas academic institutions, museums, and the public."
+    ),
+    block(
+      "p3",
+      "The two parties plan to curate exhibitions on Li Bai calligraphy and poetry, using high-precision reproductions, digital images, and academic catalogues, and to develop multilingual digital content that widens overseas public access to these cultural resources."
+    ),
+    block(
+      "p4",
+      "In the next stage, the two parties will further discuss the substance of the cooperation and the details of implementation, with a view to signing a formal contract and carrying out related projects. Through this cooperation, both sides hope to offer more opportunities for cultural workers, art lovers, and younger generations to take part, and to foster intercultural dialogue and mutual understanding."
+    ),
+    sourceBlock("p5", "Source: ", "CCTV Hong Kong", LI_BAI_SOURCE_URL)
+  ]
+};
+
+const liBaiFr = {
+  ...liBaiShared,
+  title:
+    "La Fondation signe un accord de coopération avec la Fondation Li Bai\npour promouvoir les échanges internationaux autour de la poésie et de la calligraphie chinoises",
+  category: "Médias",
+  summary:
+    "La Fondation a signé un accord-cadre de coopération avec la Li Bai International Cultural Exchange Foundation afin de promouvoir la poésie et la calligraphie chinoises dans le monde.",
+  breadcrumbLabel: "Accord de coopération avec la Fondation Li Bai",
+  seoTitle: "La Fondation signe un accord de coopération avec la Fondation Li Bai",
+  seoDescription:
+    "La Fondation et la Li Bai International Cultural Exchange Foundation Limited ont signé un accord-cadre sur la promotion internationale de la poésie et de la calligraphie chinoises.",
+  body: [
+    block(
+      "p1",
+      "La Fondation a signé un Accord-cadre de coopération pour la promotion internationale de la poésie et de la calligraphie chinoises avec la Li Bai International Cultural Exchange Foundation Limited, établissant un cadre de coopération pour la transmission, la promotion et les échanges internationaux de la poésie et de la calligraphie chinoises."
+    ),
+    block(
+      "p2",
+      "Aux termes de cet accord, les deux parties coopéreront dans les domaines de la recherche universitaire, de l'éducation du public, de la conception d'expositions et de la diffusion numérique, et partageront le sens culturel de la poésie et de la calligraphie chinoises avec des institutions académiques, des musées et le public à l'étranger."
+    ),
+    block(
+      "p3",
+      "Les deux parties prévoient de concevoir des expositions consacrées à la calligraphie et à la poésie de Li Bai, en recourant à des reproductions de haute précision, à l'image numérique et à des catalogues savants, et de développer des contenus numériques multilingues afin d'élargir l'accès du public étranger à ces ressources culturelles."
+    ),
+    block(
+      "p4",
+      "Dans une prochaine étape, les deux parties poursuivront les discussions sur le contenu de la coopération et les modalités de mise en œuvre, en vue de la signature d'un contrat formel et de la réalisation des projets concernés. Par cette coopération, elles souhaitent offrir davantage d'occasions de participation aux acteurs culturels, aux amateurs d'art et aux jeunes générations, et favoriser le dialogue interculturel et la compréhension mutuelle."
+    ),
+    sourceBlock("p5", "Source : ", "CCTV Hong Kong", LI_BAI_SOURCE_URL)
+  ]
+};
+
+export const fallbackNews: Record<Locale, Array<(typeof conceptNoteEn | typeof conceptNoteZh | typeof conceptNoteFr | typeof liBaiEn | typeof liBaiZh | typeof liBaiFr)>> = {
+  en: [liBaiEn, conceptNoteEn],
+  zh: [liBaiZh, conceptNoteZh],
+  fr: [liBaiFr, conceptNoteFr]
 };
