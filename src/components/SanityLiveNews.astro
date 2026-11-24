@@ -31,9 +31,9 @@ const apiUrl =
 
 const dateLocale = locale === "zh" ? "zh-Hant" : locale;
 const chrome = {
-  zh: { home: "首頁", news: "最新動態", tagline: "以故事傳遞更和平的世界", download: "下載", video: "影片", pdf: "附件 (PDF)" },
-  en: { home: "Home", news: "News", tagline: "Sharing stories for a more peaceful world", download: "Download", video: "Video", pdf: "Attachment (PDF)" },
-  fr: { home: "Accueil", news: "Actualités", tagline: "Partager des histoires pour un monde plus pacifique", download: "Télécharger", video: "Vidéo", pdf: "Pièce jointe (PDF)" }
+  zh: { home: "首頁", news: "最新動態", download: "下載", video: "影片", pdf: "附件 (PDF)" },
+  en: { home: "Home", news: "News", download: "Download", video: "Video", pdf: "Attachment (PDF)" },
+  fr: { home: "Accueil", news: "Actualités", download: "Télécharger", video: "Vidéo", pdf: "Pièce jointe (PDF)" }
 }[locale];
 ---
 
@@ -185,7 +185,7 @@ const chrome = {
       : "";
 
     const titleHtml = escapeHtml(article.title || "").split("\n").join("<br>");
-    return `<main class="news-article-page editorial-reveal" data-sanity-news-article><div class="news-article-shell"><nav class="news-breadcrumb"><a href="/${locale}/">${escapeHtml(chrome.home)}</a><span aria-hidden="true">›</span><a href="/${locale}/news/">${escapeHtml(chrome.news)}</a><span aria-hidden="true">›</span><span>${crumb}</span></nav><header class="news-article-masthead"><p class="news-article-brand">${escapeHtml(chrome.news)}</p><p class="news-article-tagline">${escapeHtml(chrome.tagline)}</p></header>${bannerHtml}<div class="news-article-layout"><article class="news-article-main">${article.category ? `<p class="news-article-category">${escapeHtml(article.category)}</p>` : ""}<h1 class="news-article-title">${titleHtml}</h1>${article.subtitle ? `<p class="news-article-subtitle">${escapeHtml(article.subtitle)}</p>` : ""}${article.body ? `<div class="portable-body">${renderPortableBody(article.body)}</div>` : ""}${video}</article><aside class="news-article-sidebar">${date}${location}${eventDate}${pdf}</aside></div></div></main>`;
+    return `<main class="news-article-page editorial-reveal" data-sanity-news-article><div class="news-article-shell"><nav class="news-breadcrumb"><a href="/${locale}/">${escapeHtml(chrome.home)}</a><span aria-hidden="true">›</span><a href="/${locale}/news/">${escapeHtml(chrome.news)}</a><span aria-hidden="true">›</span><span>${crumb}</span></nav><header class="news-article-masthead"><p class="news-article-brand">${escapeHtml(chrome.news)}</p></header>${bannerHtml}<div class="news-article-layout"><article class="news-article-main">${article.category ? `<p class="news-article-category">${escapeHtml(article.category)}</p>` : ""}<h1 class="news-article-title">${titleHtml}</h1>${article.subtitle ? `<p class="news-article-subtitle">${escapeHtml(article.subtitle)}</p>` : ""}${article.body ? `<div class="portable-body">${renderPortableBody(article.body)}</div>` : ""}${video}</article><aside class="news-article-sidebar">${date}${location}${eventDate}${pdf}</aside></div></div></main>`;
   }
 
   async function hydrateSanityNews() {

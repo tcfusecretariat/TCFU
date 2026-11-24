@@ -17,19 +17,16 @@ const chrome = {
   zh: {
     home: "首頁",
     news: "最新動態",
-    tagline: "以故事傳遞更和平的世界",
     download: "下載"
   },
   en: {
     home: "Home",
     news: "News",
-    tagline: "Sharing stories for a more peaceful world",
     download: "Download"
   },
   fr: {
     home: "Accueil",
     news: "Actualités",
-    tagline: "Partager des histoires pour un monde plus pacifique",
     download: "Télécharger"
   }
 }[locale];
@@ -71,7 +68,6 @@ const downloads = article
 
       <header class="news-article-masthead">
         <p class="news-article-brand">{chrome.news}</p>
-        <p class="news-article-tagline">{chrome.tagline}</p>
       </header>
 
       {hasBanner && (

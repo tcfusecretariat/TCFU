@@ -2902,26 +2902,6 @@ html[lang="zh-Hant"] .about-brochure .book-toolbar button {
   text-wrap: balance;
 }
 
-.news-article-tagline {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 14px 0 0;
-  color: var(--soft-gold);
-  font-family: var(--locale-font);
-  font-size: clamp(10px, 0.95vw, 12px);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
-.news-article-tagline::before {
-  content: "";
-  width: 42px;
-  height: 1px;
-  background: var(--soft-gold);
-  flex: 0 0 auto;
-}
-
 .news-editorial-banner {
   position: relative;
   overflow: visible;
@@ -3217,10 +3197,6 @@ html[lang="zh-Hant"] .about-brochure .book-toolbar button {
 
   .news-article-brand {
     font-size: clamp(36px, 12vw, 48px);
-  }
-
-  .news-article-tagline {
-    letter-spacing: 0.12em;
   }
 
   .news-editorial-banner {
