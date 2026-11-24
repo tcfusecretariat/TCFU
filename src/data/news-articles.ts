@@ -236,6 +236,7 @@ const conceptNoteFr = {
 
 const LI_BAI_SLUG = "li-bai-poetry-calligraphy-cooperation";
 const LI_BAI_SOURCE_URL = "https://www.facebook.com/share/p/1BxofD8wQr/";
+const LI_BAI_MIRROR_URL = "https://www.52hrtt.com/ar/n/w/info/D1795418934148";
 const LI_BAI_PHOTO_SIGNING = "/assets/news/li-bai-cooperation-signing.jpg";
 const LI_BAI_PHOTO_TALKS = "/assets/news/li-bai-cooperation-talks.jpg";
 const LI_BAI_PHOTO_PORTRAIT = "/assets/news/li-bai-cooperation-signing-portrait.jpg";
@@ -275,7 +276,8 @@ const liBaiZh = {
       "p4",
       "雙方表示，將以此次簽約為起點，秉持開放包容、互學互鑒的精神，深耕學術研究、公共教育與數字傳播，讓中國詩詞與書法在多元文明對話中持續煥發時代光彩。"
     ),
-    sourceBlock("p5", "新聞報導：", "央視報導", LI_BAI_SOURCE_URL)
+    sourceBlock("p5", "新聞報導：", "央視報導", LI_BAI_SOURCE_URL),
+    sourceBlock("p6", "", "鏡報報導", LI_BAI_MIRROR_URL)
   ]
 };
 
@@ -320,7 +322,8 @@ const liBaiEn = {
       "p4",
       "Both parties said they would take this signing as a starting point, uphold the spirit of openness, inclusiveness, and mutual learning, and deepen academic research, public education, and digital communication, so that Chinese poetry and calligraphy continue to shine in dialogue among diverse civilisations."
     ),
-    sourceBlock("p5", "News report: ", "CCTV", LI_BAI_SOURCE_URL)
+    sourceBlock("p5", "News report: ", "CCTV", LI_BAI_SOURCE_URL),
+    sourceBlock("p6", "", "Jingbao", LI_BAI_MIRROR_URL)
   ]
 };
 
@@ -369,7 +372,8 @@ const liBaiFr = {
       "p4",
       "Les deux parties ont indiqué qu'elles prendraient cette signature pour point de départ, dans un esprit d'ouverture, d'inclusivité et d'apprentissage mutuel, pour approfondir la recherche universitaire, l'éducation du public et la diffusion numérique, afin que la poésie et la calligraphie chinoises continuent de rayonner dans le dialogue des civilisations."
     ),
-    sourceBlock("p5", "Reportage : ", "CCTV", LI_BAI_SOURCE_URL)
+    sourceBlock("p5", "Reportage : ", "CCTV", LI_BAI_SOURCE_URL),
+    sourceBlock("p6", "", "Jingbao", LI_BAI_MIRROR_URL)
   ]
 };
 
