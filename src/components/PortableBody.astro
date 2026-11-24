@@ -25,6 +25,8 @@ type Block = {
   children?: SpanChild[];
   markDefs?: MarkDef[];
   alt?: string;
+  src?: string;
+  layout?: string;
 };
 
 const { value = [], locale } = Astro.props as { value?: Block[]; locale?: Locale };
@@ -105,7 +107,14 @@ for (const block of value) {
     const block = node.block;
     if (block._type === "image") {
       const src = imageSrc(block, 1200);
-      return src ? <img src={src} alt={block.alt || ""} loading="lazy" decoding="async" /> : null;
+      if (!src) return null;
+      const figureClass =
+        block.layout === "portrait" ? "news-article-figure news-article-figure-portrait" : "news-article-figure";
+      return (
+        <figure class={figureClass}>
+          <img src={src} alt={block.alt || ""} loading="lazy" decoding="async" />
+        </figure>
+      );
     }
     if (block._type !== "block") return null;
 

@@ -35,6 +35,7 @@ function eventKickerText(locale: Locale, cmsValue: string | undefined, fallback:
 type ImageValue = {
   alt?: string;
   asset?: unknown;
+  src?: string;
 };
 
 export type CmsSummary = {
@@ -146,7 +147,9 @@ function detailQuery(kind: CmsKind) {
 }
 
 export function imageSrc(image?: ImageValue, width = 1200) {
-  if (!image || !image.asset) return "";
+  if (!image) return "";
+  if (image.src) return image.src;
+  if (!image.asset) return "";
   try {
     return imageUrl(image).width(width).auto("format").fit("max").url();
   } catch {

@@ -88,7 +88,13 @@ const chrome = {
     if (!Array.isArray(blocks) || blocks.length === 0) return "";
     return blocks
       .map((block) => {
-        if (block?._type === "image") return "";
+        if (block?._type === "image") {
+          const src = block.src || "";
+          if (!src) return "";
+          const figureClass =
+            block.layout === "portrait" ? "news-article-figure news-article-figure-portrait" : "news-article-figure";
+          return `<figure class="${figureClass}"><img src="${escapeHtml(src)}" alt="${escapeHtml(block.alt || "")}" loading="lazy" decoding="async"></figure>`;
+        }
         const markDefs = block?.markDefs || [];
         const text = (block?.children || [])
           .map((child) => {
@@ -185,16 +191,7 @@ const chrome = {
       : "";
 
     const titleHtml = escapeHtml(article.title || "").split("\n").join("<br>");
-    const photos = Array.isArray(article.photos)
-      ? `<div class="news-article-photos">${article.photos
-          .filter((photo) => photo?.src)
-          .map(
-            (photo) =>
-              `<figure><img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt || "")}" loading="lazy" decoding="async"></figure>`
-          )
-          .join("")}</div>`
-      : "";
-    return `<main class="news-article-page editorial-reveal" data-sanity-news-article><div class="news-article-shell"><nav class="news-breadcrumb"><a href="/${locale}/">${escapeHtml(chrome.home)}</a><span aria-hidden="true">›</span><a href="/${locale}/news/">${escapeHtml(chrome.news)}</a><span aria-hidden="true">›</span><span>${crumb}</span></nav><header class="news-article-masthead"><p class="news-article-brand">${escapeHtml(chrome.news)}</p></header>${bannerHtml}<div class="news-article-layout"><article class="news-article-main">${article.category ? `<p class="news-article-category">${escapeHtml(article.category)}</p>` : ""}<h1 class="news-article-title">${titleHtml}</h1>${article.subtitle ? `<p class="news-article-subtitle">${escapeHtml(article.subtitle)}</p>` : ""}${photos}${article.body ? `<div class="portable-body">${renderPortableBody(article.body)}</div>` : ""}${video}</article><aside class="news-article-sidebar">${date}${location}${eventDate}${pdf}</aside></div></div></main>`;
+    return `<main class="news-article-page editorial-reveal" data-sanity-news-article><div class="news-article-shell"><nav class="news-breadcrumb"><a href="/${locale}/">${escapeHtml(chrome.home)}</a><span aria-hidden="true">›</span><a href="/${locale}/news/">${escapeHtml(chrome.news)}</a><span aria-hidden="true">›</span><span>${crumb}</span></nav><header class="news-article-masthead"><p class="news-article-brand">${escapeHtml(chrome.news)}</p></header>${bannerHtml}<div class="news-article-layout"><article class="news-article-main">${article.category ? `<p class="news-article-category">${escapeHtml(article.category)}</p>` : ""}<h1 class="news-article-title">${titleHtml}</h1>${article.subtitle ? `<p class="news-article-subtitle">${escapeHtml(article.subtitle)}</p>` : ""}${article.body ? `<div class="portable-body">${renderPortableBody(article.body)}</div>` : ""}${video}</article><aside class="news-article-sidebar">${date}${location}${eventDate}${pdf}</aside></div></div></main>`;
   }
 
   async function hydrateSanityNews() {
@@ -211,13 +208,24 @@ const chrome = {
           ? {
               ...(seedArticle || {}),
               ...result,
+              title:
+                Array.isArray(seedArticle?.body) &&
+                seedArticle.body.some((block) => block?._type === "image") &&
+                !(result.body || []).some((block) => block?._type === "image")
+                  ? seedArticle.title
+                  : result.title || seedArticle?.title,
+              body:
+                Array.isArray(seedArticle?.body) &&
+                seedArticle.body.some((block) => block?._type === "image") &&
+                !(result.body || []).some((block) => block?._type === "image")
+                  ? seedArticle.body
+                  : result.body || seedArticle?.body,
               pdfUrl: result.pdfUrl || seedArticle?.pdfUrl,
               pdfSize: result.pdfSize || seedArticle?.pdfSize,
               pdfLabel: result.pdfLabel || seedArticle?.pdfLabel,
               agendaPdfUrl: result.agendaPdfUrl || seedArticle?.agendaPdfUrl,
               agendaPdfSize: result.agendaPdfSize || seedArticle?.agendaPdfSize,
-              agendaPdfLabel: result.agendaPdfLabel || seedArticle?.agendaPdfLabel,
-              photos: result.photos?.length ? result.photos : seedArticle?.photos
+              agendaPdfLabel: result.agendaPdfLabel || seedArticle?.agendaPdfLabel
             }
           : seedArticle;
         if (!article) return;

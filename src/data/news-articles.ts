@@ -54,6 +54,16 @@ function sourceBlock(key: string, before: string, label: string, href: string) {
   };
 }
 
+function imageBlock(key: string, src: string, alt: string, layout: "landscape" | "portrait" = "landscape") {
+  return {
+    _type: "image" as const,
+    _key: key,
+    src,
+    alt,
+    layout
+  };
+}
+
 const sharedFiles = {
   slug: CONCEPT_NOTE_SLUG,
   publishDate: "2026-09-22T00:00:00.000Z",
@@ -225,142 +235,141 @@ const conceptNoteFr = {
 };
 
 const LI_BAI_SLUG = "li-bai-poetry-calligraphy-cooperation";
-const LI_BAI_SOURCE_URL =
-  "https://www.facebook.com/HKPlusMedia/posts/pfbid0fz66vmU7x3oxunE3ZpbY6E4YpBJghgeNFZ3da2DhrqMEMwxBo1p5nbP1gSrZw3otl";
+const LI_BAI_SOURCE_URL = "https://www.facebook.com/share/p/1BxofD8wQr/";
+const LI_BAI_PHOTO_SIGNING = "/assets/news/li-bai-cooperation-signing.jpg";
+const LI_BAI_PHOTO_TALKS = "/assets/news/li-bai-cooperation-talks.jpg";
+const LI_BAI_PHOTO_PORTRAIT = "/assets/news/li-bai-cooperation-signing-portrait.jpg";
 
 const liBaiShared = {
   slug: LI_BAI_SLUG,
-  publishDate: "2026-11-24T00:00:00.000Z"
-};
-
-const liBaiPhotos = {
-  zh: [
-    {
-      src: "/assets/news/li-bai-cooperation-talks.jpg",
-      alt: "本基金會與李白國際文化交流基金會舉行合作會談"
-    },
-    {
-      src: "/assets/news/li-bai-cooperation-signing.jpg",
-      alt: "本基金會與李白基金會簽署合作協議合影"
-    }
-  ],
-  en: [
-    {
-      src: "/assets/news/li-bai-cooperation-talks.jpg",
-      alt: "The Foundation and the Li Bai International Cultural Exchange Foundation hold a cooperation meeting"
-    },
-    {
-      src: "/assets/news/li-bai-cooperation-signing.jpg",
-      alt: "Signing ceremony of the cooperation agreement between the Foundation and the Li Bai Foundation"
-    }
-  ],
-  fr: [
-    {
-      src: "/assets/news/li-bai-cooperation-talks.jpg",
-      alt: "La Fondation et la Li Bai International Cultural Exchange Foundation tiennent une réunion de coopération"
-    },
-    {
-      src: "/assets/news/li-bai-cooperation-signing.jpg",
-      alt: "Cérémonie de signature de l'accord de coopération entre la Fondation et la Fondation Li Bai"
-    }
-  ]
+  publishDate: "2026-11-18T00:00:00.000Z"
 };
 
 const liBaiZh = {
   ...liBaiShared,
-  photos: liBaiPhotos.zh,
-  title: "本基金會與李白基金會簽署合作協議\n共同推動中國詩詞與書法傳統文化國際交流",
+  title: "《中國詩詞與書法傳統文化國際推廣合作框架協議》在香港簽署",
   category: "媒體報導",
   summary:
-    "本基金會與李白國際文化交流基金會簽署合作框架協議，共同推動中國詩詞與書法的傳承、推廣及國際交流。",
-  breadcrumbLabel: "與李白基金會簽署合作協議",
-  seoTitle: "本基金會與李白基金會簽署合作協議",
+    "我會與李白國際文化交流基金會有限公司在香港簽署《中國詩詞與書法傳統文化國際推廣合作框架協議》，共同推動中國詩詞與書法的國際學術研究、公共教育、展覽策劃與數字傳播。",
+  breadcrumbLabel: "合作框架協議在香港簽署",
+  seoTitle: "《中國詩詞與書法傳統文化國際推廣合作框架協議》在香港簽署",
   seoDescription:
-    "本基金會與李白國際文化交流基金會有限公司簽署《中國詩詞與書法傳統文化國際推廣合作框架協議》，就詩詞與書法的傳承、推廣及國際交流建立合作框架。",
+    "11月18日上午，我會與李白國際文化交流基金會有限公司在香港正式簽署《中國詩詞與書法傳統文化國際推廣合作框架協議》。",
   body: [
     block(
       "p1",
-      "本基金會與李白國際文化交流基金會有限公司簽署《中國詩詞與書法傳統文化國際推廣合作框架協議》，就中國詩詞與書法的傳承、推廣及國際交流建立合作框架。"
+      "11月18日上午，我會與李白國際文化交流基金會有限公司（簡稱「李白基金會」）在香港正式簽署《中國詩詞與書法傳統文化國際推廣合作框架協議》。中國書法於2009年被列入聯合國教科文組織人類非物質文化遺產代表作名錄。詩詞與書法是中華文明的精神標識，也是人類共同的文化財富。"
     ),
+    imageBlock("img1", LI_BAI_PHOTO_SIGNING, "我會與李白基金會簽署合作協議合影"),
     block(
       "p2",
-      "根據協議，雙方將在學術研究、公共教育、展覽策劃及數字傳播等領域開展合作，並與海外學術機構、博物館及公眾分享中國詩詞與書法的文化內涵。"
+      "根據協議，雙方將圍繞中國詩詞與書法的國際學術研究、公共教育、展覽策劃與數字傳播開展合作，重點面向絲綢之路沿線國家及「一帶一路」共建國家的學術機構、博物館與公眾。雙方將聯合策劃以高精度複製品、數字影像、學術圖錄為載體的李白書法與詩詞主題展覽，共同開發多語種數字內容，並優先增加面向絲綢之路沿線國家官方語言或通用語言的版本。"
     ),
+    imageBlock("img2", LI_BAI_PHOTO_TALKS, "我會與李白基金會舉行合作會談"),
     block(
       "p3",
-      "雙方計劃策劃李白書法與詩詞主題展覽，運用高精度複製品、數字影像及學術圖錄等媒介，並開發多語種數字內容，擴大海外公眾接觸相關文化資源的機會。"
+      "出席簽字儀式的有：我會中國區首席代表張忠華先生，李白基金會主席張欣先生、董事總經理蔡佳銘女士，以及港區全國政協委員、銅紫荊星章獲得者蔡榮星先生。蔡榮星先生長期服務香港社會、熱心文化公益，其親臨見證簽約，充分體現了香港各界對中華優秀傳統文化國際傳播事業的深切關注與鼎力支持。"
     ),
+    imageBlock("img3", LI_BAI_PHOTO_PORTRAIT, "李白基金會董事總經理蔡佳銘女士簽署合作協議", "portrait"),
     block(
       "p4",
-      "下一階段，雙方將就合作內容及實施細節進一步磋商，推動正式合約的簽署和相關項目的落實。雙方期望透過合作，為文化工作者、藝術愛好者及年輕一代提供更多參與機會，促進跨文化對話與相互理解。"
+      "雙方表示，將以此次簽約為起點，秉持開放包容、互學互鑒的精神，深耕學術研究、公共教育與數字傳播，讓中國詩詞與書法在多元文明對話中持續煥發時代光彩。"
     ),
-    sourceBlock("p5", "消息來源：", "央視香港", LI_BAI_SOURCE_URL)
+    sourceBlock("p5", "新聞報導：", "央視報導", LI_BAI_SOURCE_URL)
   ]
 };
 
 const liBaiEn = {
   ...liBaiShared,
-  photos: liBaiPhotos.en,
   title:
-    "Foundation Signs Cooperation Agreement with the Li Bai Foundation\nto Advance International Exchange of Chinese Poetry and Calligraphy",
+    "Framework Agreement on the International Promotion of Chinese Poetry and Calligraphy Traditional Culture Signed in Hong Kong",
   category: "Media",
   summary:
-    "The Foundation has signed a cooperation framework agreement with the Li Bai International Cultural Exchange Foundation to promote Chinese poetry and calligraphy worldwide.",
-  breadcrumbLabel: "Cooperation Agreement with the Li Bai Foundation",
-  seoTitle: "Foundation Signs Cooperation Agreement with the Li Bai Foundation",
+    "The Foundation and the Li Bai International Cultural Exchange Foundation Limited signed a framework agreement in Hong Kong on the international promotion of Chinese poetry and calligraphy.",
+  breadcrumbLabel: "Framework Agreement Signed in Hong Kong",
+  seoTitle:
+    "Framework Agreement on the International Promotion of Chinese Poetry and Calligraphy Traditional Culture Signed in Hong Kong",
   seoDescription:
-    "The Foundation and the Li Bai International Cultural Exchange Foundation Limited have signed a framework agreement on the international promotion of Chinese poetry and calligraphy.",
+    "On the morning of 18 November, the Foundation and the Li Bai International Cultural Exchange Foundation Limited formally signed in Hong Kong a framework agreement on the international promotion of Chinese poetry and calligraphy.",
   body: [
     block(
       "p1",
-      "The Foundation has signed a Framework Agreement on the International Promotion of Chinese Poetry and Calligraphy Traditional Culture with the Li Bai International Cultural Exchange Foundation Limited, establishing a cooperation framework for the inheritance, promotion, and international exchange of Chinese poetry and calligraphy."
+      "On the morning of 18 November, the Foundation and the Li Bai International Cultural Exchange Foundation Limited (the “Li Bai Foundation”) formally signed in Hong Kong the Framework Agreement on the International Promotion of Chinese Poetry and Calligraphy Traditional Culture. Chinese calligraphy was inscribed in 2009 on the UNESCO Representative List of the Intangible Cultural Heritage of Humanity. Poetry and calligraphy are spiritual emblems of Chinese civilisation, and a shared cultural heritage of humankind."
+    ),
+    imageBlock(
+      "img1",
+      LI_BAI_PHOTO_SIGNING,
+      "Group photograph at the signing of the cooperation agreement between the Foundation and the Li Bai Foundation"
     ),
     block(
       "p2",
-      "Under the agreement, the two parties will cooperate in academic research, public education, exhibition planning, and digital communication, and will share the cultural meaning of Chinese poetry and calligraphy with overseas academic institutions, museums, and the public."
+      "Under the agreement, the two parties will cooperate in international academic research, public education, exhibition planning, and digital communication relating to Chinese poetry and calligraphy, with a particular focus on academic institutions, museums, and the public in countries along the Silk Road and among Belt and Road partner countries. They will jointly curate exhibitions on Li Bai calligraphy and poetry, carried by high-precision reproductions, digital images, and academic catalogues; jointly develop multilingual digital content; and give priority to versions in the official or commonly used languages of Silk Road countries."
     ),
+    imageBlock("img2", LI_BAI_PHOTO_TALKS, "The Foundation and the Li Bai Foundation hold a cooperation meeting"),
     block(
       "p3",
-      "The two parties plan to curate exhibitions on Li Bai calligraphy and poetry, using high-precision reproductions, digital images, and academic catalogues, and to develop multilingual digital content that widens overseas public access to these cultural resources."
+      "Those present at the signing ceremony included Mr Zhang Zhonghua, Chief Representative of the Foundation in China; Mr Zhang Xin, Chairman of the Li Bai Foundation; Ms Cai Jiaming, Managing Director of the Li Bai Foundation; and Mr Cai Rongxing, a Hong Kong member of the National Committee of the Chinese People’s Political Consultative Conference and recipient of the Bronze Bauhinia Star. Mr Cai Rongxing has long served Hong Kong society and devoted himself to cultural public welfare; his presence at the signing fully reflects the deep concern and strong support of all sectors of Hong Kong for the international communication of China’s fine traditional culture."
+    ),
+    imageBlock(
+      "img3",
+      LI_BAI_PHOTO_PORTRAIT,
+      "Ms Cai Jiaming, Managing Director of the Li Bai Foundation, signs the cooperation agreement",
+      "portrait"
     ),
     block(
       "p4",
-      "In the next stage, the two parties will further discuss the substance of the cooperation and the details of implementation, with a view to signing a formal contract and carrying out related projects. Through this cooperation, both sides hope to offer more opportunities for cultural workers, art lovers, and younger generations to take part, and to foster intercultural dialogue and mutual understanding."
+      "Both parties said they would take this signing as a starting point, uphold the spirit of openness, inclusiveness, and mutual learning, and deepen academic research, public education, and digital communication, so that Chinese poetry and calligraphy continue to shine in dialogue among diverse civilisations."
     ),
-    sourceBlock("p5", "Source: ", "CCTV Hong Kong", LI_BAI_SOURCE_URL)
+    sourceBlock("p5", "News report: ", "CCTV", LI_BAI_SOURCE_URL)
   ]
 };
 
 const liBaiFr = {
   ...liBaiShared,
-  photos: liBaiPhotos.fr,
   title:
-    "La Fondation signe un accord de coopération avec la Fondation Li Bai\npour promouvoir les échanges internationaux autour de la poésie et de la calligraphie chinoises",
+    "Signature à Hong Kong de l'accord-cadre de promotion internationale de la poésie et de la calligraphie chinoises",
   category: "Médias",
   summary:
-    "La Fondation a signé un accord-cadre de coopération avec la Li Bai International Cultural Exchange Foundation afin de promouvoir la poésie et la calligraphie chinoises dans le monde.",
-  breadcrumbLabel: "Accord de coopération avec la Fondation Li Bai",
-  seoTitle: "La Fondation signe un accord de coopération avec la Fondation Li Bai",
+    "La Fondation et la Li Bai International Cultural Exchange Foundation Limited ont signé à Hong Kong un accord-cadre sur la promotion internationale de la poésie et de la calligraphie chinoises.",
+  breadcrumbLabel: "Accord-cadre signé à Hong Kong",
+  seoTitle:
+    "Signature à Hong Kong de l'accord-cadre de promotion internationale de la poésie et de la calligraphie chinoises",
   seoDescription:
-    "La Fondation et la Li Bai International Cultural Exchange Foundation Limited ont signé un accord-cadre sur la promotion internationale de la poésie et de la calligraphie chinoises.",
+    "Le 18 novembre au matin, la Fondation et la Li Bai International Cultural Exchange Foundation Limited ont officiellement signé à Hong Kong un accord-cadre sur la promotion internationale de la poésie et de la calligraphie chinoises.",
   body: [
     block(
       "p1",
-      "La Fondation a signé un Accord-cadre de coopération pour la promotion internationale de la poésie et de la calligraphie chinoises avec la Li Bai International Cultural Exchange Foundation Limited, établissant un cadre de coopération pour la transmission, la promotion et les échanges internationaux de la poésie et de la calligraphie chinoises."
+      "Le 18 novembre au matin, la Fondation et la Li Bai International Cultural Exchange Foundation Limited (la « Fondation Li Bai ») ont officiellement signé à Hong Kong l'Accord-cadre de coopération pour la promotion internationale de la poésie et de la calligraphie chinoises. La calligraphie chinoise a été inscrite en 2009 sur la Liste représentative du patrimoine culturel immatériel de l'humanité de l'UNESCO. La poésie et la calligraphie sont des emblèmes spirituels de la civilisation chinoise, et un patrimoine culturel commun de l'humanité."
+    ),
+    imageBlock(
+      "img1",
+      LI_BAI_PHOTO_SIGNING,
+      "Photographie de groupe lors de la signature de l'accord de coopération entre la Fondation et la Fondation Li Bai"
     ),
     block(
       "p2",
-      "Aux termes de cet accord, les deux parties coopéreront dans les domaines de la recherche universitaire, de l'éducation du public, de la conception d'expositions et de la diffusion numérique, et partageront le sens culturel de la poésie et de la calligraphie chinoises avec des institutions académiques, des musées et le public à l'étranger."
+      "Aux termes de cet accord, les deux parties coopéreront dans les domaines de la recherche universitaire internationale, de l'éducation du public, de la conception d'expositions et de la diffusion numérique autour de la poésie et de la calligraphie chinoises, en s'adressant en priorité aux institutions académiques, aux musées et au public des pays situés le long de la Route de la soie et des pays partenaires de l'« Initiative la Ceinture et la Route ». Elles concevront conjointement des expositions consacrées à la calligraphie et à la poésie de Li Bai, portées par des reproductions de haute précision, l'image numérique et des catalogues savants ; développeront ensemble des contenus numériques multilingues ; et donneront la priorité aux versions dans les langues officielles ou d'usage courant des pays de la Route de la soie."
+    ),
+    imageBlock(
+      "img2",
+      LI_BAI_PHOTO_TALKS,
+      "La Fondation et la Fondation Li Bai tiennent une réunion de coopération"
     ),
     block(
       "p3",
-      "Les deux parties prévoient de concevoir des expositions consacrées à la calligraphie et à la poésie de Li Bai, en recourant à des reproductions de haute précision, à l'image numérique et à des catalogues savants, et de développer des contenus numériques multilingues afin d'élargir l'accès du public étranger à ces ressources culturelles."
+      "Assistaient à la cérémonie de signature M. Zhang Zhonghua, représentant en chef de la Fondation en Chine ; M. Zhang Xin, président de la Fondation Li Bai ; Mme Cai Jiaming, directrice générale de la Fondation Li Bai ; ainsi que M. Cai Rongxing, membre hongkongais du Comité national de la Conférence consultative politique du peuple chinois et titulaire de l'étoile de Bauhinia de bronze. M. Cai Rongxing sert depuis longtemps la société hongkongaise et s'engage dans l'intérêt culturel public ; sa présence à la signature manifeste pleinement l'attention profonde et le soutien déterminé des divers milieux de Hong Kong à la diffusion internationale de l'excellente culture traditionnelle chinoise."
+    ),
+    imageBlock(
+      "img3",
+      LI_BAI_PHOTO_PORTRAIT,
+      "Mme Cai Jiaming, directrice générale de la Fondation Li Bai, signe l'accord de coopération",
+      "portrait"
     ),
     block(
       "p4",
-      "Dans une prochaine étape, les deux parties poursuivront les discussions sur le contenu de la coopération et les modalités de mise en œuvre, en vue de la signature d'un contrat formel et de la réalisation des projets concernés. Par cette coopération, elles souhaitent offrir davantage d'occasions de participation aux acteurs culturels, aux amateurs d'art et aux jeunes générations, et favoriser le dialogue interculturel et la compréhension mutuelle."
+      "Les deux parties ont indiqué qu'elles prendraient cette signature pour point de départ, dans un esprit d'ouverture, d'inclusivité et d'apprentissage mutuel, pour approfondir la recherche universitaire, l'éducation du public et la diffusion numérique, afin que la poésie et la calligraphie chinoises continuent de rayonner dans le dialogue des civilisations."
     ),
-    sourceBlock("p5", "Source : ", "CCTV Hong Kong", LI_BAI_SOURCE_URL)
+    sourceBlock("p5", "Reportage : ", "CCTV", LI_BAI_SOURCE_URL)
   ]
 };
 

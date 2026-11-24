@@ -73,9 +73,16 @@ export async function getNewsBySlug(locale: Locale, slug: string) {
   const sanity = await fetchOptional<NewsDetail | null>(newsDetailQuery, { locale, slug }, null);
   const fallback = fallbackNews[locale].find((article) => article.slug === slug) || null;
   if (sanity && fallback) {
+    const sanityBody = Array.isArray(sanity.body) ? sanity.body : [];
+    const fallbackBody = Array.isArray(fallback.body) ? fallback.body : [];
+    const sanityHasImages = sanityBody.some((block) => (block as { _type?: string })?._type === "image");
+    const fallbackHasImages = fallbackBody.some((block) => (block as { _type?: string })?._type === "image");
     return {
       ...fallback,
       ...sanity,
+      title: fallbackHasImages && !sanityHasImages ? fallback.title : sanity.title || fallback.title,
+      summary: fallbackHasImages && !sanityHasImages ? fallback.summary : sanity.summary || fallback.summary,
+      body: sanityHasImages ? sanityBody : fallbackHasImages ? fallbackBody : sanityBody.length ? sanityBody : fallbackBody,
       photos: sanity.photos?.length ? sanity.photos : fallback.photos,
       pdfUrl: sanity.pdfUrl || fallback.pdfUrl,
       pdfSize: sanity.pdfSize || fallback.pdfSize,

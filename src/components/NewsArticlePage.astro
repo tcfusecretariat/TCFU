@@ -103,15 +103,6 @@ const downloads = article
             ))}
           </h1>
           {article.subtitle && <p class="news-article-subtitle">{article.subtitle}</p>}
-          {article.photos && article.photos.length > 0 && (
-            <div class="news-article-photos">
-              {article.photos.map((photo) => (
-                <figure>
-                  <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
-                </figure>
-              ))}
-            </div>
-          )}
           {article.body && <PortableBody value={article.body} locale={locale} />}
           {article.videoUrl && (
             <p class="news-article-extra">
