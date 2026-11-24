@@ -185,7 +185,16 @@ const chrome = {
       : "";
 
     const titleHtml = escapeHtml(article.title || "").split("\n").join("<br>");
-    return `<main class="news-article-page editorial-reveal" data-sanity-news-article><div class="news-article-shell"><nav class="news-breadcrumb"><a href="/${locale}/">${escapeHtml(chrome.home)}</a><span aria-hidden="true">›</span><a href="/${locale}/news/">${escapeHtml(chrome.news)}</a><span aria-hidden="true">›</span><span>${crumb}</span></nav><header class="news-article-masthead"><p class="news-article-brand">${escapeHtml(chrome.news)}</p></header>${bannerHtml}<div class="news-article-layout"><article class="news-article-main">${article.category ? `<p class="news-article-category">${escapeHtml(article.category)}</p>` : ""}<h1 class="news-article-title">${titleHtml}</h1>${article.subtitle ? `<p class="news-article-subtitle">${escapeHtml(article.subtitle)}</p>` : ""}${article.body ? `<div class="portable-body">${renderPortableBody(article.body)}</div>` : ""}${video}</article><aside class="news-article-sidebar">${date}${location}${eventDate}${pdf}</aside></div></div></main>`;
+    const photos = Array.isArray(article.photos)
+      ? `<div class="news-article-photos">${article.photos
+          .filter((photo) => photo?.src)
+          .map(
+            (photo) =>
+              `<figure><img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt || "")}" loading="lazy" decoding="async"></figure>`
+          )
+          .join("")}</div>`
+      : "";
+    return `<main class="news-article-page editorial-reveal" data-sanity-news-article><div class="news-article-shell"><nav class="news-breadcrumb"><a href="/${locale}/">${escapeHtml(chrome.home)}</a><span aria-hidden="true">›</span><a href="/${locale}/news/">${escapeHtml(chrome.news)}</a><span aria-hidden="true">›</span><span>${crumb}</span></nav><header class="news-article-masthead"><p class="news-article-brand">${escapeHtml(chrome.news)}</p></header>${bannerHtml}<div class="news-article-layout"><article class="news-article-main">${article.category ? `<p class="news-article-category">${escapeHtml(article.category)}</p>` : ""}<h1 class="news-article-title">${titleHtml}</h1>${article.subtitle ? `<p class="news-article-subtitle">${escapeHtml(article.subtitle)}</p>` : ""}${photos}${article.body ? `<div class="portable-body">${renderPortableBody(article.body)}</div>` : ""}${video}</article><aside class="news-article-sidebar">${date}${location}${eventDate}${pdf}</aside></div></div></main>`;
   }
 
   async function hydrateSanityNews() {
@@ -207,7 +216,8 @@ const chrome = {
               pdfLabel: result.pdfLabel || seedArticle?.pdfLabel,
               agendaPdfUrl: result.agendaPdfUrl || seedArticle?.agendaPdfUrl,
               agendaPdfSize: result.agendaPdfSize || seedArticle?.agendaPdfSize,
-              agendaPdfLabel: result.agendaPdfLabel || seedArticle?.agendaPdfLabel
+              agendaPdfLabel: result.agendaPdfLabel || seedArticle?.agendaPdfLabel,
+              photos: result.photos?.length ? result.photos : seedArticle?.photos
             }
           : seedArticle;
         if (!article) return;

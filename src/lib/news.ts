@@ -26,8 +26,14 @@ export type NewsSummary = {
   seoDescription?: string;
 };
 
+export type NewsPhoto = {
+  src: string;
+  alt: string;
+};
+
 export type NewsDetail = NewsSummary & {
   body?: unknown[];
+  photos?: NewsPhoto[];
   videoUrl?: string;
   pdfUrl?: string;
   pdfSize?: number;
@@ -70,6 +76,7 @@ export async function getNewsBySlug(locale: Locale, slug: string) {
     return {
       ...fallback,
       ...sanity,
+      photos: sanity.photos?.length ? sanity.photos : fallback.photos,
       pdfUrl: sanity.pdfUrl || fallback.pdfUrl,
       pdfSize: sanity.pdfSize || fallback.pdfSize,
       pdfLabel: sanity.pdfLabel || fallback.pdfLabel,

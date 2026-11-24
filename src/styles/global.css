@@ -3027,6 +3027,23 @@ html[lang="zh-Hant"] .about-brochure .book-toolbar button {
   line-height: 1.3;
 }
 
+.news-article-photos {
+  display: grid;
+  gap: 16px;
+  margin: 28px 0 36px;
+  max-width: min(52rem, 100%);
+}
+
+.news-article-photos figure {
+  margin: 0;
+}
+
+.news-article-photos img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .news-article-page .portable-body {
   max-width: min(62ch, 100%);
   color: var(--muted);

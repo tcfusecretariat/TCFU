@@ -233,8 +233,42 @@ const liBaiShared = {
   publishDate: "2026-11-24T00:00:00.000Z"
 };
 
+const liBaiPhotos = {
+  zh: [
+    {
+      src: "/assets/news/li-bai-cooperation-talks.jpg",
+      alt: "本基金會與李白國際文化交流基金會舉行合作會談"
+    },
+    {
+      src: "/assets/news/li-bai-cooperation-signing.jpg",
+      alt: "本基金會與李白基金會簽署合作協議合影"
+    }
+  ],
+  en: [
+    {
+      src: "/assets/news/li-bai-cooperation-talks.jpg",
+      alt: "The Foundation and the Li Bai International Cultural Exchange Foundation hold a cooperation meeting"
+    },
+    {
+      src: "/assets/news/li-bai-cooperation-signing.jpg",
+      alt: "Signing ceremony of the cooperation agreement between the Foundation and the Li Bai Foundation"
+    }
+  ],
+  fr: [
+    {
+      src: "/assets/news/li-bai-cooperation-talks.jpg",
+      alt: "La Fondation et la Li Bai International Cultural Exchange Foundation tiennent une réunion de coopération"
+    },
+    {
+      src: "/assets/news/li-bai-cooperation-signing.jpg",
+      alt: "Cérémonie de signature de l'accord de coopération entre la Fondation et la Fondation Li Bai"
+    }
+  ]
+};
+
 const liBaiZh = {
   ...liBaiShared,
+  photos: liBaiPhotos.zh,
   title: "本基金會與李白基金會簽署合作協議\n共同推動中國詩詞與書法傳統文化國際交流",
   category: "媒體報導",
   summary:
@@ -266,6 +300,7 @@ const liBaiZh = {
 
 const liBaiEn = {
   ...liBaiShared,
+  photos: liBaiPhotos.en,
   title:
     "Foundation Signs Cooperation Agreement with the Li Bai Foundation\nto Advance International Exchange of Chinese Poetry and Calligraphy",
   category: "Media",
@@ -298,6 +333,7 @@ const liBaiEn = {
 
 const liBaiFr = {
   ...liBaiShared,
+  photos: liBaiPhotos.fr,
   title:
     "La Fondation signe un accord de coopération avec la Fondation Li Bai\npour promouvoir les échanges internationaux autour de la poésie et de la calligraphie chinoises",
   category: "Médias",
