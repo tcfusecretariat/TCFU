@@ -3054,6 +3054,23 @@ html[lang="zh-Hant"] .about-brochure .book-toolbar button {
   margin: 0 0 1.15em;
 }
 
+.news-article-page .portable-body p.news-article-sources,
+html[lang="zh-Hant"] .news-article-page .portable-body p.news-article-sources {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 0.45em;
+  align-items: start;
+  margin: 0;
+  text-align: start;
+  text-wrap: pretty;
+}
+
+.news-article-sources-links {
+  display: grid;
+  justify-items: start;
+  gap: 0.2em;
+}
+
 .portable-body figure {
   margin: 1.4em 0 1.75em;
 }

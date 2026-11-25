@@ -27,6 +27,8 @@ type Block = {
   alt?: string;
   src?: string;
   layout?: string;
+  label?: string;
+  items?: Array<{ label?: string; href?: string }>;
 };
 
 const { value = [], locale } = Astro.props as { value?: Block[]; locale?: Locale };
@@ -114,6 +116,26 @@ for (const block of value) {
         <figure class={figureClass}>
           <img src={src} alt={block.alt || ""} loading="lazy" decoding="async" />
         </figure>
+      );
+    }
+    if (block._type === "newsSources") {
+      const items = (block.items || []).filter((item) => item.label && item.href);
+      if (!items.length) return null;
+      return (
+        <p class="news-article-sources">
+          {block.label && <span class="news-article-sources-label">{displayText(block.label)}</span>}
+          <span class="news-article-sources-links">
+            {items.map((item) => {
+              const href = item.href || "";
+              const external = /^https?:\/\//.test(href);
+              return (
+                <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined}>
+                  {displayText(item.label || "")}
+                </a>
+              );
+            })}
+          </span>
+        </p>
       );
     }
     if (block._type !== "block") return null;

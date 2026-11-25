@@ -41,16 +41,16 @@ function emBlock(
   };
 }
 
-function sourceBlock(key: string, before: string, label: string, href: string) {
+function sourcesBlock(
+  key: string,
+  label: string,
+  items: Array<{ label: string; href: string }>
+) {
   return {
-    _type: "block" as const,
+    _type: "newsSources" as const,
     _key: key,
-    style: "normal",
-    markDefs: [{ _key: `${key}link`, _type: "link", href }],
-    children: [
-      { _type: "span" as const, _key: `${key}a`, marks: [], text: before },
-      { _type: "span" as const, _key: `${key}b`, marks: [`${key}link`], text: label }
-    ]
+    label,
+    items
   };
 }
 
@@ -243,7 +243,7 @@ const LI_BAI_PHOTO_PORTRAIT = "/assets/news/li-bai-cooperation-signing-portrait.
 
 const liBaiShared = {
   slug: LI_BAI_SLUG,
-  publishDate: "2026-11-18T00:00:00.000Z"
+  publishDate: "2026-11-24T00:00:00.000Z"
 };
 
 const liBaiZh = {
@@ -276,8 +276,10 @@ const liBaiZh = {
       "p4",
       "雙方表示，將以此次簽約為起點，秉持開放包容、互學互鑒的精神，深耕學術研究、公共教育與數字傳播，讓中國詩詞與書法在多元文明對話中持續煥發時代光彩。"
     ),
-    sourceBlock("p5", "新聞報導：", "央視報導", LI_BAI_SOURCE_URL),
-    sourceBlock("p6", "", "鏡報報導", LI_BAI_MIRROR_URL)
+    sourcesBlock("p5", "新聞報導：", [
+      { label: "央視報導", href: LI_BAI_SOURCE_URL },
+      { label: "鏡報報導", href: LI_BAI_MIRROR_URL }
+    ])
   ]
 };
 
@@ -322,8 +324,10 @@ const liBaiEn = {
       "p4",
       "Both parties said they would take this signing as a starting point, uphold the spirit of openness, inclusiveness, and mutual learning, and deepen academic research, public education, and digital communication, so that Chinese poetry and calligraphy continue to shine in dialogue among diverse civilisations."
     ),
-    sourceBlock("p5", "News report: ", "CCTV", LI_BAI_SOURCE_URL),
-    sourceBlock("p6", "", "Jingbao", LI_BAI_MIRROR_URL)
+    sourcesBlock("p5", "News report:", [
+      { label: "CCTV", href: LI_BAI_SOURCE_URL },
+      { label: "Jingbao", href: LI_BAI_MIRROR_URL }
+    ])
   ]
 };
 
@@ -372,8 +376,10 @@ const liBaiFr = {
       "p4",
       "Les deux parties ont indiqué qu'elles prendraient cette signature pour point de départ, dans un esprit d'ouverture, d'inclusivité et d'apprentissage mutuel, pour approfondir la recherche universitaire, l'éducation du public et la diffusion numérique, afin que la poésie et la calligraphie chinoises continuent de rayonner dans le dialogue des civilisations."
     ),
-    sourceBlock("p5", "Reportage : ", "CCTV", LI_BAI_SOURCE_URL),
-    sourceBlock("p6", "", "Jingbao", LI_BAI_MIRROR_URL)
+    sourcesBlock("p5", "Reportage :", [
+      { label: "CCTV", href: LI_BAI_SOURCE_URL },
+      { label: "Jingbao", href: LI_BAI_MIRROR_URL }
+    ])
   ]
 };
 

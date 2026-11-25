@@ -95,6 +95,19 @@ const chrome = {
             block.layout === "portrait" ? "news-article-figure news-article-figure-portrait" : "news-article-figure";
           return `<figure class="${figureClass}"><img src="${escapeHtml(src)}" alt="${escapeHtml(block.alt || "")}" loading="lazy" decoding="async"></figure>`;
         }
+        if (block?._type === "newsSources") {
+          const items = (block.items || []).filter((item) => item?.label && item?.href);
+          if (!items.length) return "";
+          const links = items
+            .map((item) => {
+              const href = escapeHtml(item.href);
+              const external = /^https?:\/\//.test(item.href);
+              return `<a href="${href}"${external ? ' target="_blank" rel="noopener"' : ""}>${escapeHtml(item.label)}</a>`;
+            })
+            .join("");
+          const label = block.label ? `<span class="news-article-sources-label">${escapeHtml(block.label)}</span>` : "";
+          return `<p class="news-article-sources">${label}<span class="news-article-sources-links">${links}</span></p>`;
+        }
         const markDefs = block?.markDefs || [];
         const text = (block?.children || [])
           .map((child) => {
